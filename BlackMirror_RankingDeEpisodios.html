@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/574a12ae-b953-4f51-8253-5a7f34d477fb/dce38iv-c126dcac-1629-4a7b-b410-4eb8546227a7.png" type="image/x-icon">
+    <title>Black Mirror - Ranking de Episodios - Descarga de Episodios</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #ff4d4d;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #ff6666;
+            margin-top: 30px;
+        }
+
+        .episode {
+            background-color: #2a2a2a;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ff4d4d;
+            transition: transform 0.3s;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .episode:hover {
+            transform: translateX(5px);
+            background-color: #333;
+        }
+
+        .episode-img {
+            width: 120px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #444;
+        }
+
+        .episode-content {
+            flex: 1;
+        }
+
+        .episode-title {
+            font-weight: bold;
+            color: #ff9999;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .episode-info {
+            color: #aaa;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #ff3333;
+        }
+
+        .password-note {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .ranking {
+            counter-reset: episode-counter;
+        }
+
+        .episode {
+            counter-increment: episode-counter;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .episode::before {
+            content: counter(episode-counter);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ff4d4d;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 600px) {
+            .episode {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 50px;
+            }
+
+            .episode-img {
+                width: 100%;
+                height: auto;
+                max-height: 150px;
+            }
+        }
+
+        .password-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .password-text {
+            font-style: italic;
+        }
+
+        .password-value {
+            font-weight: bold;
+            color: #ff9999;
+        }
+
+        .copy-btn {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .copy-btn:hover {
+            background-color: #555;
+        }
+
+        .copy-btn.copied {
+            background-color: #4CAF50;
+        }
+
+        .episode-description {
+            color: #ccc;
+            font-size: 0.95em;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Black Mirror - Ranking de Episodios</h1>
+
+        <div class="password-container">
+            <div class="password-text">
+                <strong>Contraseña para todos los archivos:</strong>
+                <span class="password-value" id="password">hackstore.ac</span>
+            </div>
+            <button class="copy-btn" id="copyBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                    <path
+                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                </svg>
+                Copiar
+            </button>
+        </div>
+
+        <div class="ranking">
+            <div class="episode">
+                <img src="data:image/jpeg;base64,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"
+                    alt="Metalhead" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Metalhead"</div>
+                    <div class="episode-info">Temporada 4, Episodio 5</div>
+
+                    <div class="episode-description">
+                        La supervivencia se vuelve imposible ante la amenaza perfecta. Ambientado en un futuro cercano
+                        hostil donde los aterradores perritos robóticos al estilo Boston Dynamics han tomado el control
+                        del mundo, este episodio nos une a un pequeño grupo de la resistencia humana. Es la simplicidad
+                        en su máxima expresión: una frenética persecución con el único objetivo de sobrevivir. Su
+                        desesperanza general lo convierte en el episodio más aterrador de Black Mirror.
+                    </div>
+                    <a href="https://www.mediafire.com/file/y71wr6e9meh0gxu/BLCiahsfjhbhbihhss04e05.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://m.media-amazon.com/images/M/MV5BMDdhOTdhNzEtNDMxNC00YWM5LTlmNjUtNWYxNmI0YjRiZWIxXkEyXkFqcGc@._V1_.jpg"
+                    alt="San Junipero" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"San Junipero"</div>
+                    <div class="episode-info">Temporada 3, Episodio 4</div>
+
+                    <div class="episode-description">
+                        Una historia de amor que trasciende la vida y la muerte.Netflix El optimismo no es algo que
+                        usualmente se asocie con Black Mirror. ¿Esperamos que los episodios sean deprimentes? Tal vez.
+                        ¿Desoladores? Sin duda. ¿Que te den ganas de abrazar a alguien y luego no volver a ver a nadie
+                        jamás? Claro. Pero “San Junipero” no es nada de eso. Es una celebración de nuestras cualidades
+                        más humanas —el amor, la vulnerabilidad, el duelo, la conexión— y cómo, si se usa correctamente,
+                        la tecnología puede hacer que vivan para siempre. Protagonizado por Mackenzie Davis y Gugu
+                        Mbatha-Raw, el giro Black Mirror se revela como una simulación terapéutica y nostálgica para
+                        personas mayores o enfermas, quienes pueden sumergirse en ella y tal vez ser cargadas
+                        permanentemente después de la muerte. No hay cinismo en este episodio, ni sarcasmo ni
+                        advertencia sobre la estupidez humana. Es un sueño vibrante sobre las posibilidades humanas de
+                        los unos y ceros.
+                    </div>
+                    <a href="https://www.mediafire.com/file/jnm4fgwr76u5h1p/BLCiahsfjhbhbihhss03e04.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa9w6pvUBb-Rmrk1jkZPDQCh2OeAyrxEAv8w&s"
+                    alt="Eulogy" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Eulogy"</div>
+                    <div class="episode-info">Temporada 7, Episodio 5</div>
+                    <div class="episode-description">
+                        Un viaje emocional al pasado que nunca se cerró.Netflix Treinta años después de haber visto por
+                        última vez al amor de su vida, Phillip (Paul Giamatti) recibe la triste noticia de su muerte.
+                        Con su funeral programado en Reino Unido, lo invitan a contribuir con un elogio usando una nueva
+                        tecnología que puede exhumar sus recuerdos más profundamente reprimidos, activados por
+                        fotografías que explora en una realidad simulada con la ayuda de una guía de IA (Patsy Ferran).
+                        Lo que sigue es un viaje profundamente sentido y catártico hacia una relación traumática que
+                        Phillip nunca logró cerrar del todo —un amor perdido lleno de culpa, arrepentimiento y dolor
+                        emocional. Es un episodio impactante que sirve dosis de melancolía a la altura de “San Junipero”
+                        y “Be Right Back”, elevado a lo mejor de Black Mirror gracias a la devastadora actuación de
+                        Giamatti. No lo veas después de una ruptura.
+                    </div>
+                    <a href="https://www.mediafire.com/file/rj3zho8d6i8qzxc/yaedwsrhywearujhwaeiyfdasuowrshouwrhouw5.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://image.tmdb.org/t/p/original/xvdqaFVz8f8BWZS0ip0Fjr4Eqmt.jpg" alt="Hang the DJ"
+                    class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Hang the DJ"</div>
+                    <div class="episode-info">Temporada 4, Episodio 4</div>
+                    <div class="episode-description">
+                        Un algoritmo del amor que quizás sí funciona.Netflix “Hang the DJ” presenta otra pieza de
+                        tecnología que probablemente existirá algún día, aunque solo como una novedad. El episodio de la
+                        cuarta temporada se centra en Frank y Amy, y una app de citas algorítmica que empareja a
+                        personas en relaciones con duración determinada, lo que significa que en su primera cita ya
+                        saben cuánto tiempo estarán juntos. El episodio sigue a la pareja a través de los altibajos de
+                        sus vidas amorosas, que los siguen reuniendo. Es uno de los raros episodios de Black Mirror con
+                        un final feliz y —¡sorpresa!— incluso es considerado una comedia romántica.
+                    </div>
+                    <a href="https://www.mediafire.com/file/n4byqoiwp1s2bjg/BLCiahsfjhbhbihhss04e04.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVVj06NlhvL5-Zty5ogDFZMLxnCYuCJkBvq7AVhyV-27Gpv3L3fT6gmiVd2UK_yo9NqENewideqREL_C6whXReJ6pmLtUa76qKc0ixen4eHi924yv0aIsXlcUndl_o0S5LNXOLp23ALb0/s1600/08+-+Black+Mirror+1x03+%25E2%2580%2593+The+Entire+History+of+You.png"
+                    alt="The Entire History of You" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"The Entire History of You"</div>
+                    <div class="episode-info">Temporada 1, Episodio 3</div>
+                    <div class="episode-description">
+                        Tus recuerdos pueden volverse tu peor enemigo.Netflix El final de la primera temporada, “The
+                        Entire History of You”, es tan fascinante en parte por su tecnología futurista —un microchip
+                        implantado en tu cabeza que graba todo lo que ven tus ojos, para que puedas reproducir tus
+                        recuerdos (y los de otros)— y en parte porque es una historia tan antigua como el tiempo: amor,
+                        celos y las cosas que hacemos para torturarnos en nombre de ambos. También está fenomenalmente
+                        actuado, con Toby Kebbell y Jodie Whittaker como protagonistas. Si eso no te convence, puede que
+                        te interese saber que fue escrito por Jesse Armstrong, de Peep Show y Succession, así que sabes
+                        que está buenísimo.
+                    </div>
+                    <a href="https://www.mediafire.com/file/b9kmvdl014p1b60/BLCiahsfjhbhbihhss01e03.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK-JyFZsSaFnbLfju0YkT3xznZV33qnjkyXg&s"
+                    alt="Shut Up and Dance" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Shut Up and Dance"</div>
+                    <div class="episode-info">Temporada 3, Episodio 3</div>
+                    <div class="episode-description">
+                        Un chantaje revela el lado más oscuro de la naturaleza humana.Netflix ¿Qué es más Black Mirror
+                        que un giro final que te deja sin aire? En “Shut Up and Dance”, obtenemos una lección sobre por
+                        qué (bueno, entre otras cosas) deberías tener un pedacito de cinta cubriendo la cámara de tu
+                        laptop: un hacker atrapa a un adolescente tímido (Alex Lawther) viendo videos subidos de tono, y
+                        usa las grabaciones para chantajearlo y hacerlo cometer una serie de actos desviados. Hay
+                        corazón en la relación entre él y Jerome Flynn, un hombre de mediana edad también atrapado por
+                        el chantaje y obligado a robar tiendas, entre otras cosas. Y luego llega el golpe bajo: resulta
+                        que el adolescente, con quien ya habías empatizado profundamente, en realidad estaba viendo
+                        pornografía infantil. Uno de los giros más efectivos de Black Mirror.
+                    </div>
+                    <a href="https://www.mediafire.com/file/zegyvm9mdk2p5vj/BLCiahsfjhbhbihhss03e03.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://static.wikia.nocookie.net/black-mirror/images/1/19/0003_blackmirror_1.161.tif.jpg/revision/latest?cb=20161101214120"
+                    alt="White Christmas" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"White Christmas"</div>
+                    <div class="episode-info">Especial</div>
+                    <div class="episode-description">
+                        Tres historias cruzadas, un solo final devastador.Netflix Por supuesto que Charlie Brooker
+                        tomaría una historia clásica de fantasmas navideños del pasado, presente y futuro y le daría un
+                        giro deprimente con tecnología. Y, por supuesto, terminaría siendo uno de los más trágicos de
+                        todo el canon de Black Mirror como resultado. La serie apenas comenzaba cuando logró atraer a
+                        Jon Hamm, aún vestido y peinado como Don Draper en Mad Men, lo que presagiaba el tipo de imán de
+                        celebridades que la serie terminaría siendo. El episodio, con un formato de dos personajes —con
+                        el siempre excelente Rafe Spall— enlaza tres historias separadas, todas revelando la naturaleza
+                        destructiva de la tecnología en manos de hombres heridos y con derecho.
+                    </div>
+                    <a href="https://smoothpre.com/file/ov4ywwpqnec0" target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://revistacodigo.com/wp-content/uploads/2016/11/The-national-anthem.png"
+                    alt="The National Anthem" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"The National Anthem"</div>
+                    <div class="episode-info">Temporada 1, Episodio 1</div>
+                    <div class="episode-description">
+                        Un escándalo nacional pone a prueba la moral de un país.Netflix Si vas a lanzar una serie sobre
+                        un futuro distópico cercano, probablemente no puedas empezar con una premisa mejor que: el
+                        primer ministro tiene sexo con un cerdo. Por eso, “The National Anthem” sigue siendo uno de los
+                        episodios más perturbadores y memorables de la serie hasta la fecha. En él, un miembro de la
+                        familia real es secuestrado y, según las demandas del secuestrador, solo será liberado si el
+                        primer ministro (interpretado excelentemente por Rory Kinnear) tiene sexo con un cerdo en vivo
+                        por televisión. El episodio es Black Mirror en su máxima expresión: perturbador de |forma
+                        impecable, singularmente británico, y con un giro malvado al final.
+
+                    </div>
+                    <a href="https://www.mediafire.com/file/dymmuratu7plsj0/BLCiahsfjhbhbihhss01e01.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://www.formulatv.com/images/noticias/60600/60671/3_2d44c339a8.jpg" alt="Nosedive"
+                    class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Nosedive"</div>
+                    <div class="episode-info">Temporada 3, Episodio 1</div>
+                    <div class="episode-description">
+                        En un mundo de calificaciones, la autenticidad tiene un precio.Netflix Los que vivimos pegados a
+                        internet sabemos cuánto pueden alimentar el alma un montón de pulgares arriba en Twitter; nunca
+                        en la historia humana ha sido más fácil cuantificar qué tan buenas (o malas) son tus opiniones,
+                        lo que obviamente se relaciona con tu valor como persona. (Y, bueno, si el algoritmo tiene el
+                        día libre contigo.) “Nosedive”, el primer episodio de la era Netflix para Black Mirror, lleva
+                        este sistema infernal de popularidad al mundo real, con Lacie (Bryce Dallas Howard) esforzándose
+                        al máximo para mantener su calificación alta, como una pasajera de Uber que hace todo por
+                        conservar sus cinco estrellas. El brillante acabado visual fue una primera muestra de ese dinero
+                        nuevo de streaming; como todos los mejores episodios de Black Mirror, “Nosedive” inquieta
+                        principalmente por lo creíble que se siente.
+                    </div>
+                    <a href="https://www.mediafire.com/file/499l19yw50jzg19/BLCiahsfjhbhbihhss03e01.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://elcomercio.pe/resizer/v2/L53PY3U46NBK5I6XJ4OO22MVQI.jpg?auth=0247ec6ea041ee74fd7023fd3c81d4fbc972b348b15cf531769cd6c20e8b593c&width=850&quality=75&smart=true"
+                    alt="Demon 79" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Demon 79"</div>
+                    <div class="episode-info">Temporada 6, Episodio 5</div>
+                    <div class="episode-description">
+                        Una vendedora común, una misión infernal.Netflix Con papeles cautivadores en Men, I May Destroy
+                        You y The Capture, Paapa Essiedu se ha ganado una reputación en la pantalla británica como “ese
+                        tipo que siempre hace que todo sea mejor de lo que debería ser”. Essiedu aporta su talento en
+                        abundancia a “Demon 79”, donde interpreta al demonio titular, disfrazado para los ojos humanos
+                        como el estiloso líder de Boney M., Bobby Farrell. Este demonio disco le presenta a Maria, la
+                        tímida protagonista de Anjana Vasan, un dilema: matar a tres personas en tres días o el mundo
+                        será consumido por un infierno nuclear. Es como el famoso diagrama del tren que se desvía: el
+                        dilema moral de matar a uno para salvar a muchos. En el clásico estilo pre-Netflix de Black
+                        Mirror, stakes altísimos jugándose en la mente de una simple vendedora de zapatos, que tiene las
+                        llaves del futuro de la humanidad. Si es que no está loca, claro.
+                    </div>
+                    <a href="https://www.mediafire.com/file/qcqik3kwjgwmpxr/BLjbafjajndpdeumgns06e05.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://m.media-amazon.com/images/M/MV5BMGNlNjBhYTUtNGQ3YS00NjA0LTg3MGItMzRmYmIyZDUxOTQ4XkEyXkFqcGc@._V1_.jpg"
+                    alt="Be Right Back" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Be Right Back"</div>
+                    <div class="episode-info">Temporada 2, Episodio 1</div>
+                    <div class="episode-description">
+                        ¿Puede la tecnología reemplazar al amor verdadero?Netflix A pesar de haberse estrenado en 2013,
+                        aún hay algo profundamente profético en uno de los primeros episodios lacrimógenos de Black
+                        Mirror, especialmente con el tren bala del miedo a la IA que corre hoy. Plantea la pregunta:
+                        cuando mueres, ¿puede tu huella digital resucitarte? Y reflexiona sobre qué es lo que realmente
+                        nos hace humanos, incluso si estamos completamente expuestos en internet. Hayley Atwell
+                        interpreta a una joven viuda que utiliza una nueva tecnología que inserta una personalidad de IA
+                        de su difunto esposo (Domhnall Gleeson) en un cuerpo androide que luce exactamente como él.
+                        ¿Somos solo personalidades en un caparazón? ¿O hay algo más sustancial y menos replicable en
+                        nosotros? Es una clásica cuestión filosófica del “fantasma en la máquina”, hecha profundamente
+                        emotiva gracias a la interpretación desgarradora de Atwell.
+                    </div>
+                    <a href="https://www.mediafire.com/file/gjrtu15xf6001tu/BLCiahsfjhbhbihhss02e01.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIe-b0FcZPmppcIMZEZMGoSBB2cfndMKm69Q&s"
+                    alt="Playtest" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Playtest"</div>
+                    <div class="episode-info">Temporada 3, Episodio 2</div>
+                    <div class="episode-description">
+                        El videojuego de horror más real que puedas imaginar.Netflix La imaginación humana es algo
+                        aterrador (de ahí que los mejores maestros del horror tiendan a no mostrar las cosas
+                        sangrientas). “Playtest”, en el que Cooper, un mochilero jovial interpretado por Wyatt Russell,
+                        se ofrece como voluntario para probar un juego de horror de realidad ultra inmersiva, es una
+                        casa del terror de horrores psicológicos. Cooper alucina arañas gigantes, bullies de la
+                        infancia, e incluso un asesino infernal; todo el repertorio de pesadillas. Su moraleja parece
+                        sencilla en comparación con los comentarios sociales más profundos de los mejores episodios de
+                        Black Mirror, pero al menos este da verdadero miedo.
+                    </div>
+                    <a href="https://www.mediafire.com/file/9o4nbnlqq0lm1go/BLCiahsfjhbhbihhss03e02.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/black-mirror-temporada-7-4-67f3d3bd13211.jpg?crop=1xw:1xh;center,top&resize=980:*"
+                    alt="Bête Noire" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Bête Noire"</div>
+                    <div class="episode-info">Temporada 7, Episodio 2</div>
+                    <div class="episode-description">
+                        El pasado siempre encuentra la forma de regresar.Netflix Gran parte de la séptima temporada
+                        trata sobre mirar al pasado: los momentos en nuestras vidas que nos persiguen, los caminos no
+                        recorridos, las cosas que desearíamos haber hecho de otra manera. En consonancia con ese tema,
+                        “Bête Noire” le da un giro de comedia negra a una ansiedad que casi todos enfrentamos en la
+                        adultez. ¡Dios, qué horribles fuimos como adolescentes! En el episodio, una chocolatera
+                        artesanal (Maria, interpretada por Siena Kelly) se encuentra cara a cara con la chica nerd a la
+                        que solía acosar en la escuela (Verity, interpretada por Rosy McEwen) después de que esta es
+                        contratada en la misma empresa de confitería. Todo es muy divertido, hasta que llega el giro
+                        tecnológico alucinante que lo eleva a lo mejor de Black Mirror.
+                    </div>
+                    <a href="https://www.mediafire.com/file/g9hrymqsyiooa6u/yaedwsrhywearujhwaeiyfdasuowrshouwrhouw2.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://m.media-amazon.com/images/M/MV5BNDdlNzFmNmEtZDVlMS00MTZlLThiNWItZmY1M2JhYzA1ZDY3XkEyXkFqcGc@._V1_.jpg"
+                    alt="White Bear" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"White Bear"</div>
+                    <div class="episode-info">Temporada 2, Episodio 2</div>
+                    <div class="episode-description">
+                        La justicia toma un giro retorcido y aterrador.Netflix A Brooker le encantan los giros de trama,
+                        y uno de sus mejores llega en la segunda temporada con “White Bear”, que, curiosamente, solo fue
+                        añadido en una segunda versión del guion, justo antes de que comenzara el rodaje del episodio.
+                        La historia va así: una mujer se despierta con amnesia y vive el día más aterrador de su vida,
+                        siendo perseguida por una multitud enfurecida y armada con máscaras (en lugar de ayudarla, la
+                        gente graba la persecución con sus teléfonos). Finalmente, se revela que está siendo castigada
+                        psicológicamente por haber asesinado a una niña, y está siendo forzada a revivir el mismo día
+                        aterrador una y otra vez, todo por el entretenimiento de un público sediento de venganza. ¡Uf!
+                        Decir que es un episodio intenso sería quedarnos cortos.
+                    </div>
+                    <a href="https://www.mediafire.com/file/kwth6lhp6v5rur6/BLCiahsfjhbhbihhss02e02.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://i.blogs.es/4a8cf4/uss_callister_00/450_1000.jpg" alt="USS Callister"
+                    class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"USS Callister"</div>
+                    <div class="episode-info">Temporada 4, Episodio 1</div>
+                    <div class="episode-description">
+                        Un universo sci-fi gobernado por un programador frustrado.Netflix El episodio que imitó a Star
+                        Trek y la cultura nerd masculina (con un toque de cultura incel) con un efecto brillantemente
+                        cómico, “USS Callister” fue protagonizado por el gran talento de Jesse Plemons como un
+                        programador de videojuegos malhumorado que inventa un videojuego, supuestamente basado en un
+                        programa de ciencia ficción de los años 60, y lo puebla con clones digitales conscientes de sus
+                        compañeros de trabajo molestos. Un giro total al típico formato de Black Mirror hasta entonces
+                        —cuando la mayoría de los episodios eran implacablemente oscuros—, “USS Callister” es
+                        abiertamente divertido, pero aún así cuestiona los derechos de las IA conscientes y el eterno
+                        dilema filosófico de si realmente tenemos libre albedrío.
+                    </div>
+                    <a href="https://www.mediafire.com/file/n7k0tq2v8hv6g8r/BLCiahsfjhbhbihhss04e01.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://www.rirca.es/wp-content/uploads/2015/11/bm5.jpeg" alt="Fifteen Million Merits"
+                    class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Fifteen Million Merits"</div>
+                    <div class="episode-info">Temporada 1, Episodio 2</div>
+                    <div class="episode-description">
+                        Un mundo donde la fama es una moneda… y una prisión.Netflix Uno supone que, dado que “Fifteen
+                        Million Merits” se estrenó en 2011 —cuando Facebook era la red social del momento—, la ira
+                        satírica de Brooker estaba dirigida a la entonces popular galería de reality shows de
+                        competencia, desde X Factor hasta Britain’s Got Talent. Al verlo ahora, con cerebros saturados
+                        de Twitter, es difícil no tomar este episodio protagonizado por Daniel Kaluuya como una visión
+                        escalofriantemente profética de la era de las redes sociales, en la que ya no es necesario
+                        subirte a un escenario para conseguir tus 15 minutos de degradación lucrativa: no, basta con
+                        mirar tu smartphone y hacer el ridículo en TikTok.
+                    </div>
+                    <a href="https://www.mediafire.com/file/ht26h8sil1i9lj1/BLCiahsfjhbhbihhss01e02.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWyh9cW_zhq6ZD_saNQRxXg3Vy2X-8DDFrSg&s"
+                    alt="USS Callister: Into Infinity" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"USS Callister: Into Infinity"</div>
+                    <div class="episode-info">Temporada 7, Episodio 6</div>
+                    <div class="episode-description">
+                        Una tripulación atrapada en un universo digital sin salida.Nick Wall/Netflix La primera secuela
+                        en el universo de Black Mirror es una continuación en gran parte digna de su predecesora de gran
+                        presupuesto, con toda la diversión aventurera y las risas morbosas que podríamos desear de una
+                        película espacial al estilo Black Mirror. Han pasado unos meses desde el final de “USS
+                        Callister”, y nos reencontramos con la mayoría de la tripulación —lamentablemente, Shania,
+                        interpretada por Michaela Coel, ha muerto en el ínterin, algo que Brooker atribuyó a conflictos
+                        de agenda— mientras se encuentran en el universo digital infinito del videojuego Infinity. Solo
+                        que no es la utopía espacial con la que todos soñaban, debido a que, a diferencia de los
+                        jugadores impulsivos que pueblan el mundo en línea de Infinity, ellos sí pueden morir. Su
+                        misión, entonces, es sobrevivir. Y luego encontrar una forma de salir del juego para siempre.
+                        Una aventura divertida con el característico humor negro de Black Mirror como telón de fondo.
+                    </div>
+                    <a href="https://www.mediafire.com/file/cjzbzkbw7a0v2ei/yaedwsrhywearujhwaeiyfdasuowrshouwrhouw6.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR87nYAJcZK1ZljpG6Pe_Bl26H51Ekk4Mk-4A&s"
+                    alt="Hotel Reverie" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Hotel Reverie"</div>
+                    <div class="episode-info">Temporada 7, Episodio 3</div>
+                    <div class="episode-description">
+                        La inteligencia artificial pone en jaque a Hollywood.Nick Wall/Netflix “Hotel Reverie”, en el
+                        que una actriz de primera línea (Brandy, interpretada por Issa Rae) entra en una versión
+                        simulada de una película clásica para volver a grabar el papel principal en tiempo real, es otra
+                        sátira de Hollywood al estilo de “Joan is Awful”, de la sexta temporada, que ataca la idea de la
+                        “nigromancia digital”, es decir, traer de vuelta a los actores muertos mediante CGI. “Reverie”
+                        va un paso más allá al introducir clones de IA con conciencia de dichos actores. Emma Corrin
+                        interpreta a Dorothy, la protagonista digitalizada de la película, y cuando la tecnología falla,
+                        Brandy y Dorothy deben pasar mucho más tiempo juntas del que esperaban. Impactante por los
+                        sentimientos al estilo “San Junipero”, aunque no llega del todo ahí, aunque Corrin hace un gran
+                        trabajo.
+                    </div>
+                    <a href="https://www.mediafire.com/file/vfv3lbipa3i72ss/yaedwsrhywearujhwaeiyfdasuowrshouwrhouw3.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://elcomercio.pe/resizer/v2/CJ7SHSHT6VFZDPWRPGYOCL6YQU.jpg?auth=a002cf7931cbe7798dd56c28dd00d1d20a1ad09c95ac9ce7a2ac19f9cc48fe36&width=850&quality=75&smart=true"
+                    alt="Loch Henry" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Loch Henry"</div>
+                    <div class="episode-info">Temporada 6, Episodio 2</div>
+                    <div class="episode-description">
+                        Un documental desentierra secretos que deberían permanecer enterrados.Netflix “Loch Henry” es el
+                        mejor tipo de episodio de Black Mirror porque expone el horror detrás de la banalidad de tantas
+                        cosas que hemos normalizado con el tiempo. Se enfoca en nuestra fascinación macabra con el true
+                        crime y en explotar la tragedia para verla por las noches. Cuenta la historia de una joven
+                        pareja que hace un documental sobre la mayor mancha de un pequeño pueblo escocés, y da un giro
+                        sensacional y demoledor mientras nos atrapa con un misterio de asesinato increíblemente
+                        emocionante. Solo cuando bajas de la adrenalina de su revelación entiendes lo asqueroso que se
+                        supone que debes sentirte. Más que una predicción ominosa del futuro, es un comentario mordaz
+                        sobre dónde estamos ahora. Pensarás dos veces antes de darle play a tu próxima serie de crímenes
+                        reales (aunque probablemente igual lo harás).
+                    </div>
+                    <a href="https://www.mediafire.com/file/lm7rq02ap3lo5ix/BLjbafjajndpdeumgns06e02.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://elcomercio.pe/resizer/v2/PKII7AWF25C6RJABTGD4OH5C64.jpg?auth=00fc4f1552ce6a6586ff18d35124fb8fc1fe77bac98462858707e79894e4b55c&width=1200&height=810&quality=90&smart=true"
+                    alt="Common People" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Common People"</div>
+                    <div class="episode-info">Temporada 7, Episodio 1</div>
+                    <div class="episode-description">
+                        Un amor sencillo enfrenta el lado más cruel del sistema.Robert Falconer/Netflix Quien haya dicho
+                        que Black Mirror se ha vuelto demasiado blanda en su era de Netflix seguramente tiene la culpa
+                        de “Common People”, el episodio más implacablemente sombrío de la serie desde “White Christmas”.
+                        Chris O'Dowd interpreta a Mike, un trabajador portuario de clase trabajadora, cuya esposa Amanda
+                        (Rashida Jones) es maestra; una vida sencilla sostenida por el amor inquebrantable que sienten
+                        el uno por el otro. ¿Y eso se puede permitir? Pues no. Así que su vida se desmorona por una
+                        catástrofe médica que obliga a Amanda a suscribirse a Rivermind, un nuevo servicio que
+                        literalmente impide que muera. Cuando se introducen nuevos niveles —y con ellos, aumentos
+                        devastadores en el precio—, Mike se ve forzado a tomar medidas extremas para mantenerla con
+                        vida. Una sátira deliberadamente fea de la “enshittificación” y de las compañías tecnológicas
+                        hostiles al consumidor que nos tienen contra la pared, con poca luz para equilibrar la
+                        oscuridad.
+                    </div>
+                    <a href="https://www.mediafire.com/file/xwpc4jr1shg8bzd/yaedwsrhywearujhwaeiyfdasuowrshouwrhouw1.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6-jUuiBDV70FV7ke7bRRyZ81rTCmse9ikg&s"
+                    alt="Striking Vipers" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Striking Vipers"</div>
+                    <div class="episode-info">Temporada 5, Episodio 1</div>
+                    <div class="episode-description">
+                        Realidad virtual y deseo se mezclan en un juego peligroso.Netflix “Striking Vipers” —que explora
+                        la sexualidad, la amistad y lo que constituye la infidelidad— sigue a los amigos Danny y Karl,
+                        quienes forman una relación sexual en realidad virtual, a pesar de que ambos tienen relaciones
+                        heterosexuales en la vida real y no se sienten atraídos entre sí fuera del juego. Lo mejor de lo
+                        que terminó siendo una temporada cinco bastante floja.
+                    </div>
+                    <a href="https://www.mediafire.com/file/mtkd9sall9ki0tt/BLCiahsfjhbhbihhss05e01.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZxRAodZlNVqhdsjckYdLtgLcomIezZa39zA&s"
+                    alt="Plaything" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Plaything"</div>
+                    <div class="episode-info">Temporada 7, Episodio 4</div>
+                    <div class="episode-description">
+                        Un videojuego olvidado desentierra los secretos más oscuros del pasado.Netflix En la Gran
+                        Bretaña del futuro cercano, un anciano excéntrico (Peter Capaldi) se hace arrestar
+                        deliberadamente por robar en una tienda. Es un cargo menor, pero al comprobar sus registros de
+                        ADN, se descubre un crimen más siniestro de su pasado. Llevado ante un duro detective (James
+                        Nelson-Joyce) y una psiquiatra (Michele Austin), explica su implicación, no sin antes revelar su
+                        curiosa obsesión por un videojuego de principios de los 90 que ha perdurado hasta el presente y
+                        que pronto toma un cariz siniestro. Will Poulter y Asim Chaudhry regresan como sus personajes de
+                        Bandersnatch en breves cameos, que es un poco un movimiento de “por qué no”. Pero se trata de un
+                        divertido y extraño potboiler con un giro bizarro, y nunca mirarás a Lemmings lo mismo otra vez.
+                    </div>
+                    <a href="https://www.mediafire.com/file/rj3zho8d6i8qzxc/yaedwsrhywearujhwaeiyfdasuowrshouwrhouw5.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/beyond-the-sea-black-mirror-apertura-64914c2950751.jpg"
+                    alt="Beyond the Sea" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Beyond the Sea"</div>
+                    <div class="episode-info">Temporada 6, Episodio 3</div>
+                    <div class="episode-description">
+                        Dos astronautas, dos mundos, una tragedia inevitable.Netflix Desde el principio, preocupa que
+                        “Beyond the Sea”, con su historia íntima de dos hombres (Aaron Paul y Josh Hartnett) atrapados
+                        juntos en el espacio, no tenga suficiente trama para sostener su extenso tiempo de duración.
+                        Pero esos 80 minutos son esenciales para construir la claustrofobia lenta y constante que se
+                        acumula entre ellos como una lata aplastada por la presión del aire. El episodio sigue a dos
+                        astronautas en una misión de seis años que tienen versiones humanoides de sí mismos en la Tierra
+                        a las que pueden conectarse, viviendo esencialmente en dos lugares al mismo tiempo. Cuando una
+                        tragedia golpea a uno de ellos, empiezan a compartir una carcasa robótica y, sí, las cosas se
+                        complican. Hay algo escalofriante en la idea de estar atrapado en el espacio exterior con
+                        alguien que se convierte en tu peor enemigo. Con su ambientación en los años 60, es una historia
+                        vintage de masculinidad tóxica, derecho adquirido y las formas en que la empatía puede ser
+                        explotada.
+                    </div>
+                    <a href="https://www.mediafire.com/file/a8dk8hb4whoq88o/BLjbafjajndpdeumgns06e03.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://upload.wikimedia.org/wikipedia/en/2/2f/Hated_in_the_Nation.jpg"
+                    alt="Hated in the Nation" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Hated in the Nation"</div>
+                    <div class="episode-info">Temporada 3, Episodio 6</div>
+                    <div class="episode-description">
+                        La cultura de la cancelación se vuelve letal.Netflix El final de la tercera temporada de Black
+                        Mirror fue, hasta la nueva serie, el episodio más largo de la serie; con 90 minutos, es
+                        esencialmente un largometraje. El episodio de 2016 sigue a dos detectives mientras investigan
+                        una serie de muertes misteriosas de personas que recientemente han sido, como lo llamamos hoy,
+                        “canceladas” en redes sociales. Las muertes parecen ser obra de abejas metálicas que fueron
+                        lanzadas por el gobierno para reemplazar a sus contrapartes insectiles casi extintas. Resulta
+                        que las abejas se usan para vigilarnos y pueden ser hackeadas para cometer asesinatos. Es una
+                        historia clásica de detectives, en realidad, pero con el giro Black Mirror.
+                    </div>
+                    <a href="https://www.mediafire.com/file/65v9puxvfu1htrl/BLCiahsfjhbhbihhss03e06.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2022/06/black-mirror-bandersnatch-2722865.jpg?tf=3840x"
+                    alt="Bandersnatch" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Bandersnatch"</div>
+                    <div class="episode-info">Especial interactivo</div>
+                    <div class="episode-description">
+                        Una historia interactiva donde tú decides… ¿o eso crees?Netflix ¿Es “Bandersnatch” técnicamente
+                        un gran episodio de Black Mirror? Honestamente, no mucho. En realidad, resulta bastante
+                        decepcionante como historia independiente, incluso con las múltiples narrativas en juego. Pero
+                        su innovación como la primera historia interactiva de elige-tu-propia-aventura de Netflix, que
+                        requirió el desarrollo de un programa completamente nuevo para alojarla, merece reconocimiento
+                        solo por su audacia. La historia, sobre un diseñador de videojuegos que intenta adaptar una
+                        novela de fantasía, tiene cinco posibles finales y un sinfín de caminos para llegar a ellos.
+                        Crear una historia de decisiones infinitas y misiones secundarias sobre un videojuego es el tipo
+                        de idea bellamente obvia que el resto de nosotros no vemos hasta que Charlie Brooker la pone en
+                        pantalla. Aunque armar todas sus piezas puede ser frustrante y, para ser sinceros, no tan
+                        satisfactorio, “Bandersnatch” es Black Mirror en estado puro.
+                    </div>
+                    <a href="https://smoothpre.com/file/b83t91kbxzh2" target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQCdV0o7tFRJQrprUzK91RTUImZzGOfqCB_g&s"
+                    alt="Rachel, Jack and Ashley Too" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Rachel, Jack and Ashley Too"</div>
+                    <div class="episode-info">Temporada 5, Episodio 3</div>
+                    <div class="episode-description">
+                        Una estrella pop virtual revela la cara oculta del estrellato.Netflix Si tuviéramos una moneda
+                        por cada vez que Miley Cyrus interpretó a una estrella pop fabricada en la TV con una colección
+                        de éxitos, bueno, tendríamos dos monedas. “Rachel, Jack and Ashley Too” es básicamente Hannah
+                        Montana con IA, y ha cobrado un matiz más oscuro al reconsiderar cómo las jóvenes celebridades
+                        pueden ser explotadas por quienes las rodean. También es una historia de crecimiento sobre la
+                        adolescencia, algo que ni siquiera Black Mirror puede volver más sombrío de lo que ya es. Puntos
+                        extra por “On A Roll”, la canción pop procesada hasta el extremo, que pretendía encapsular el
+                        consumo deshumanizante de música, pero que se volvió viral de manera tan orgánica tras su
+                        lanzamiento que ni siquiera Charlie Brooker pudo haber escrito una ironía tan poética.
+                    </div>
+                    <a href="https://www.mediafire.com/file/hddbr3wcqi10hl3/BLCiahsfjhbhbihhss05e03.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShgXIz0ThjnGCRYioKey6QNtsdc7cZ4UwrVg&s"
+                    alt="Black Museum" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Black Museum"</div>
+                    <div class="episode-info">Temporada 4, Episodio 6</div>
+                    <div class="episode-description">
+                        Un museo siniestro guarda los peores horrores tecnológicos.Netflix “Black Museum” es una especie
+                        de metanarrativa, que combina varios episodios dentro de un episodio que, además, resulta ser
+                        sobre el mismo concepto de Black Mirror. ¿Sigues el ritmo? Sigue a Nish, interpretada por
+                        Letitia Wright, mientras recorre un ominoso museo lleno de “artefactos criminológicos”,
+                        incluyendo montones de easter eggs de episodios anteriores. Es un episodio divisivo, y para sus
+                        detractores, su líder arrogante Rolo (Douglas Hodge) es visto como un alter ego de Charlie
+                        Brooker, el curador de una macabra biblioteca de horrores tecnológicos. Pero para quienes lo
+                        interpretan con más generosidad, se siente más como un comentario sobre lo que realmente es
+                        Black Mirror: no solo la crueldad humana desatada por las máquinas, sino un cuento preventivo y
+                        juguetón.
+                    </div>
+                    <a href="https://www.mediafire.com/file/9lrpbp546qkl54y/BLCiahsfjhbhbihhss04e06.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://elcomercio.pe/resizer/v2/QYWJ5KUWMRFIJHKMDZD76YFSEQ.jpg?auth=3bd4d77d907c6de51ed3da11fdf966d3c78e123f8bdebb2b3b6aded969eb66ec&width=850&quality=75&smart=true"
+                    alt="Joan is Awful" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Joan is Awful"</div>
+                    <div class="episode-info">Temporada 6, Episodio 1</div>
+                    <div class="episode-description">
+                        Tu vida diaria convertida en una serie, sin que lo sepas.Netflix “Joan is Awful” es uno de los
+                        episodios más pegajosos del canon de Black Mirror, apuntando contra su ahora cómodo aliado:
+                        Netflix. Era solo cuestión de tiempo antes de que Brooker colocara al streamer en su línea de
+                        fuego. Después de todo, no puedes pasar años señalando a los señores tecnológicos sin poner a la
+                        madre del streaming moderno en la mira. Esta producción repleta de estrellas pregunta: ¿Y si
+                        accidentalmente entregamos nuestras vidas a cambio de obtener contenido más rápido? También
+                        interroga los parecidos digitales, la IA y la jerarquía social, lo que en conjunto hace que se
+                        sienta sobrecargado y con un concepto demasiado elevado. No hay una forma fácil de abordar al
+                        gran Netflix en la sala, pero al final, no queda claro si Black Mirror realmente quiere hacerlo.
+                    </div>
+                    <a href="https://www.mediafire.com/file/os5kkyobzpwl7i0/BLjbafjajndpdeumgns06e01.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://upload.wikimedia.org/wikipedia/en/6/6e/Black_Mirror_-_Men_Against_Fire.jpg"
+                    alt="Men Against Fire" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Men Against Fire"</div>
+                    <div class="episode-info">Temporada 3, Episodio 5</div>
+                    <div class="episode-description">
+                        Una visión perturbadora del lavado de cerebro en el campo de batalla.Netflix “Men Against Fire”
+                        (que coprotagoniza una Sarah Snook antes de Succession) lleva la tecnología al campo de batalla,
+                        pero en realidad es una útil alegoría de algo que ya existe en el complejo militar-industrial.
+                        Dispositivos implantados en los soldados les hacen creer que sus enemigos son literalmente
+                        monstruos, aunque en realidad son personas normales y han sido engañados para cometer un
+                        genocidio autorizado. Es efectivo, sin duda, especialmente en la forma en que plantea la amenaza
+                        del trastorno de estrés postraumático, algo trágicamente común en soldados forzados a
+                        enlistarse. Pero en general, se siente un poco demasiado orgulloso de sí mismo.
+                    </div>
+                    <a href="https://www.mediafire.com/file/eh80l4e6939l5kg/BLCiahsfjhbhbihhss03e05.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/mazey-day-bo-6492b1b4eec22.jpg?resize=980:*"
+                    alt="Mazey Day" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Mazey Day"</div>
+                    <div class="episode-info">Temporada 6, Episodio 4</div>
+                    <div class="episode-description">
+                        Una celebridad desaparecida, paparazzi al acecho y un oscuro secreto.Netflix La sexta temporada
+                        de Black Mirror pisa más terreno de horror clásico que entregas anteriores, con monstruos,
+                        demonios y espectros por doquier. “Mazey Day” es un clásico del horror tipo Universal, hasta su
+                        giro final después de atraparte con lo que parece una visión exagerada de la cultura siniestra
+                        del paparazzi. Aun así, su narrativa huele a teatro escolar: plantea ideas que ya conocemos y
+                        con las que ya lidiamos.
+                    </div>
+                    <a href="https://www.mediafire.com/file/866jsu5sghtn3p9/BLjbafjajndpdeumgns06e04.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMWTF5Qj0I1v1qrR4VKhAxpVBfRl-vIt6-Xw&s"
+                    alt="Arkangel" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Arkangel"</div>
+                    <div class="episode-info">Temporada 4, Episodio 2</div>
+                    <div class="episode-description">
+                        Una madre controla cada paso de su hija… hasta que ya no puede.Netflix “Arkangel” es una de esas
+                        historias de tecnología futura que se sienten inquietantemente cercanas, tanto que
+                        inevitablemente se vuelve bastante predecible. Cuestiona el apego parental tóxico y reemplaza
+                        metafóricamente el cordón umbilical por un cable USB. Desafortunadamente, el final es
+                        exactamente lo que esperas que sea.
+                    </div>
+                    <a href="https://www.mediafire.com/file/zdkm4se27n006jv/BLCiahsfjhbhbihhss04e02.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2019/06/black-mirror-5_0.jpeg?tf=3840x"
+                    alt="Smithereens" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Smithereens"</div>
+                    <div class="episode-info">Temporada 5, Episodio 2</div>
+                    <div class="episode-description">
+                        La adicción a las redes sociales se vuelve mortal.Netflix En un mundo posterior a la salida de
+                        Jack de Twitter y la entrega del mando a Elon Musk, “Smithereens” tiene algo que decir sobre
+                        nuestra adicción a las redes sociales y la culpa de las personas que jalan los hilos. Es una
+                        pena que eso sea simplemente: “Pues sí, obvio”.
+                    </div>
+                    <a href="https://www.mediafire.com/file/0u9lzgsd9mt0da9/BLCiahsfjhbhbihhss05e02.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://farm9.staticflickr.com/8100/8526267608_cb48eaac32.jpg" alt="The Waldo Moment"
+                    class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"The Waldo Moment"</div>
+                    <div class="episode-info">Temporada 2, Episodio 3</div>
+                    <div class="episode-description">
+                        Escena del episodio “The Waldo Moment” de Black Mirror. Un dibujo animado revela verdades
+                        incómodas sobre la política moderna.Netflix “The Waldo Moment” fue inquietantemente profético en
+                        la medida en que predijo que personajes como Boris Johnson y Donald Trump terminarían en el
+                        escenario global. Pero más allá de la idea de un payaso entrando a la política, realmente no
+                        tiene nada sustancial.
+                    </div>
+                    <a href="https://www.mediafire.com/file/6onynrcrll21do5/BLCiahsfjhbhbihhss02e03.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+
+            <div class="episode">
+                <img src="https://www.lavanguardia.com/files/og_thumbnail/uploads/2017/12/28/5fa3dfc27198f.jpeg"
+                    alt="Crocodile" class="episode-img">
+                <div class="episode-content">
+                    <div class="episode-title">"Crocodile"</div>
+                    <div class="episode-info">Temporada 4, Episodio 3</div>
+                    <div class="episode-description">
+                        Escena del episodio “Crocodile” de Black Mirror. Cuando los secretos salen a la luz, nada puede
+                        detener la tragedia.Netflix Mira, estamos a favor de un poco de desesperanza implacable, pero
+                        esto es simplemente demasiado.
+                    </div>
+                    <a href="https://www.mediafire.com/file/pmjj81d5jsm9i7p/BLCiahsfjhbhbihhss04e03.rar/file"
+                        target="_blank" class="download-btn">Descargar</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Copyright © 2025 BibliotecaArivas. Todos los derechos reservados."</p>
+        </footer>
+    </div>
+
+
+
+    <script>
+        document.getElementById('copyBtn').addEventListener('click', function () {
+            const password = document.getElementById('password').textContent;
+            navigator.clipboard.writeText(password).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                    </svg>
+                    ¡Copiado!
+                `;
+                btn.classList.add('copied');
+
+                setTimeout(() => {
+                    btn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                        Copiar
+                    `;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+            });
+        });
+    </script>
+</body>
+
+</html>
