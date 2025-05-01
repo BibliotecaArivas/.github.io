@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Académico | Base de Datos</title>
+    <style>
+        body {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .sql-container {
+            background: #282c34;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 25px;
+            overflow-x: auto;
+        }
+        .header {
+            border-bottom: 2px solid #61dafb;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #61dafb;
+            font-size: 24px;
+            margin: 0 0 10px 0;
+        }
+        pre {
+            color: #abb2bf;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .sql-keyword {
+            color: #c678dd;
+            font-weight: bold;
+        }
+        .sql-function {
+            color: #61dafb;
+        }
+        .sql-string {
+            color: #98c379;
+        }
+        .sql-comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+        .sql-number {
+            color: #d19a66;
+        }
+        .sql-table {
+            color: #e06c75;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="sql-container">
+        <div class="header">
+            <h1>📊 Base de Datos Académico - SQL</h1>
+        </div>
+
+        <pre><span class="sql-comment">-- BD Academico</span>
+
+<span class="sql-keyword">CREATE DATABASE</span> Academico;
+<span class="sql-keyword">USE</span> Academico;
+
+<span class="sql-comment">-- Esquema </span>
+<span class="sql-keyword">CREATE SCHEMA</span> Academico
+
+
+<span class="sql-comment">-- Tabla Cursos </span>
+<span class="sql-keyword">CREATE TABLE</span> <span class="sql-table">Cursos</span> (
+    id <span class="sql-keyword">INT</span> <span class="sql-keyword">AUTO_INCREMENT PRIMARY KEY</span>,
+    nombre <span class="sql-keyword">TEXT</span>,
+    duracion <span class="sql-keyword">TIME NOT NULL</span>
+);
+
+<span class="sql-comment">-- Agregar dos cursos </span>
+<span class="sql-keyword">INSERT INTO</span> <span class="sql-table">Cursos</span> (nombre, duracion) <span class="sql-keyword">VALUES</span> 
+(<span class="sql-string">'Lenguaje'</span>, <span class="sql-string">'00:45:00'</span>),
+(<span class="sql-string">'Sociales'</span>, <span class="sql-string">'01:30:00'</span>);
+
+
+<span class="sql-comment">-- Actualizar TIME</span>
+<span class="sql-keyword">UPDATE</span> <span class="sql-table">Cursos</span> <span class="sql-keyword">SET</span> duracion = <span class="sql-string">'02:00:00'</span> <span class="sql-keyword">WHERE</span> id = <span class="sql-number">1</span>;
+
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> <span class="sql-table">Cursos</span>;
+<span class="sql-keyword">DROP TABLE IF EXISTS</span> <span class="sql-table">Cursos</span>;
+
+<span class="sql-comment">-- Usuario (sin login) + rol</span>
+<span class="sql-keyword">CREATE USER</span> <span class="sql-string">'UsuarioAcademico'</span> <span class="sql-keyword">WITHOUT LOGIN</span>;
+<span class="sql-keyword">CREATE USER</span> <span class="sql-string">'UsuarioAcademico'</span>@<span class="sql-string">'localhost'</span> <span class="sql-keyword">IDENTIFIED BY</span> <span class="sql-string">'!invalid_password$'</span>;
+
+<span class="sql-keyword">CREATE USER</span> UsuarioAcademico <span class="sql-keyword">IDENTIFIED BY</span> <span class="sql-string">"invalid_password$"</span>;
+
+<span class="sql-keyword">CREATE ROLE</span> <span class="sql-string">'RolAcademico'</span>;
+
+
+<span class="sql-comment">-- Conceder Permisos </span>
+<span class="sql-keyword">GRANT SELECT, INSERT ON</span> <span class="sql-table">Cursos</span> <span class="sql-keyword">TO</span> RolAcademico;
+<span class="sql-keyword">DENY DELETE ON object</span>::<span class="sql-table">Cursos</span> <span class="sql-keyword">FROM</span> UsuarioAcademico <span class="sql-keyword">OR</span> RolAcademico;
+
+
+<span class="sql-comment">-- Insert</span>
+<span class="sql-keyword">INSERT INTO</span> nombre, duracion <span class="sql-keyword">values</span> 
+(<span class="sql-string">'Programacion'</span>, <span class="sql-string">'00:45:00'</span>);
+
+
+<span class="sql-comment">-- Delete</span>
+<span class="sql-keyword">DELETE FROM</span> <span class="sql-table">Cursos</span> <span class="sql-keyword">WHERE</span> id=<span class="sql-number">1</span>;</pre>
+
+        <div class="footer">
+            <p>SQL Académico | v1.0 | &copy; 2025</p>
+        </div>
+    </div>
+</body>
+</html>
