@@ -96,16 +96,16 @@
 <span class="sql-keyword">CREATE SCHEMA</span> <span class="sql-schema">Academico</span>;
 
 <span class="sql-comment">-- Crear tabla Cursos dentro del esquema Academico</span>
-<span class="sql-keyword">CREATE TABLE</span> <span class="sql-schema">Academico</span>.<span class="sql-table">Cursos</span> (
+<span class="sql-keyword">CREATE TABLE</span><span class="sql-schema">Academico</span>.<span class="sql-table">Cursos</span> (
     id_curso <span class="sql-keyword">INT PRIMARY KEY</span>,
     nombre <span class="sql-keyword">NVARCHAR</span>(<span class="sql-number">100</span>),
     duracion_horas <span class="sql-keyword">INT</span>
 );
 
 <pre><span class="sql-comment">-- Ver las tablas dentro de un esquema específico en una base de datos SQL</span>
-<span class="sql-keyword">SELECT * FROM</span><span class="sql-schema">INFORMATION_SCHEMA.TABLES</span>
+<span class="sql-keyword">SELECT * FROM</span><span class="sql-schema"> INFORMATION_SCHEMA.TABLES</span>
 <span class="sql-keyword">WHERE TABLE_SCHEMA =</span><span class="sql-schema">'Academico'</span>
-<span class="sql-keyword">AND TABLE_TYPE</span><span class="sql-schema">='BASE TABLE'</span>
+<span class="sql-keyword">AND TABLE_TYPE</span><span class="sql-schema"> ='BASE TABLE'</span>
 <span>ORDER BY TABLE_NAME; </span>
 
             
