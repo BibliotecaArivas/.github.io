@@ -102,6 +102,13 @@
     duracion_horas <span class="sql-keyword">INT</span>
 );
 
+<pre><span class="sql-comment">-- Ver las tablas dentro de un esquema específico en una base de datos SQL</span>
+<span> SELECT * FROM INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_SCHEMA = 'Academico' 
+AND TABLE_TYPE = 'BASE TABLE'
+ORDER BY TABLE_NAME; </span>
+
+            
 <span class="sql-comment">-- Insertar dos cursos iniciales</span>
 <span class="sql-keyword">INSERT INTO</span> <span class="sql-schema">Academico</span>.<span class="sql-table">Cursos</span> (id_curso, nombre, duracion_horas)
 <span class="sql-keyword">VALUES</span> (<span class="sql-number">1</span>, <span class="sql-string">'Introducción a Bases de Datos'</span>, <span class="sql-number">40</span>),
