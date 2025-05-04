@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog de Notas - Navegación</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+      border-right: 1px solid #e0e0e0;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      padding: 30px 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .note-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .note-item {
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .note-item:hover {
+      background-color: #ecf0f1;
+    }
+
+    .editor-toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .editor-toolbar button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #555;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    .editor-toolbar button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .editor {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 300px;
+      resize: vertical;
+      overflow-y: auto;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .editor:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>Notas</h2>
+  <ul class="note-list">
+    <!-- Las notas se cargarán aquí dinámicamente -->
+  </ul>
+</div>
+
+<!-- Contenido Principal -->
+<div class="main-content">
+
+  <div class="header" style="display: columns;">
+    <h2 id="note-title"> ↙️ Selecciona una nota</h2>
+
+
+  </div>
+      <h4 >"Phishing y controles ISO 27001"</h4>
+
+  <!-- Barra de herramientas -->
+  <div class="editor-toolbar">
+    <button title="Exportar"><i class="fas fa-download"></i></button>
+     <button title="Exportar TXT"><i class="fas fa-file-alt"></i></button>
+  </div>
+
+  <!-- Editor de texto -->
+  <div class="editor" contenteditable="true" id="editor">
+<pre>
+Cómo la norma ISO 27001 ayuda a establecer medidas de seguridad y prevención contra ataques como el phishing        
+•	Qué es el phishing y cómo afecta la seguridad de la información.
+•	Qué controles de seguridad propone la norma ISO 27001 para protegerse contra ataques cibernéticos.
+•	Consejos y estrategias para aplicar estas medidas efectivamente.
+</pre>
+  </div>
+
+</div>
+
+<!-- Librería jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  // Datos simulados de notas
+  const notes = [
+    {
+      id: 1,
+      title: "¿Qué es Phishing?",
+      content: `El phishing es una técnica de ciberataque en la que los delincuentes intentan engañar a las personas para que revelen información confidencial, como contraseñas, datos bancarios o credenciales de acceso.
+🔍 ¿Cómo funciona?
+Los atacantes suelen hacerse pasar por entidades legítimas, como bancos, redes sociales o empresas reconocidas, enviando correos electrónicos, mensajes de texto o llamadas fraudulentas. Estos mensajes suelen incluir:
+•	Enlaces falsos que llevan a sitios web fraudulentos diseñados para robar información.
+•	Archivos adjuntos maliciosos que instalan malware en el dispositivo de la víctima.
+•	Solicitudes urgentes que presionan a la persona para que actúe sin pensar.
+⚠️ Tipos de phishing más comunes
+1.	Phishing tradicional: Correos electrónicos falsos que imitan a empresas legítimas.
+2.	Spear phishing: Ataques dirigidos a individuos específicos, como empleados de una empresa.
+3.	Smishing: Mensajes de texto fraudulentos que buscan engañar a la víctima.
+4.	Vishing: Llamadas telefónicas en las que los atacantes se hacen pasar por representantes de confianza.
+🛡️ ¿Cómo protegerse?
+•	No hagas clic en enlaces sospechosos ni descargues archivos de remitentes desconocidos.
+•	Verifica la autenticidad de los correos electrónicos y mensajes antes de compartir información.
+•	Usa autenticación de dos factores (2FA) para mayor seguridad.
+•	Mantén tu software actualizado para evitar vulnerabilidades.
+`
+    },
+    {
+      id: 2,
+      title: "¿Cómo puedo identificar un correo de phishing?",
+      content: `Identificar un correo de phishing puede salvarte de caer en una estafa y proteger tu información. Aquí te dejo algunos signos clave para reconocerlos:
+🔍 Señales de alerta en un correo de phishing
+1.	Remitente sospechoso: Verifica el correo del remitente. Si parece extraño, como una dirección con caracteres raros o una leve modificación del nombre de una empresa (ej. seguridad@banco-secure.com en lugar de seguridad@banco.com), es una señal de alerta.
+2.	Errores ortográficos y gramaticales: Los correos fraudulentos suelen contener errores en la redacción, lo cual es inusual en mensajes de empresas legítimas.
+3.	Mensajes urgentes y alarmantes: “Tu cuenta será bloqueada en 24 horas si no actúas ahora”, este tipo de frases buscan presionarte para que no pienses y hagas clic sin verificar.
+4.	Enlaces engañosos: Coloca el cursor sobre los enlaces sin hacer clic. Si la dirección web parece sospechosa o diferente a la oficial, no lo abras.
+5.	Archivos adjuntos inesperados: Si un correo te envía archivos sin motivo, pueden contener malware. Empresas legítimas rara vez envían archivos sin previo aviso.
+6.	Solicitudes de información personal: Ningún banco o servicio confiable te pedirá contraseñas, datos bancarios o información personal por correo.
+🛡️ Cómo protegerte
+•	Nunca hagas clic en enlaces dudosos sin verificar su autenticidad.
+•	Siempre revisa la dirección del remitente antes de interactuar con el contenido.
+•	Usa autenticación en dos pasos para mayor seguridad en tus cuentas.
+•	Reporta correos sospechosos a la entidad que supuestamente los envió.
+Si tienes dudas sobre un correo que recibiste, mejor verifica directamente con la empresa antes de hacer clic o responder.`
+    },
+    {
+      id: 3,
+      title: "¿Qué pasa si caigo en un correo de phishing?",
+      content: `Si caes en un correo de phishing, lo más importante es actuar rápido para minimizar los daños. Aquí te dejo los pasos clave que debes seguir:
+🚨 Pasos a seguir si caíste en un phishing
+1.	Cambia tus contraseñas: Si ingresaste tus credenciales en un sitio falso, cambia inmediatamente la contraseña de la cuenta afectada. Usa una clave fuerte y única.
+2.	Activa la autenticación en dos pasos (2FA): Esto añade una capa extra de seguridad y evita que los atacantes accedan a tu cuenta fácilmente.
+3.	Revisa tus cuentas bancarias: Si compartiste información financiera, revisa tus movimientos y contacta a tu banco para reportar cualquier actividad sospechosa.
+4.	Escanea tu dispositivo con un antivirus: Si descargaste un archivo adjunto, ejecuta un análisis completo para detectar y eliminar posibles amenazas.
+5.	Reporta el correo fraudulento: Puedes marcarlo como spam en tu correo y reportarlo a la empresa o entidad que supuestamente lo envió.
+6.	Mantente alerta ante intentos adicionales: Los atacantes pueden intentar contactarte nuevamente. No respondas correos sospechosos ni hagas clic en enlaces dudosos.
+Si crees que tu información ha sido comprometida, actuar rápido puede evitar mayores problemas.
+`
+    },
+    {
+      id: 4,
+      title: "¿Qué es el phishing y cómo funciona?",
+      content: `El phishing es una técnica de ciberataque en la que los delincuentes intentan engañar a las personas para que revelen información confidencial, como contraseñas, datos bancarios o credenciales de acceso.
+🔍 ¿Cómo funciona?
+Los atacantes suelen hacerse pasar por entidades legítimas, como bancos, redes sociales o empresas reconocidas, enviando correos electrónicos, mensajes de texto o llamadas fraudulentas. Estos mensajes suelen incluir:
+•	Enlaces falsos que llevan a sitios web fraudulentos diseñados para robar información.
+•	Archivos adjuntos maliciosos que instalan malware en el dispositivo de la víctima.
+•	Solicitudes urgentes que presionan a la persona para que actúe sin pensar.
+⚠️ Tipos de phishing más comunes
+1.	Phishing tradicional: Correos electrónicos falsos que imitan a empresas legítimas.
+2.	Spear phishing: Ataques dirigidos a individuos específicos, como empleados de una empresa.
+3.	Smishing: Mensajes de texto fraudulentos que buscan engañar a la víctima.
+4.	Vishing: Llamadas telefónicas en las que los atacantes se hacen pasar por representantes de confianza.
+🛡️ ¿Cómo protegerse?
+•	No hagas clic en enlaces sospechosos ni descargues archivos de remitentes desconocidos.
+•	Verifica la autenticidad de los correos electrónicos y mensajes antes de compartir información.
+•	Usa autenticación de dos factores (2FA) para mayor seguridad.
+•	Mantén tu software actualizado para evitar vulnerabilidades.
+Si alguna vez recibes un mensaje sospechoso, lo mejor es no responder y reportarlo a la entidad correspondiente.
+
+`
+    },
+    {
+      id: 5,
+      title: "¿Cuáles son las técnicas específicas que utilizan los atacantes?",
+      content: `Los atacantes emplean diversas técnicas de phishing para engañar a las víctimas y obtener información confidencial. Aquí te dejo algunas de las más utilizadas:
+🎭 Técnicas comunes de phishing
+1.	Correos electrónicos engañosos: Los atacantes envían correos falsos que imitan a empresas legítimas, instando a los destinatarios a hacer clic en enlaces maliciosos o abrir archivos adjuntos infectados.
+2.	Sitios web falsificados: Crean páginas web que replican sitios legítimos para capturar credenciales cuando los usuarios ingresan su información.
+3.	Phishing por SMS y redes sociales: Aprovechan mensajes de texto o plataformas sociales para difundir enlaces o solicitudes fraudulentas.
+4.	Spear phishing: Ataques dirigidos a individuos específicos con mensajes personalizados que hacen referencia a datos personales o corporativos para aumentar la credibilidad.
+5.	Suplantación de identidad: Los ciberdelincuentes se hacen pasar por una persona o empresa de confianza para engañar a las víctimas.
+6.	Archivos maliciosos: Se adjuntan archivos infectados con malware en correos electrónicos para comprometer el dispositivo de la víctima.
+7.	Enlaces maliciosos: Correos que incluyen enlaces a sitios fraudulentos que pueden descargar malware o robar datos.
+8.	Smishing: Mensajes de texto que contienen enlaces maliciosos o solicitan información personal.
+🛡️ ¿Cómo protegerse?
+•	Verifica siempre el remitente antes de interactuar con correos o mensajes sospechosos.
+•	No hagas clic en enlaces dudosos sin comprobar su autenticidad.
+•	Usa autenticación en dos pasos (2FA) para mayor seguridad en tus cuentas.
+•	Reporta correos sospechosos a la entidad que supuestamente los envió.
+El phishing sigue evolucionando con técnicas más sofisticadas, por lo que la concienciación y la prevención son clave para evitar caer en estos ataques. 
+
+
+`
+    },
+
+     {
+      id: 6,
+      title: "¿Cómo prevenir?",
+      content: `Prevenir el phishing es clave para proteger tu información personal y financiera. Aquí tienes algunas estrategias efectivas:
+🛡️ Consejos para evitar el phishing
+1.	Verifica el remitente: Antes de abrir un correo o mensaje, revisa la dirección del remitente. Si parece sospechosa, no interactúes con el contenido.
+2.	No hagas clic en enlaces dudosos: Coloca el cursor sobre los enlaces sin hacer clic para ver la dirección real. Si parece extraña, evita abrirla.
+3.	Usa autenticación en dos pasos (2FA): Esto añade una capa extra de seguridad en tus cuentas, dificultando el acceso a los atacantes.
+4.	Mantén tu software actualizado: Un sistema operativo y navegador actualizados reducen vulnerabilidades que los ciberdelincuentes pueden explotar.
+5.	Instala un antivirus confiable: Un buen antivirus puede detectar intentos de phishing y bloquear sitios web maliciosos.
+6.	Evita compartir información personal: Ninguna entidad legítima te pedirá contraseñas o datos bancarios por correo o mensaje.
+7.	Revisa la seguridad de los sitios web: Antes de ingresar datos, asegúrate de que la web tenga https:// y un candado en la barra de direcciones.
+8.	Educa a tu entorno: Comparte estos consejos con familiares y amigos para que también estén protegidos.
+
+
+
+`
+    },
+
+     {
+      id: 7,
+      title: "Tips",
+      content: `🛡️ Consejos para protegerte del phishing
+Verifica el remitente: Antes de abrir un correo o mensaje, revisa la dirección del remitente. Si parece sospechosa, no interactúes con el contenido.
+
+No hagas clic en enlaces dudosos: Coloca el cursor sobre los enlaces sin hacer clic para ver la dirección real. Si parece extraña, evita abrirla.
+
+Usa autenticación en dos pasos (2FA): Esto añade una capa extra de seguridad en tus cuentas, dificultando el acceso a los atacantes.
+
+Mantén tu software actualizado: Un sistema operativo y navegador actualizados reducen vulnerabilidades que los ciberdelincuentes pueden explotar.
+
+Instala un antivirus confiable: Un buen antivirus puede detectar intentos de phishing y bloquear sitios web maliciosos.
+
+Evita compartir información personal: Ninguna entidad legítima te pedirá contraseñas o datos bancarios por correo o mensaje.
+
+Revisa la seguridad de los sitios web: Antes de ingresar datos, asegúrate de que la web tenga https:// y un candado en la barra de direcciones.
+
+Educa a tu entorno: Comparte estos consejos con familiares y amigos para que también estén protegidos.
+
+
+
+`
+    },
+
+  ];
+
+  const noteList = document.querySelector('.note-list');
+  const editor = document.getElementById('editor');
+  const noteTitle = document.getElementById('note-title');
+
+  let currentNoteId = null;
+
+  // Renderizar lista de notas
+  function renderNotes() {
+    noteList.innerHTML = '';
+    notes.forEach(note => {
+      const li = document.createElement('li');
+      li.className = 'note-item';
+      li.textContent = note.title;
+      li.addEventListener('click', () => loadNote(note.id));
+      noteList.appendChild(li);
+    });
+  }
+
+  // Cargar contenido de nota en el editor
+  function loadNote(id) {
+    const note = notes.find(n => n.id === id);
+    if (!note) return;
+
+    currentNoteId = note.id;
+    editor.innerText = note.content;
+    noteTitle.textContent = note.title;
+  }
+
+  // Guardar cambios automáticamente al cambiar de nota o recargar
+  window.addEventListener('beforeunload', () => {
+    if (currentNoteId !== null) {
+      const note = notes.find(n => n.id === currentNoteId);
+      if (note) {
+        note.content = editor.innerText;
+      }
+    }
+  });
+
+  // Exportar a PDF
+  document.querySelector('.editor-toolbar button[title="Exportar"]').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const content = editor.innerText;
+
+    doc.setFontSize(12);
+    doc.text(content, 10, 10);
+
+    doc.save(`nota_${currentNoteId || 'actual'}.pdf`);
+  });
+
+  // Inicializar
+  renderNotes();
+
+  // Exportar a .txt
+document.querySelector('.editor-toolbar button[title="Exportar TXT"]').addEventListener('click', () => {
+  const content = editor.innerText;
+
+  // Crear un blob con el contenido
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+
+  // Crear un enlace temporal y hacer clic para descargar
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `nota_${currentNoteId || 'actual'}.txt`;
+  link.click();
+
+  // Limpiar el objeto URL
+  URL.revokeObjectURL(link.href);
+});
+</script>
+
+</body>
+</html>
