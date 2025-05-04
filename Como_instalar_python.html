@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalar Python en Windows - Guía Completa</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #3776ab;
+            text-align: center;
+            border-bottom: 2px solid #3776ab;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #ffd43b;
+            background-color: #3776ab;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .step {
+            background-color: white;
+            padding: 15px 20px;
+            border-left: 4px solid #ffd43b;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 4px solid #3776ab;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #3776ab;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #2a5f8a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guía para Instalar Python en Windows</h1>
+    
+    <div class="note">
+        <p>Esta guía te mostrará paso a paso cómo instalar Python en tu computadora con Windows, incluyendo cómo configurarlo correctamente.</p>
+    </div>
+    
+    <h2>Paso 1: Descargar Python</h2>
+    <div class="step">
+        <ol>
+            <li>Abre tu navegador web y ve al <a href="https://www.python.org/" target="_blank">sitio oficial de Python</a></li>
+            <li>Haz clic en la pestaña <strong>"Downloads"</strong> (Descargas)</li>
+            <li>El sitio detectará automáticamente tu sistema operativo y te mostrará un botón para descargar la última versión de Python para Windows</li>
+        </ol>
+        
+        <a href="https://www.python.org/downloads/" class="btn">Descargar Python</a>
+        
+        <div class="note">
+            <p><strong>Alternativa:</strong> Si necesitas una versión específica, desplázate hacia abajo y selecciona "Windows" en la sección "Looking for a specific release?"</p>
+        </div>
+    </div>
+    
+    <h2>Paso 2: Ejecutar el instalador</h2>
+    <div class="step">
+        <ol>
+            <li>Abre el archivo descargado (ej. <code>python-3.x.x.exe</code>)</li>
+            <li><strong>Marca la casilla "Add Python to PATH"</strong> (ES IMPORTANTE para poder usar Python desde cualquier lugar)</li>
+            <li>Haz clic en <strong>"Install Now"</strong> (Instalar ahora)</li>
+        </ol>
+        
+        <div class="note">
+            <p><strong>Opciones avanzadas:</strong> Puedes hacer clic en "Customize installation" si necesitas:</p>
+            <ul>
+                <li>Instalar para todos los usuarios</li>
+                <li>Cambiar la ruta de instalación</li>
+                <li>Instalar características adicionales</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Paso 3: Completar la instalación</h2>
+    <div class="step">
+        <ol>
+            <li>Espera a que termine el proceso de instalación (puede tomar unos minutos)</li>
+            <li>Cuando termine, verás un mensaje "Setup was successful"</li>
+            <li>Haz clic en "Close" (Cerrar)</li>
+        </ol>
+    </div>
+    
+    <h2>Paso 4: Verificar la instalación</h2>
+    <div class="step">
+        <ol>
+            <li>Abre el <strong>Símbolo del sistema</strong> (CMD):
+                <ul>
+                    <li>Presiona <code>Win + R</code>, escribe <code>cmd</code> y presiona Enter</li>
+                </ul>
+            </li>
+            <li>En la ventana que aparece, escribe:
+                <pre><code>python --version</code></pre>
+            </li>
+            <li>Deberías ver la versión de Python instalada (ej. "Python 3.x.x")</li>
+        </ol>
+        
+        <div class="note">
+            <p><strong>También puedes probar:</strong></p>
+            <pre><code>pip --version</code></pre>
+            <p>Para verificar que el gestor de paquetes está instalado</p>
+        </div>
+    </div>
+    
+    <h2>Paso 5: (Opcional) Instalar un IDE/Editor</h2>
+    <div class="step">
+        <p>Para programar en Python te recomiendo instalar:</p>
+        <ul>
+            <li><strong>VS Code</strong>: <a href="https://code.visualstudio.com/" target="_blank">https://code.visualstudio.com/</a>
+                <br>(Luego instala la extensión de Python)</li>
+            <li><strong>PyCharm Community</strong>: <a href="https://www.jetbrains.com/pycharm/" target="_blank">https://www.jetbrains.com/pycharm/</a></li>
+            <li><strong>Thonny</strong> (ideal para principiantes): <a href="https://thonny.org/" target="_blank">https://thonny.org/</a></li>
+        </ul>
+    </div>
+    
+  
+</body>
+</html>
