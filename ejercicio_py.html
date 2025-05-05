@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Python: Suma de dos números</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #3776ab;
+            text-align: center;
+            border-bottom: 2px solid #3776ab;
+            padding-bottom: 10px;
+        }
+        .code-container {
+            background-color: #f8f8f8;
+            border-left: 4px solid #3776ab;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+            overflow-x: auto;
+        }
+        pre {
+            margin: 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        .comment {
+            color: #6a9955;
+        }
+        .keyword {
+            color: #569cd6;
+        }
+        .function {
+            color: #dcdcaa;
+        }
+        .string {
+            color: #ce9178;
+        }
+        .operator {
+            color: #d4d4d4;
+        }
+        .section {
+            margin-top: 30px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            color: #ffd43b;
+            background-color: #3776ab;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio Python: Suma de dos números</h1>
+
+    <div class="section">
+        <h2 class="section-title">Versión con enteros (int)</h2>
+        <div class="code-container">
+            <pre><code><span class="comment"># Suma de dos números</span>
+<span class="comment"># Pedir al usuario que ingrese los números</span>
+<span class="keyword">numero1</span> = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Ingrese el primer número:"</span>))
+<span class="keyword">numero2</span> = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Ingrese el segundo número:"</span>))
+
+<span class="comment"># Sumar los números</span>
+<span class="keyword">suma</span> = <span class="keyword">numero1</span> <span class="operator">+</span> <span class="keyword">numero2</span>
+
+<span class="comment"># Mostrar el resultado</span>
+<span class="function">print</span>(<span class="string">"La suma de"</span>, <span class="keyword">numero1</span>, <span class="string">"y"</span>, <span class="keyword">numero2</span>, <span class="string">"es:"</span>, <span class="keyword">suma</span>)</code></pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Versión con decimales (float)</h2>
+        <div class="code-container">
+            <pre><code><span class="comment"># Variante 2 con números decimales</span>
+<span class="keyword">numero1</span> = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Ingresa el primer número: "</span>))
+<span class="keyword">numero2</span> = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Ingresa el segundo número: "</span>))
+<span class="keyword">suma</span> = <span class="keyword">numero1</span> <span class="operator">+</span> <span class="keyword">numero2</span>
+<span class="function">print</span>(<span class="string">"La suma de"</span>, <span class="keyword">numero1</span>, <span class="string">"y"</span>, <span class="keyword">numero2</span>, <span class="string">"es:"</span>, <span class="keyword">suma</span>)</code></pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Explicación del código</h2>
+        <ul>
+            <li><strong>input()</strong>: Función que permite al usuario ingresar datos</li>
+            <li><strong>int()</strong>: Convierte el valor ingresado a número entero</li>
+            <li><strong>float()</strong>: Convierte el valor ingresado a número decimal</li>
+            <li><strong>print()</strong>: Muestra el resultado en pantalla</li>
+            <li>El operador <strong>+</strong> suma los dos números</li>
+        </ul>
+    </div>
+</body>
+</html>
