@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
             padding: 20px;
             background-color: #f9f9f9;
         }
-        
+
         header {
             background-color: #0078d7;
             color: white;
@@ -22,73 +23,82 @@
             border-radius: 5px;
             margin-bottom: 30px;
         }
-        
+
         h1 {
             margin: 0;
         }
-        
+
         h2 {
             color: #0078d7;
             border-bottom: 2px solid #0078d7;
             padding-bottom: 5px;
             margin-top: 30px;
         }
-        
+
         h3 {
             color: #005a9e;
         }
-        
+
         .note {
             background-color: #fff4e5;
             border-left: 4px solid #ffb900;
             padding: 15px;
             margin: 20px 0;
         }
-        
+
         .warning {
             background-color: #fde7e9;
             border-left: 4px solid #d13438;
             padding: 15px;
             margin: 20px 0;
         }
-        
+
         code {
             background-color: #f3f3f3;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: Consolas, monospace;
         }
-        
+
         pre {
             background-color: #f3f3f3;
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
         }
-        
+
         .section {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
-        
-        ul, ol {
+
+        ul,
+        ol {
             padding-left: 20px;
         }
-        
+
         li {
             margin-bottom: 8px;
         }
+
+        @media screen and (max-width: 667px) {
+
+            img {
+                width: 100%;
+            }
+        }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Carpetas %temp% y Prefetch en Windows</h1>
         <p>Guía completa sobre su función, uso y mantenimiento</p>
     </header>
-    
+
     <div class="section">
         <h2>¿Qué es la carpeta %temp%?</h2>
         <p>La carpeta %temp% (o directorio temporal) es una ubicación en Windows donde:</p>
@@ -97,12 +107,25 @@
             <li>El sistema guarda datos de uso temporal</li>
             <li>Se almacenan cachés y archivos intermedios de instalaciones</li>
         </ul>
-        
+
         <h3>Ubicación típica:</h3>
         <pre>C:\Users\[TuUsuario]\AppData\Local\Temp</pre>
-        <p class="note">Se puede acceder escribiendo <code>%temp%</code> en el cuadro de ejecución de Windows (Win+R)</p>
+        <p class="note">Se puede acceder escribiendo <code>%temp%</code> en el cuadro de ejecución de Windows (Win+R)
+        </p>
+
+        <h3>Adicional: </h3>
+        <pre>Windows + R</pre>
+        <p>Al momento de presionar la tecla Windows + R se mostrará la ventana
+            de ejecutar, tipiamos %temp% y pulsamos Enter.
+        </p>
+
+        <picture>
+            <source media="(max-width: 767px)" srcset="https://i.ibb.co/v4BNpvF0/2025-05-08-16-42-16-425.png">
+            <a href="https://i.ibb.co/v4BNpvF0/2025-05-08-16-42-16-425.png" target="_blank"><img
+                    src="https://i.ibb.co/v4BNpvF0/2025-05-08-16-42-16-425.png" alt="img_ejecutar"></a>
+        </picture>
     </div>
-    
+
     <div class="section">
         <h2>¿Qué es la carpeta Prefetch?</h2>
         <p>La carpeta Prefetch es un componente del sistema Windows que:</p>
@@ -111,14 +134,26 @@
             <li>Acelera los tiempos de inicio de aplicaciones</li>
             <li>Optimiza la carga de programas usados regularmente</li>
         </ul>
-        
+
         <h3>Ubicación:</h3>
         <pre>C:\Windows\Prefetch</pre>
+
+        <h3>Adicional: </h3>
+        <pre>Windows + R</pre>
+        <p>Al momento de presionar la tecla Windows + R se mostrará la ventana
+            de ejecutar, tipiamos Prefetch y pulsamos Enter.
+        </p>
+
+        <picture>
+            <source media="(max-width: 767px)" srcset="https://i.ibb.co/v4BNpvF0/2025-05-08-16-42-16-425.png">
+            <a href="https://i.ibb.co/s0cVz7n/2025-05-08-16-48-50-733.png" target="_blank"><img
+                    src="https://i.ibb.co/s0cVz7n/2025-05-08-16-48-50-733.png" alt="img_ejecutar" border="0" /></a>
+
     </div>
-    
+
     <div class="section">
         <h2>¿Para qué sirven?</h2>
-        
+
         <h3>Carpeta %temp%:</h3>
         <ol>
             <li>Almacenamiento temporal de datos de programas</li>
@@ -126,7 +161,7 @@
             <li>Caché para instaladores y actualizaciones</li>
             <li>Almacenamiento de archivos temporales de navegadores y aplicaciones</li>
         </ol>
-        
+
         <h3>Carpeta Prefetch:</h3>
         <ol>
             <li>Mejorar el rendimiento del sistema</li>
@@ -134,15 +169,16 @@
             <li>Optimizar el uso de recursos del sistema</li>
         </ol>
     </div>
-    
+
     <div class="section">
         <h2>¿Cómo se usan?</h2>
-        
+
         <h3>Uso normal:</h3>
-        <p>Ambas carpetas son gestionadas automáticamente por Windows y no requieren intervención del usuario para su funcionamiento básico.</p>
-        
+        <p>Ambas carpetas son gestionadas automáticamente por Windows y no requieren intervención del usuario para su
+            funcionamiento básico.</p>
+
         <h3>Mantenimiento:</h3>
-        
+
         <h4>1. Borrar archivos temporales (%temp%):</h4>
         <ol>
             <li>Abrir "%temp%" (Win+R → escribir "%temp%" → Enter)</li>
@@ -150,7 +186,7 @@
             <li>Eliminar (Suprimir o Shift+Suprimir)</li>
         </ol>
         <p class="note">Nota: Algunos archivos en uso no podrán borrarse</p>
-        
+
         <h4>2. Limpiar Prefetch:</h4>
         <ul>
             <li>Generalmente no es necesario limpiarla</li>
@@ -163,17 +199,17 @@
             </li>
         </ul>
     </div>
-    
+
     <div class="section">
         <h2>Recomendaciones de uso</h2>
-        
+
         <h3>Para %temp%:</h3>
         <ul>
             <li>Puedes limpiarla periódicamente para liberar espacio</li>
             <li>Usa la herramienta "Liberador de espacio en disco" de Windows</li>
             <li>Algunos programas pueden necesitar recrear archivos después de la limpieza</li>
         </ul>
-        
+
         <h3>Para Prefetch:</h3>
         <ul>
             <li>No es recomendable limpiarla frecuentemente</li>
@@ -181,7 +217,7 @@
             <li>La limpieza puede ralentizar temporalmente el sistema hasta que se reconstruyan los datos</li>
         </ul>
     </div>
-    
+
     <div class="section warning">
         <h2>Consideraciones de seguridad</h2>
         <ul>
@@ -191,10 +227,13 @@
             <li>No ejecutes archivos desconocidos de estas carpetas</li>
         </ul>
     </div>
-    
+
     <div class="section">
         <h2>Conclusión</h2>
-        <p>Tanto %temp% como Prefetch son componentes importantes del sistema Windows que ayudan en su funcionamiento óptimo. Mientras que %temp% puede limpiarse periódicamente para liberar espacio, Prefetch es mejor dejarla bajo el control automático del sistema para mantener el máximo rendimiento.</p>
+        <p>Tanto %temp% como Prefetch son componentes importantes del sistema Windows que ayudan en su funcionamiento
+            óptimo. Mientras que %temp% puede limpiarse periódicamente para liberar espacio, Prefetch es mejor dejarla
+            bajo el control automático del sistema para mantener el máximo rendimiento.</p>
     </div>
 </body>
+
 </html>
