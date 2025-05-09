@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comandos de IT que te salvarán el día</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .command-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .command {
+            font-family: 'Consolas', monospace;
+            background-color: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .importance {
+            background-color: #e8f4fc;
+            padding: 10px 15px;
+            border-left: 4px solid #3498db;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .importance-title {
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 5px;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Si trabajás en IT, estos comandos te van a salvar el día</h1>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>¿Windows lento?</strong><br>
+        <div class="command">powercfg /h off</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Desactiva la hibernación y libera espacio en el disco.
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>¿Problemas con la red?</strong><br>
+        <div class="command">ipconfig /flushdns</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Limpia la caché de DNS y soluciona problemas de conexión.
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Problemas con Windows</strong><br>
+        <div class="command">⚠️ sfc /scannow</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Cuando Windows empieza a fallar (pantallas negras, errores raros), este comando revisa y repara archivos
+            corruptos automáticamente.
+            <p>Reparar archivos del sistema</p>
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Ver políticas de grupo</strong><br>
+        <div class="command">gpresult /r</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Cuando trabajás en redes corporativas, las GPO (Group Policy Objects) controlan configuraciones de
+            seguridad, accesos, restricciones y más.<br><br>
+            Si un usuario tiene problemas (no puede imprimir, acceder a carpetas, o algo "no le anda como debería"), con
+            gpresult /r podés ver:<br>
+            - Qué políticas se aplicaron realmente.<br>
+            - A qué grupo de usuarios o equipos pertenece.<br>
+            - Si hay errores o políticas faltantes.
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Actualizar políticas de grupo</strong><br>
+        <div class="command">gpupdate /force</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Cuando hacés un cambio en las políticas de grupo (GPO) en un servidor, normalmente tarda un tiempo en
+            aplicarse automáticamente en las PCs de la red.<br><br>
+            Con gpupdate /force podés forzar que las nuevas políticas se actualicen de inmediato, sin esperar al próximo
+            ciclo automático.<br><br>
+            Ideal para:<br>
+            - Aplicar cambios de seguridad urgentes.<br>
+            - Solucionar errores de permisos o configuraciones.<br>
+            - Ahorrarte el "¿reinicio o esperamos?" típico.
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Ver versión de Windows</strong><br>
+        <div class="command">ℹ️ winver</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Si necesitás verificar qué build tenés para solucionar errores o instalar parches específicos.
+            <p> Ver la versión exacta de Windows. </p>
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Ver aplicaciones que usan un puerto</strong><br>
+        <div class="command">🔍 netstat -ano | findstr :443</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Si tenés problemas de conexión o sospechás de malware, este comando muestra qué procesos están ocupando
+            puertos clave (como HTTPS en el 443).
+            <p>Ver qué aplicaciones usan un puerto</p>
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Ver procesos y servicios activos</strong><br>
+        <div class="command">📊 tasklist /svc | find "chrome.exe"</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Si Chrome te está consumiendo toda la RAM 🤯, este comando te ayuda a identificar qué instancias están
+            corriendo y cuál podés cerrar.
+            <p>Ver procesos y servicios activos</p>
+        </div>
+    </div>
+
+    <div class="command-container">
+        <span class="emoji">🔹</span> <strong>Ver información del disco duro</strong><br>
+        <div class="command">💽 wmic diskdrive get model,serialnumber,size</div>
+        <div class="importance">
+            <div class="importance-title">📌 ¿Por qué importa?</div>
+            Si necesitás saber el modelo, número de serie o capacidad de un disco sin abrir la PC, este comando te lo da
+            en segundos.
+            <p>Ver información del disco duro</p>
+        </div>
+    </div>
+</body>
+
+</html>
