@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía para Instalar MrHolmes en Kali Linux</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        img {
+            width: 100px;
+            height: auto;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #555;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .command-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <picture>
+                    <source media="(max-width: 767px)"
+                        srcset="https://i.ibb.co/4gFF86Wm/Banner-removebg-preview.png">
+                    <img src="https://i.ibb.co/4gFF86Wm/Banner-removebg-preview.png" alt="logo">
+                </picture>
+
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#instalacion">Instalación</a></li>
+                    <li><a href="#uso">Uso</a></li>
+                    <li><a href="#ejemplos">Ejemplos</a></li>
+                    <li><a href="#solucion">Solución de Problemas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Guía para Instalar MrHolmes en Kali Linux</h1>
+            <p>Herramienta avanzada de OSINT para recopilación de información de fuentes públicas</p>
+            <a href="https://github.com/Lucksi/Mr.Holmes" class="btn" target="_blank">Repositorio Oficial</a>
+        </section>
+
+        <section id="instalacion" class="card">
+            <h2>Instalación de MrHolmes</h2>
+            <h3>Requisitos Previos</h3>
+            <div class="command-box">
+                sudo apt update && sudo apt upgrade -y<br>
+                sudo apt install git python3-pip -y
+            </div>
+
+            <h3>Proceso de Instalación</h3>
+            <p><strong>1. Clonar el repositorio:</strong></p>
+            <div class="command-box">
+                git clone https://github.com/LimerBoy/MrHolmes.git<br>
+                cd MrHolmes
+            </div>
+
+            <p><strong>2. Instalar dependencias:</strong></p>
+            <div class="command-box">
+                pip3 install -r requirements.txt
+            </div>
+
+            <p><strong>3. Configurar claves de API (opcional):</strong></p>
+            <div class="command-box">
+                nano config/api_keys.json
+            </div>
+            <p>Agrega tus claves de servicios como Shodan, Hunter.io, etc.</p>
+        </section>
+
+        <section id="uso" class="card">
+            <h2>Uso de MrHolmes</h2>
+            <div class="command-box">
+                python3 mrholmes.py<br>
+                # O con permisos de ejecución:<br>
+                chmod +x mrholmes.py<br>
+                ./mrholmes.py
+            </div>
+
+            <h3>Comandos Principales</h3>
+            <table>
+                <tr>
+                    <th>Comando</th>
+                    <th>Descripción</th>
+                </tr>
+                <tr>
+                    <td>--email example@domain.com</td>
+                    <td>Busca información relacionada con un correo electrónico</td>
+                </tr>
+                <tr>
+                    <td>--username john_doe</td>
+                    <td>Busca un nombre de usuario en redes sociales</td>
+                </tr>
+                <tr>
+                    <td>--domain example.com</td>
+                    <td>Realiza búsquedas OSINT sobre un dominio</td>
+                </tr>
+                <tr>
+                    <td>--phone +123456789</td>
+                    <td>Busca información asociada a un número telefónico</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="ejemplos" class="card">
+            <h2>Ejemplos de Uso</h2>
+            <h3>1. Búsqueda por Correo Electrónico</h3>
+            <div class="command-box">
+                ./mrholmes.py --email target@example.com
+            </div>
+            <p>Busca fugas de datos, redes sociales y más asociadas al correo.</p>
+
+            <h3>2. Búsqueda por Nombre de Usuario</h3>
+            <div class="command-box">
+                ./mrholmes.py --username hacker123
+            </div>
+            <p>Verifica la presencia del usuario en plataformas como GitHub, Twitter, Instagram, etc.</p>
+
+            <h3>3. Análisis de Dominio</h3>
+            <div class="command-box">
+                ./mrholmes.py --domain example.com
+            </div>
+            <p>Extrae subdominios, registros WHOIS y posibles vulnerabilidades.</p>
+        </section>
+
+        <section id="solucion" class="card">
+            <h2>Solución de Problemas</h2>
+            <h3>1. Error de Dependencias Faltantes</h3>
+            <div class="command-box">
+                pip3 install --force-reinstall -r requirements.txt
+            </div>
+
+            <h3>2. Problemas con APIs Externas</h3>
+            <p>Asegúrate de tener claves válidas en <code>config/api_keys.json</code>.</p>
+
+            <h3>3. Permisos Denegados</h3>
+            <div class="command-box">
+                chmod +x mrholmes.py<br>
+                ./mrholmes.py
+            </div>
+
+            <div class="warning-box">
+                <h3>Nota Legal</h3>
+                <p>El uso de MrHolmes para fines maliciosos o sin autorización es ilegal. Esta guía es solo para
+                    <strong>propósitos educativos y de pruebas de penetración autorizadas</strong>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025-2026 Todo los Derechos Reservados</p>
+            <p>🔒 <em>Mantente legal, mantente ético</em></p>
+            <p>
+                <a href="https://github.com/Lucksi/Mr.Holmes" target="_blank" style="color: white;">Repositorio
+                    Oficial</a> |
+                <a href="https://www.kali.org/tools/" target="_blank" style="color: white;">Kali Linux Tools</a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
