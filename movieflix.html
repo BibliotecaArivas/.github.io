@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFlix - Ver Películas Online</title>
+    <style>
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0f0f1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #2a2a3a;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e50914;
+        }
+        
+        .logo span {
+            color: #ffffff;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #e50914;
+        }
+        
+        /* Contenedor del video */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            margin-bottom: 30px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Información de la película */
+        .movie-info {
+            margin-bottom: 40px;
+        }
+        
+        .movie-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .movie-meta {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            color: #aaaaaa;
+        }
+        
+        .movie-meta span {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .movie-meta i {
+            margin-right: 5px;
+            color: #e50914;
+        }
+        
+        .movie-description {
+            color: #dddddd;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+        
+        /* Películas relacionadas */
+        .related-movies {
+            margin-top: 50px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a2a3a;
+        }
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .movie-card {
+            background-color: #1a1a2a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .movie-card-info {
+            padding: 15px;
+        }
+        
+        .movie-card-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .movie-card-year {
+            color: #aaaaaa;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #0a0a12;
+            padding: 30px 0;
+            margin-top: 50px;
+            text-align: center;
+            color: #aaaaaa;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #aaaaaa;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        
+        .copyright {
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .movie-title {
+                font-size: 24px;
+            }
+            
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .movie-meta span {
+                margin-right: 10px;
+                font-size: 14px;
+            }
+            
+            .movies-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Movie<span>Flix</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-film"></i> Películas</a></li>
+                    <li><a href="#"><i class="fas fa-tv"></i> Series</a></li>
+                    <li><a href="#"><i class="fas fa-search"></i> Buscar</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <!-- Reproductor de video responsive -->
+            <div class="video-container">
+                <iframe src="https://movearnpre.com/embed/sdcsop4tonl5" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen></iframe>
+            </div>
+            
+            <!-- Información de la película -->
+            <div class="movie-info">
+                <h1 class="movie-title">The Sadness</h1>
+                <div class="movie-meta">
+                    <span><i class="fas fa-star"></i> 6.2/10</span>
+                    <span><i class="fas fa-calendar-alt"></i> 2021</span>
+                    <span><i class="fas fa-clock"></i> 1h 39min</span>
+                    <span><i class="fas fa-tag"></i>Terror/Acción/Gore Pandemias</span>
+                </div>
+                <p class="movie-description">
+                Una pareja joven es llevada al límite de la cordura mientras trata de reunirse en medio del caos de un brote pandémico. Las calles se convierten en violencia y depravación, a medida que los infectados se ven empujados a realizar las cosas más crueles y horribles que te puedas imaginar. Asesinato, tortura, violación y mutilación son solo el comienzo. Ya pasó la era de la civilidad y el orden.                </p>
+            </div>
+            
+            <!-- Películas relacionadas -->
+            <div class="related-movies">
+                <h2 class="section-title">⭐ Recomendaciones</h2>
+                <div class="movies-grid">
+                    <div class="movie-card">
+                        <img src="https://pics.filmaffinity.com/in_a_violent_nature-281559043-mmed.jpg" alt="Película 1">
+                        <div class="movie-card-info">
+                            <h3 class="movie-card-title"><a href="https://movearnpre.com/file/ko33oji141o8" target="_blank">In A Violent Nature</a></h3>
+                            <span class="movie-card-year">2024</span>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR4bive3-_gd1uBjzkdsc59n5g7s23IGSKzK6c4hAEAdOh4usqn" alt="Película 2">
+                        <div class="movie-card-info">
+                            <h3 class="movie-card-title"><a href="https://movearnpre.com/file/jo70lvilpxhq" target="_blank">Compañera perfecta</a></h3>
+                            <span class="movie-card-year">2025</span>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://m.media-amazon.com/images/I/91DBfmnkRPL._AC_UF1000,1000_QL80_.jpg" alt="Película 3">
+                        <div class="movie-card-info">
+                            <h3 class="movie-card-title"><a href="http://" target="_blank">Una película serbia</a></h3>
+                            <span class="movie-card-year">2010</span>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://pics.filmaffinity.com/zankoku_hanten_cruel_restaurant-129864711-mmed.jpg" alt="Película 4">
+                        <div class="movie-card-info">
+                            <h3 class="movie-card-title"><a href="https://movearnpre.com/file/lkbvduf1469g" target="_blank">Cruel Restaurant</a></h3>
+                            <span class="movie-card-year">2008</span>
+                        </div>
+                    </div>
+                    <div class="movie-card">
+                        <img src="https://www.lavanguardia.com/peliculas-series/images/movie/poster/2025/3/w300/pZr2QCUbsekpiLnZ7788twcLpSn.jpg" alt="Película 4">
+                        <div class="movie-card-info">
+                            <h3 class="movie-card-title"><a href="https://movearnpre.com/file/h6sq1br7en20" target="_blank">Otro pequeño favor</a></h3>
+                            <span class="movie-card-year">2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">Términos de uso</a>
+            <a href="#">Política de privacidad</a>
+            <a href="#">DMCA</a>
+            <a href="#">Contacto</a>
+        </div>
+        <div class="copyright">
+            &copy; 2025 MovieFlix. Todos los derechos reservados.
+        </div>
+    </footer>
+</body>
+</html>
