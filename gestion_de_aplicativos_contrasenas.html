@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .copy-btn {
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            transform: scale(1.1);
+        }
+        .copied {
+            background-color: #10b981 !important;
+        }
+        .password-field {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg mb-6 p-6">
+                <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">
+                    <i class="fas fa-shield-alt text-blue-600 mr-3"></i>
+                    Gestión de Aplicativos
+                </h1>
+                <p class="text-gray-600 text-center">Sistema de gestión de credenciales - Haz clic en el icono para copiar contraseñas</p>
+            </div>
+
+            <!-- Main Table -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-green-600 text-white p-4">
+                    <h2 class="text-xl font-semibold">
+                        <i class="fas fa-users mr-2"></i>
+                        Usuario: afrivas
+                    </h2>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <i class="fas fa-desktop mr-2"></i>Aplicativo
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <i class="fas fa-key mr-2"></i>Contraseñas
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <i class="fas fa-copy mr-2"></i>Acción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-cube text-blue-600"></i>
+                                        </div>
+                                        <span class="font-medium text-gray-900">SUGAR</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
+                                        <i class="fas fa-copy mr-2"></i>Copiar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-comments text-green-600"></i>
+                                        </div>
+                                        <span class="font-medium text-gray-900">OMNICANAL</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
+                                        <i class="fas fa-copy mr-2"></i>Copiar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-microchip text-purple-600"></i>
+                                        </div>
+                                        <span class="font-medium text-gray-900">IC</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Clave54321.</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button onclick="copyPassword('Clave54321.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
+                                        <i class="fas fa-copy mr-2"></i>Copiar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-cogs text-red-600"></i>
+                                        </div>
+                                        <span class="font-medium text-gray-900">OPEN</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">soporteuno</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button onclick="copyPassword('soporteuno', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
+                                        <i class="fas fa-copy mr-2"></i>Copiar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-mobile-alt text-yellow-600"></i>
+                                        </div>
+                                        <span class="font-medium text-gray-900">SMARTFLEX</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
+                                        <i class="fas fa-copy mr-2"></i>Copiar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-chart-line text-indigo-600"></i>
+                                        </div>
+                                        <span class="font-medium text-gray-900">AXIS</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">afrivas</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button onclick="copyPassword('afrivas', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
+                                        <i class="fas fa-copy mr-2"></i>Copiar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center text-gray-500 text-sm">
+                <i class="fas fa-info-circle mr-1"></i>
+                Sistema de gestión de credenciales - Mantener seguridad de accesos
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span>Contraseña copiada al portapapeles</span>
+    </div>
+
+    <script>
+        function copyPassword(password, button) {
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(password).then(function() {
+                // Cambiar el estado del botón temporalmente
+                const originalContent = button.innerHTML;
+                const originalClass = button.className;
+                
+                button.innerHTML = '<i class="fas fa-check mr-2"></i>¡Copiado!';
+                button.className = button.className.replace('bg-blue-500 hover:bg-blue-600', 'bg-green-500');
+                
+                // Mostrar toast
+                showToast();
+                
+                // Restaurar el botón después de 2 segundos
+                setTimeout(function() {
+                    button.innerHTML = originalContent;
+                    button.className = originalClass;
+                }, 2000);
+                
+            }).catch(function(err) {
+                console.error('Error al copiar: ', err);
+                // Fallback para navegadores que no soportan clipboard API
+                fallbackCopyTextToClipboard(password, button);
+            });
+        }
+
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const originalContent = button.innerHTML;
+                    const originalClass = button.className;
+                    
+                    button.innerHTML = '<i class="fas fa-check mr-2"></i>¡Copiado!';
+                    button.className = button.className.replace('bg-blue-500 hover:bg-blue-600', 'bg-green-500');
+                    
+                    showToast();
+                    
+                    setTimeout(function() {
+                        button.innerHTML = originalContent;
+                        button.className = originalClass;
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error('Fallback: Error al copiar', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.transform = 'translateX(0)';
+            
+            setTimeout(function() {
+                toast.style.transform = 'translateX(100%)';
+            }, 3000);
+        }
+
+        // Añadir efecto de ripple a los botones
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.copy-btn')) {
+                const button = e.target.closest('.copy-btn');
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+        });
+    </script>
+
+    <style>
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .copy-btn {
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</body>
+</html>
+    
