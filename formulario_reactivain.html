@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMULARIO/REACTIVAIN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 15px;
+        }
+        .form-header h2 {
+            color: #2c3e50;
+            margin: 0;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input[type="text"], 
+        input[type="email"], 
+        input[type="datetime-local"], 
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 5px;
+        }
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .checkbox-option:hover {
+            background: #e9ecef;
+        }
+        .checkbox-option input {
+            margin-right: 8px;
+            transform: scale(1.1);
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button i {
+            margin-right: 8px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .export-txt-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .save-btn {
+            background-color: #FF9800;
+            color: white;
+        }
+        .submit-btn:hover {
+            background-color: #3e8e41;
+            transform: translateY(-2px);
+        }
+        .clear-btn:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+        .export-txt-btn:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+        .save-btn:hover {
+            background-color: #e68a00;
+            transform: translateY(-2px);
+        }
+        .output-container {
+            margin-top: 30px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .output-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 18px;
+            border-bottom: 1px solid #4CAF50;
+            padding-bottom: 8px;
+        }
+        .output-line {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ced4da;
+        }
+        .output-line:last-child {
+            border-bottom: none;
+        }
+        .required-field::after {
+            content: " *";
+            color: #f44336;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .input-group input {
+            flex: 1;
+        }
+        @media (max-width: 600px) {
+            .checkbox-group {
+                flex-direction: column;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .input-group input {
+                width: 100%;
+            }
+        }
+        /* Iconos usando Unicode */
+        .icon {
+            font-family: Arial, sans-serif;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>AFRIVAS/TECHCOM/REACTIVAIN</h2>
+        </div>
+
+        <form id="solicitudForm">
+            <div class="form-group">
+                <label for="fechaHora" class="required-field">Fecha y Hora:</label>
+                <input type="datetime-local" id="fechaHora" name="fechaHora" required>
+            </div>
+
+            <div class="form-group">
+                <label for="anillamador">ANILLAMADOR:</label>
+                <input type="tel" id="anillamador" name="anillamador" placeholder="Ej: 0999999999" pattern="[0-9]{10}">
+            </div>
+
+            <div class="form-group">
+                <label for="nombrePersona">NOMBRE DE 3ERA PERSONA:</label>
+                <div class="input-group">
+                    <input type="text" id="nombrePersona" name="nombrePersona" placeholder="Nombre completo">
+                    <input type="text" id="parentesco" name="parentesco" placeholder="Parentesco" style="width: 40%;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cedula" class="required-field">CEDULA:</label>
+                <input type="text" id="cedula" name="cedula" placeholder="Ej: 0999999999" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre" class="required-field">NOMBRE:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+            </div>
+
+            <div class="form-group">
+                <label>SERVICIOS:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="servicio1" name="servicios" value="TELEFONIA FIJA">
+                        <label for="servicio1">TELEFONIA FIJA</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="servicio2" name="servicios" value="INTERNET FIJO">
+                        <label for="servicio2">INTERNET FIJO</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="servicio3" name="servicios" value="DTH">
+                        <label for="servicio3">DTH</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="servicio6" name="servicios" value="MOVIL">
+                        <label for="servicio6">MOVIL</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="servicio4" name="servicios" value="TELEFONIA FIJA + INTERNET FIJO">
+                        <label for="servicio4">TELEFONIA FIJA + INTERNET FIJO</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="servicio5" name="servicios" value="TELEFONIA FIJA + INTERNET FIJO + DTH">
+                        <label for="servicio5">TELEFONIA FIJA + INTERNET FIJO + DTH</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tf">TF:</label>
+                <input type="tel" id="tf" name="tf" placeholder="Número de teléfono fijo">
+            </div>
+
+            <div class="form-group">
+                <label for="if">IF:</label>
+                <input type="text" id="if" name="if" placeholder="Número de internet fijo">
+            </div>
+
+            <div class="form-group">
+                <label for="dth">DTH:</label>
+                <input type="text" id="dth" name="dth" placeholder="Número de servicio DTH">
+            </div>
+
+            <div class="form-group">
+                <label for="movil">MOVIL:</label>
+                <input type="tel" id="movil" name="movil" placeholder="Número de teléfono móvil">
+            </div>
+
+            <div class="form-group">
+                <label for="codigosQuejas">CODIGOS DE QUEJAS:</label>
+                <input type="text" id="codigosQuejas" name="codigosQuejas" placeholder="Separar códigos con guiones">
+            </div>
+
+            <div class="form-group">
+                <label for="contactos">CONTACTOS:</label>
+                <input type="tel" id="contactos" name="contactos" placeholder="Números de contacto">
+            </div>
+
+            <div class="form-group">
+                <label for="correo">CORREO:</label>
+                <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com">
+            </div>
+
+            <div class="form-group">
+                <label for="motivoSolicitud" class="required-field">MOTIVO DE SOLICITUD:</label>
+                <textarea id="motivoSolicitud" name="motivoSolicitud" rows="4" placeholder="Describa el motivo de la solicitud" required></textarea>
+            </div>
+
+            <!-- Campos modificados a texto simple -->
+            <div class="form-group">
+                <label for="cicloFacturacion">CICLO O PERIODO DE FACTURACION:</label>
+                <input type="text" id="cicloFacturacion" name="cicloFacturacion" placeholder="">
+            </div>
+
+            <div class="form-group">
+                <label for="fechaEntrega">FECHA DE ENTREGA DEL EQUIPO:</label>
+                <input type="text" id="fechaEntrega" name="fechaEntrega" placeholder="">
+            </div>
+
+            <div class="form-group">
+                <label for="agenciaEntrega">AGENCIA QUE ENTREGARA EL EQUIPO:</label>
+                <input type="text" id="agenciaEntrega" name="agenciaEntrega" placeholder="Nombre de la agencia">
+            </div>
+
+            <div class="button-container">
+                <button type="button" class="submit-btn" onclick="validarYMostrarDatos()">
+                    <span class="icon">✓</span> Enviar
+                </button>
+                <button type="button" class="save-btn" onclick="guardarBorrador()">
+                    <span class="icon">💾</span> Guardar Borrador
+                </button>
+                <button type="button" class="clear-btn" onclick="limpiarCampos()">
+                    <span class="icon">🗑️</span> Limpiar
+                </button>
+                <button type="button" class="export-txt-btn" onclick="exportarATXT()">
+                    <span class="icon">📄</span> Exportar TXT
+                </button>
+            </div>
+        </form>
+
+        <div class="output-container">
+            <div class="output-title">Resumen de la solicitud:</div>
+            <div id="datosMostrados"></div>
+        </div>
+    </div>
+
+    <script>
+        // Variable global para almacenar valores
+        let valores = {};
+        
+        // Función para actualizar la fecha y hora en tiempo real
+        function actualizarFechaHora() {
+            const ahora = new Date();
+            // Formatear la fecha y hora para el campo datetime-local (YYYY-MM-DDTHH:MM)
+            const fechaHoraFormateada = ahora.toISOString().slice(0, 16);
+            document.getElementById('fechaHora').value = fechaHoraFormateada;
+            
+            // Actualizar cada minuto (60000 milisegundos)
+            setTimeout(actualizarFechaHora, 60000);
+        }
+        
+        // Función para validar y mostrar datos
+        function validarYMostrarDatos() {
+            // Validar campos obligatorios
+            const camposObligatorios = ['fechaHora', 'cedula', 'nombre', 'motivoSolicitud'];
+            let valido = true;
+            
+            camposObligatorios.forEach(id => {
+                const campo = document.getElementById(id);
+                if (!campo.value.trim()) {
+                    campo.style.borderColor = '#f44336';
+                    valido = false;
+                } else {
+                    campo.style.borderColor = '#ddd';
+                }
+            });
+            
+            if (!valido) {
+                alert('Por favor complete los campos obligatorios marcados en rojo');
+                return;
+            }
+            
+            mostrarDatos();
+        }
+
+        // Función principal para mostrar datos
+        function mostrarDatos() {
+            // Obtener todos los valores del formulario
+            const obtenerValor = id => document.getElementById(id).value;
+            const obtenerCheckboxes = name => {
+                const seleccionados = [];
+                document.querySelectorAll(`input[name="${name}"]:checked`).forEach(cb => {
+                    seleccionados.push(cb.value);
+                });
+                return seleccionados;
+            };
+            
+            valores = {
+                fechaHora: obtenerValor('fechaHora'),
+                anillamador: obtenerValor('anillamador'),
+                nombrePersona: obtenerValor('nombrePersona'),
+                parentesco: obtenerValor('parentesco'),
+                cedula: obtenerValor('cedula'),
+                nombre: obtenerValor('nombre'),
+                servicios: obtenerCheckboxes('servicios'),
+                tf: obtenerValor('tf'),
+                if: obtenerValor('if'),
+                dth: obtenerValor('dth'),
+                movil: obtenerValor('movil'),
+                codigosQuejas: obtenerValor('codigosQuejas'),
+                contactos: obtenerValor('contactos'),
+                correo: obtenerValor('correo'),
+                motivoSolicitud: obtenerValor('motivoSolicitud'),
+                cicloFacturacion: obtenerValor('cicloFacturacion'),
+                fechaEntrega: obtenerValor('fechaEntrega'),
+                agenciaEntrega: obtenerValor('agenciaEntrega')
+            };
+            
+            // Construir el resumen HTML
+            let output = '';
+            
+            // Función auxiliar para agregar campos al resumen
+            const agregarCampo = (titulo, valor, esTextoMultilinea = false) => {
+                if (valor && (typeof valor === 'string' ? valor.trim() : valor.length > 0)) {
+                    if (esTextoMultilinea) {
+                        output += `<div class="output-line"><strong>${titulo}:</strong><br>${valor}</div>`;
+                    } else if (Array.isArray(valor)) {
+                        output += `<div class="output-line"><strong>${titulo}:</strong> ${valor.join(', ')}</div>`;
+                    } else {
+                        output += `<div class="output-line"><strong>${titulo}:</strong> ${valor}</div>`;
+                    }
+                }
+            };
+            
+            // Agregar todos los campos al resumen
+            agregarCampo('AFRIVAS/TECHCOM/REACTIVAIN', valores.fechaHora);
+            agregarCampo('ANILLAMADOR', valores.anillamador);
+            
+            if (valores.nombrePersona || valores.parentesco) {
+                output += `<div class="output-line"><strong>NOMBRE DE 3ERA PERSONA:</strong> ${valores.nombrePersona || ''}${valores.parentesco ? ' / ' + valores.parentesco : ''}</div>`;
+            }
+            
+            agregarCampo('CEDULA', valores.cedula);
+            agregarCampo('NOMBRE', valores.nombre);
+            agregarCampo('SERVICIOS', valores.servicios);
+            agregarCampo('TF', valores.tf);
+            agregarCampo('IF', valores.if);
+            agregarCampo('DTH', valores.dth);
+            agregarCampo('MOVIL', valores.movil);
+            agregarCampo('CODIGOS DE QUEJAS', valores.codigosQuejas);
+            agregarCampo('CONTACTOS', valores.contactos);
+            agregarCampo('CORREO', valores.correo);
+            agregarCampo('MOTIVO DE SOLICITUD', valores.motivoSolicitud, true);
+            agregarCampo('CICLO O PERIODO DE FACTURACION', valores.cicloFacturacion);
+            agregarCampo('FECHA DE ENTREGA DEL EQUIPO', valores.fechaEntrega);
+            agregarCampo('AGENCIA QUE ENTREGARA EL EQUIPO', valores.agenciaEntrega);
+            
+            // Mostrar el resumen
+            document.getElementById('datosMostrados').innerHTML = output || 
+                '<div class="output-line" style="color:#666;">No se han completado campos para mostrar.</div>';
+            
+            // Mostrar mensaje de éxito
+            alert('Datos enviados correctamente');
+        }
+
+        // Función para exportar a TXT
+        function exportarATXT() {
+            const contenidoHTML = document.getElementById('datosMostrados').innerHTML;
+            
+            if (!contenidoHTML.trim() || contenidoHTML.includes('No se han completado campos')) {
+                alert('No hay datos para exportar. Complete el formulario y haga clic en "Enviar" primero.');
+                return;
+            }
+            
+            // Convertir HTML a texto plano manteniendo formato
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = contenidoHTML;
+            
+            let texto = "=== SOLICITUD AFRIVAS/TECHCOM/REACTIVAIN ===\n\n";
+            const lineas = tempDiv.querySelectorAll('.output-line');
+            
+            lineas.forEach(linea => {
+                let lineaTexto = linea.textContent;
+                
+                // Manejar texto multilínea (como MOTIVO DE SOLICITUD)
+                if (linea.innerHTML.includes('<br>')) {
+                    const partes = linea.innerHTML.split('<br>');
+                    lineaTexto = partes[0].replace(/<[^>]*>/g, '') + '\n' + 
+                                 partes.slice(1).join('\n').replace(/<[^>]*>/g, '');
+                }
+                
+                texto += lineaTexto + '\n\n';
+            });
+            
+            texto += `=== FIN DEL DOCUMENTO ===\n`;
+            texto += `Exportado el: ${new Date().toLocaleString()}\n`;
+            
+            // Crear y descargar el archivo
+            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const nombre = valores.nombre || 'CLIENTE';
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `SOLICITUD_${nombre.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+            
+            // Mostrar mensaje de éxito
+            alert('Archivo exportado correctamente');
+        }
+
+        // Función para guardar borrador
+        function guardarBorrador() {
+            const campos = [
+                'fechaHora', 'anillamador', 'nombrePersona', 'parentesco', 'cedula', 
+                'nombre', 'tf', 'if', 'dth', 'movil', 'codigosQuejas', 'contactos', 'correo', 
+                'motivoSolicitud', 'cicloFacturacion', 'fechaEntrega', 'agenciaEntrega'
+            ];
+            
+            const formData = {};
+            campos.forEach(id => {
+                formData[id] = document.getElementById(id).value;
+            });
+            
+            // Guardar checkboxes de servicios
+            formData.servicios = [];
+            document.querySelectorAll('input[name="servicios"]:checked').forEach(cb => {
+                formData.servicios.push(cb.value);
+            });
+            
+            localStorage.setItem('formularioBorrador', JSON.stringify(formData));
+            
+            // Mostrar mensaje de éxito
+            alert('Borrador guardado correctamente');
+        }
+
+        // Función para cargar borrador
+        function cargarBorrador() {
+            const borrador = localStorage.getItem('formularioBorrador');
+            if (borrador) {
+                const formData = JSON.parse(borrador);
+                
+                // Cargar campos normales
+                Object.keys(formData).forEach(key => {
+                    if (key !== 'servicios' && document.getElementById(key)) {
+                        document.getElementById(key).value = formData[key];
+                    }
+                });
+                
+                // Cargar checkboxes de servicios
+                if (formData.servicios) {
+                    document.querySelectorAll('input[name="servicios"]').forEach(cb => {
+                        cb.checked = formData.servicios.includes(cb.value);
+                    });
+                }
+                
+                // Mostrar mensaje
+                console.log('Borrador cargado correctamente');
+            }
+        }
+
+        // Función para limpiar campos
+        function limpiarCampos() {
+            if (!confirm('¿Está seguro que desea limpiar todos los campos?')) {
+                return;
+            }
+            
+            const campos = [
+                'anillamador', 'nombrePersona', 'parentesco', 'cedula', 'nombre',
+                'tf', 'if', 'dth', 'movil', 'codigosQuejas', 'contactos', 'correo',
+                'motivoSolicitud', 'cicloFacturacion', 'fechaEntrega', 'agenciaEntrega'
+            ];
+            
+            campos.forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            
+            document.querySelectorAll('input[name="servicios"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            // Restablecer fecha y hora actual
+            const ahora = new Date();
+            document.getElementById('fechaHora').value = ahora.toISOString().slice(0, 16);
+            
+            // Limpiar resumen
+            document.getElementById('datosMostrados').innerHTML = 
+                '<div class="output-line" style="color:#666;">No se han completado campos para mostrar.</div>';
+            
+            // Eliminar borrador guardado
+            localStorage.removeItem('formularioBorrador');
+            
+            // Mostrar mensaje de éxito
+            alert('Formulario limpiado correctamente');
+        }
+
+        // Inicialización al cargar la página
+        window.onload = function() {
+            // Establecer y actualizar fecha y hora actual
+            actualizarFechaHora();
+            
+            // Cargar borrador si existe
+            cargarBorrador();
+            
+            // Configurar validación en tiempo real para campos obligatorios
+            document.querySelectorAll('[required]').forEach(campo => {
+                campo.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        this.style.borderColor = '#ddd';
+                    }
+                });
+            });
+        };
+    </script>
+</body>
+</html>
