@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Excepciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            padding: 0;
+            max-width: 1200px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #4a86e8;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        .titulo {
+            background-color: #4a86e8 !important;
+            color: white !important;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .subtitulo {
+            background-color: #cfe2f3;
+            font-style: italic;
+        }
+
+        .categoria {
+            background-color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 20px;
+            }
+
+            td {
+                position: relative;
+                padding-left: 50%;
+                border: none;
+                border-bottom: 1px solid #ccc;
+            }
+
+            td::before {
+                position: absolute;
+                top: 12px;
+                left: 15px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #555;
+            }
+
+            td:nth-of-type(1)::before {
+                content: "Escenario excepción";
+            }
+
+            td:nth-of-type(2)::before {
+                content: "Requisito de validación";
+            }
+
+            td:nth-of-type(3)::before {
+                content: "Registro en transaccional";
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>EXCEPCIONES</h1>
+    <p style="text-align:center;">Las excepciones autorizadas a ejecutar el retiro en los CAC con la respectiva
+        documentación de respaldo, adicional al formulario de cancelación son:</p>
+
+    <table aria-label="Tabla de excepciones">
+        <thead>
+            <tr>
+                <th>Escenario excepción</th>
+                <th>Requisito de validación - respaldo auditoría</th>
+                <th>Registro en transaccional</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="categoria">Fallecidos</td>
+                <td>Partida de defunción (se validará información con Dinardap).
+                    <br> En caso de no ser familiar directo, autorización de familiar directo.
+                    <br> No aplica cronograma.
+                </td>
+                <td>Retiro con causal "Fallecimiento del titular"</td>
+            </tr>
+            <tr>
+                <td class="categoria">Discapacidad auditiva o habla</td>
+                <td>No es necesario carnet de discapacidad.
+                    <br> Se solicitará la cédula en la cual consta esta información.
+                    <br> Tercera persona: Adicional carta de autorización.
+                    <br> Cumplir con cronograma.
+                </td>
+                <td rowspan="4">Registro y atención queja causal 107/180 SMA registro e interacción en Smartflex</td>
+            </tr>
+            <tr>
+                <td class="categoria">Incapacidad médica comprobada / Demencia Senil</td>
+                <td>Certificado médico.
+                    <br> Cumplir cronograma.
+                </td>
+            </tr>
+            <tr>
+                <td class="categoria">Cliente fuera del país</td>
+                <td>Poder notariado otorgado a quien realiza el trámite.
+                    <br> Cumplir cronograma.
+                </td>
+            </tr>
+            <tr>
+                <td class="categoria">Cliente privado de libertad</td>
+                <td>Casos excepcionales en los que el titular no puede llamar a Contact Center.
+                    <br> Poder notariado otorgado a quien realiza el trámite.
+                    <br> Cumplir cronograma.
+                </td>
+            </tr>
+            <tr>
+                <td class="categoria">Servicios prepago</td>
+                <td>Autorización del supervisor de CAC.
+                    <br> No aplica cronograma.
+                </td>
+                <td>Registro de interacción en Smartflex</td>
+            </tr>
+            <tr>
+                <td class="categoria">Locutorios</td>
+                <td>Derivar al área encargada, no aplican proceso de retención</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td class="categoria">Servicios CDMA</td>
+                <td>Retiro de servicio en categoría CDMA.
+                    <br> Cumplir cronograma.
+                </td>
+                <td>Retiro de servicio en categoría CDMA</td>
+            </tr>
+            <tr>
+                <td class="categoria">Excepciones autorizadas por Jefe/Supervisor del CAC</td>
+                <td>Correo de autorización del supervisor al asesor en casos excepcionales</td>
+                <td>Registro y atención queja causal 107/180 SMA registro e interacción en Smartflex</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>GRUPO SWAT</h2>
+    <p style="text-align:center;">El grupo SWAT dirigirá al cliente a un CAC para la atención de los casos detallados en
+        las excepciones, de acuerdo a la tabla.</p>
+
+</body>
+
+</html>
