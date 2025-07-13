@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escenarios Comunes para Retiro de Servicios</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #2980b9;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --border-radius: 6px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.7;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--secondary-color);
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .category {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+        }
+        
+        .category:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .scenario-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+        
+        .scenario {
+            background-color: white;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.25rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scenario::before {
+            content: 'Copiar';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-bottom-left-radius: var(--border-radius);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .scenario:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left-color: var(--accent-color);
+        }
+        
+        .scenario:hover::before {
+            opacity: 1;
+        }
+        
+        .scenario:active {
+            transform: translateY(0);
+        }
+        
+        .copy-notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .copy-notification::before {
+            content: '✓';
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .scenario-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            header {
+                padding: 1.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Escenarios Comunes para Retiro de Servicios</h1>
+            <p class="subtitle">Seleccione un escenario para copiar al portapapeles</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="copy-notification" id="copyNotification">Texto copiado</div>
+
+        <div class="category">
+            <h2>TELEFONÍA FIJA</h2>
+            <div class="scenario-container">
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    POR DAÑO NO ATENDIDOS TITULAR DESEA DESIRTIR DE SU SERVICIO DE LINEA TELEFONICA - NO ACCEDE A BENEFICIOS NI ORDEN TECNICA PARA REPARACION DE SU LINEA TELEFONICA - SE INGRESA SOLICITUD Y SE REALIZA EL RETIRO DE LA LINEA TELEFONICA CODIGO: 
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NO USA LA LINEA TELEFONICA NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y SE REALIZA EL RETIRO DE LA LINEA TELEFONICA CODIGO: 
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR CON PROBLEMAS ECONOMICOS DESEA DESISTIR DE SU LINEA TELEFONICA NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y SE REALIZA EL RETIRO DE LA LINEA TELEFONICA CODIGO: 
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR SE VA DE VIAJE AL EXTERIOR DESEA DESISTIR DE SU LINEA TELEFONICA NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y SE REALIZA EL RETIRO DE LA LINEA TELEFONICA CODIGO: 
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR CAMBIA DE LOCALIDAD / VENTA DE CASA / CAMBIO DE DEPARTAMENTO / VIAJE LOCAL POR TRABAJO / DESEA DESISTIR DE SU LINEA TELEFONICA NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y SE REALIZA EL RETIRO DE LA LINEA TELEFONICA CODIGO:
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NO USA LA LINEA TELEFONICA NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y EL TITULAR ENTREGARA MODEM EN CIS. 
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>TELEFONÍA FIJA + INTERNET FIJO</h2>
+            <div class="scenario-container">
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NO USA LA LINEA TELEFONICA Y INTERNET FIJO NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y ENTREGARA MODEM EN CIS. 
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NOS COMENTA QUE TIENE LENTITUD EN SU SERVICIO DE INTERNET - NO DESEA ORDEN DE REPARACION POR SU LENTITUD DEL INTERNET - NO ACCEDE A AUMENTO DE VELOCIDAD - NO ACCEDE A BENEFICIOS - SE INIGRESA SOLICITUD Y EL TITULAR ENTREGARA MODEM EN CIS. 
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR CON PROBLEMAS ECONOMICOS DESEA DESISTIR DE SU LINEA TELEFONICA Y INTERNET FIJO NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y EL TITULAR ENTREGARA MODEM EN CIS. 
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>DTH</h2>
+            <div class="scenario-container">
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NO USA SU SERVICIO DE DTH NO ACCEDE A BENEFICIOS - NO RETENIDO SE INGRESA SOLICITUD Y EL TITULAR ENTREGARA DECODIFICADOR EN CIS.
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NO COMENTA QUE TIENE PROBLEMAS DE SEÑAL CON SU SERVICIO DE DTH - NO DESEA ORDEN DE REPARACION - NO RETENIDO - SE INGRESA SOLICITUD Y EL TITULAR ENTREGARA DECODIFICADOR EN CIS. 
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>MÓVIL</h2>
+            <div class="scenario-container">
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR NO DESEA MAS SU PLAN MOVIL NO USA MAS SU PLAN MOVIL Y NO TIENE A QUIEN CEDER DICHO PLAN / NO DESEA UN PLAN MAS ECONOMICO /NO RETENIDO/ SE INGRESA SOLICITUD Y SE REALIZA CAMBIO A PREPAGO SE ACREDITA EL
+                </div>
+                
+                <div class="scenario" onclick="copyToClipboard(this)">
+                    TITULAR CON PROBLEMAS ECONOMICOS DESEA DESIRTIR DE SU PLAN MOVIL - NO TIENE A QUIEN CEDER DICHO PLAN / NO DESEA UN PLAN MAS ECONOMICO /NO RETENIDO/ SE INGRESA SOLICITUD Y SE REALIZA CAMBIO A PREPAGO SE ACREDITA EL
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Sistema de Gestión de Retiros. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function copyToClipboard(element) {
+            const textToCopy = element.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Mostrar notificación
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar texto: ', err);
+                alert('No se pudo copiar el texto. Por favor intente manualmente.');
+            });
+        }
+    </script>
+</body>
+</html>
