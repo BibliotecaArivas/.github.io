@@ -3,178 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Sistema de Gestión de Credenciales - 2FA Seguro</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-out {
+            animation: slideOut 0.3s ease-out;
+        }
+        
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-100%); }
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); }
+            40%, 50% { opacity: 1; }
+            100% { opacity: 0; transform: scale(1.2); }
+        }
+        
+        .digit-input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .digit-input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .security-indicator {
+            position: relative;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .security-indicator::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #10b981, #059669, #10b981);
+            border-radius: 0.5rem;
+            z-index: -1;
+            animation: security-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes security-glow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .copy-btn {
             transition: all 0.3s ease;
         }
+        
         .copy-btn:hover {
             transform: scale(1.1);
         }
-        .copied {
-            background-color: #10b981 !important;
-        }
+        
         .password-field {
             font-family: 'Courier New', monospace;
         }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .timer-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: timer-countdown 300s linear;
+        }
+        
+        @keyframes timer-countdown {
+            from { stroke-dashoffset: 283; }
+            to { stroke-dashoffset: 0; }
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen py-8">
-    <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-            <!-- Header -->
-            <div class="bg-white rounded-lg shadow-lg mb-6 p-6">
-                <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">
-                    <i class="fas fa-shield-alt text-blue-600 mr-3"></i>
-                    Gestión de Aplicativos
-                </h1>
-                <p class="text-gray-600 text-center">Sistema de gestión de credenciales - Haz clic en el icono para copiar contraseñas</p>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Page 1: Login Principal -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center fade-in">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <!-- Security Header -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 relative">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    <div class="absolute inset-0 rounded-full bg-blue-500 pulse-ring opacity-75"></div>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Sistema Seguro</h1>
+                <p class="text-gray-600 text-sm">Gestión de Credenciales con 2FA</p>
+                <div class="security-indicator mt-3">
+                    <i class="fas fa-lock mr-2"></i>Seguridad Máxima
+                </div>
             </div>
-
-            <!-- Main Table -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div class="bg-green-600 text-white p-4">
-                    <h2 class="text-xl font-semibold">
-                        <i class="fas fa-users mr-2"></i>
-                        Usuario: afrivas
-                    </h2>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-user mr-2 text-blue-600"></i>Usuario
+                    </label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        placeholder="Ingresa tu usuario"
+                        required
+                    >
                 </div>
                 
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <i class="fas fa-desktop mr-2"></i>Aplicativo
-                                </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <i class="fas fa-key mr-2"></i>Contraseñas
-                                </th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <i class="fas fa-copy mr-2"></i>Acción
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                            <i class="fas fa-cube text-blue-600"></i>
-                                        </div>
-                                        <span class="font-medium text-gray-900">SUGAR</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
-                                        <i class="fas fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                                            <i class="fas fa-comments text-green-600"></i>
-                                        </div>
-                                        <span class="font-medium text-gray-900">OMNICANAL</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
-                                        <i class="fas fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                                            <i class="fas fa-microchip text-purple-600"></i>
-                                        </div>
-                                        <span class="font-medium text-gray-900">IC</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Clave54321.</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <button onclick="copyPassword('Clave54321.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
-                                        <i class="fas fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
-                                            <i class="fas fa-cogs text-red-600"></i>
-                                        </div>
-                                        <span class="font-medium text-gray-900">OPEN</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">soporteuno</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <button onclick="copyPassword('soporteuno', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
-                                        <i class="fas fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
-                                            <i class="fas fa-mobile-alt text-yellow-600"></i>
-                                        </div>
-                                        <span class="font-medium text-gray-900">SMARTFLEX</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
-                                        <i class="fas fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
-                                            <i class="fas fa-chart-line text-indigo-600"></i>
-                                        </div>
-                                        <span class="font-medium text-gray-900">AXIS</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">afrivas</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <button onclick="copyPassword('afrivas', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center">
-                                        <i class="fas fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-key mr-2 text-blue-600"></i>Contraseña
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all pr-12"
+                            placeholder="Ingresa tu contraseña"
+                            required
+                        >
+                        <button type="button" onclick="togglePassword('password')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <i id="passwordToggle" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="loginError" class="text-red-600 text-sm text-center hidden">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span id="loginErrorText"></span>
+                </div>
+                
+                <!-- Security Info -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                        <span class="text-sm font-medium text-blue-800">Información de Acceso</span>
+                    </div>
+                    <p class="text-xs text-blue-700">
+                        Este sistema utiliza autenticación de dos factores para máxima seguridad.
+                        Después del login, recibirás un código de verificación.
+                    </p>
+                </div>
+                
+                <button 
+                    type="submit" 
+                    id="loginBtn"
+                    class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
+                >
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Iniciar Sesión
+                </button>
+            </form>
+            
+            <!-- Footer -->
+            <div class="mt-8 text-center text-xs text-gray-500">
+                <i class="fas fa-shield-alt mr-1"></i>
+                Sistema protegido con encriptación de extremo a extremo
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: 2FA Verification -->
+    <div id="twoFactorPage" class="min-h-screen flex items-center justify-center fade-in hidden">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Verificación 2FA</h2>
+                <p class="text-gray-600 text-sm">Código enviado a tu dispositivo</p>
+            </div>
+            
+            <!-- Code Sending Status -->
+            <div id="codeSendingStatus" class="mb-6">
+                <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                    <div class="flex items-center">
+                        <div class="loading-spinner mr-3"></div>
+                        <span class="text-blue-800 font-medium">Enviando código de verificación...</span>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Code Sent Confirmation -->
+            <div id="codeSentConfirmation" class="mb-6 hidden">
+                <div class="bg-green-50 p-4 rounded-lg mb-4">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-check-circle text-green-600 mr-3"></i>
+                        <span class="text-green-800 font-medium">Código enviado exitosamente</span>
+                    </div>
+                    <div id="sentMethod" class="text-sm text-green-700"></div>
+                </div>
+            </div>
+            
+            <!-- Timer -->
+            <div class="flex justify-center mb-6">
+                <div class="relative">
+                    <svg class="w-16 h-16 transform -rotate-90">
+                        <circle cx="32" cy="32" r="28" stroke="#e5e7eb" stroke-width="4" fill="transparent"/>
+                        <circle id="timerCircle" cx="32" cy="32" r="28" stroke="#ef4444" stroke-width="4" fill="transparent" class="timer-circle"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span id="timerText" class="text-lg font-bold text-red-600">5:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Code Input -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-4 text-center">
+                    <i class="fas fa-key mr-2 text-green-600"></i>Ingresa el código de 6 dígitos
+                </label>
+                <div class="flex justify-center space-x-2 mb-4">
+                    <input type="text" maxlength="1" class="digit-input" id="digit1" oninput="moveToNext(this, 'digit2')" onkeydown="moveToPrev(event, this, null)">
+                    <input type="text" maxlength="1" class="digit-input" id="digit2" oninput="moveToNext(this, 'digit3')" onkeydown="moveToPrev(event, this, 'digit1')">
+                    <input type="text" maxlength="1" class="digit-input" id="digit3" oninput="moveToNext(this, 'digit4')" onkeydown="moveToPrev(event, this, 'digit2')">
+                    <input type="text" maxlength="1" class="digit-input" id="digit4" oninput="moveToNext(this, 'digit5')" onkeydown="moveToPrev(event, this, 'digit3')">
+                    <input type="text" maxlength="1" class="digit-input" id="digit5" oninput="moveToNext(this, 'digit6')" onkeydown="moveToPrev(event, this, 'digit4')">
+                    <input type="text" maxlength="1" class="digit-input" id="digit6" oninput="moveToNext(this, null)" onkeydown="moveToPrev(event, this, 'digit5')">
+                </div>
+                
+                <!-- Error Message -->
+                <div id="codeError" class="text-red-600 text-sm text-center hidden mb-4">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span id="codeErrorText"></span>
+                </div>
+                
+                <!-- Attempts Counter -->
+                <div class="text-center text-sm text-gray-600 mb-4">
+                    <span>Intentos restantes: </span>
+                    <span id="attemptsLeft" class="font-bold text-orange-600">3</span>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button 
+                    onclick="verifyCode()"
+                    class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
+                >
+                    <i class="fas fa-check mr-2"></i>
+                    Verificar Código
+                </button>
+                
+                <button 
+                    onclick="resendCode()"
+                    id="resendBtn"
+                    class="w-full bg-gray-500 text-white py-2 rounded-lg font-medium hover:bg-gray-600 transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled
+                >
+                    <i class="fas fa-redo mr-2"></i>
+                    <span id="resendText">Reenviar código en <span id="resendTimer">60</span>s</span>
+                </button>
+            </div>
+            
+            <!-- Security Info -->
+            <div class="mt-6 bg-yellow-50 p-3 rounded-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                    <span class="text-xs text-yellow-800">
+                        El código expira en 5 minutos. No compartas este código con nadie.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Footer -->
-            <div class="mt-6 text-center text-gray-500 text-sm">
-                <i class="fas fa-info-circle mr-1"></i>
-                Sistema de gestión de credenciales - Mantener seguridad de accesos
+    <!-- Page 3: Dashboard -->
+    <div id="dashboardPage" class="min-h-screen py-8 hidden">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto fade-in">
+                <!-- Header -->
+                <div class="bg-white rounded-lg shadow-lg mb-6 p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                                <i class="fas fa-shield-alt text-blue-600 mr-3"></i>
+                                Gestión de Aplicativos
+                            </h1>
+                            <p class="text-gray-600">Sistema de gestión de credenciales - Autenticado con 2FA</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="security-indicator mb-2">
+                                <i class="fas fa-check-circle mr-2"></i>Sesión Segura
+                            </div>
+                            <button onclick="logout()" class="text-red-600 hover:text-red-800 text-sm">
+                                <i class="fas fa-sign-out-alt mr-1"></i>Cerrar Sesión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Table -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-green-600 text-white p-4">
+                        <h2 class="text-xl font-semibold">
+                            <i class="fas fa-users mr-2"></i>
+                            Usuario: afrivas
+                        </h2>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-desktop mr-2"></i>Aplicativo
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-key mr-2"></i>Contraseñas
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <i class="fas fa-copy mr-2"></i>Acción
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-cube text-blue-600"></i>
+                                            </div>
+                                            <span class="font-medium text-gray-900">SUGAR</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center relative overflow-hidden">
+                                            <i class="fas fa-copy mr-2"></i>Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-comments text-green-600"></i>
+                                            </div>
+                                            <span class="font-medium text-gray-900">OMNICANAL</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center relative overflow-hidden">
+                                            <i class="fas fa-copy mr-2"></i>Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-microchip text-purple-600"></i>
+                                            </div>
+                                            <span class="font-medium text-gray-900">IC</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Clave54321.</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="copyPassword('Clave54321.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center relative overflow-hidden">
+                                            <i class="fas fa-copy mr-2"></i>Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-cogs text-red-600"></i>
+                                            </div>
+                                            <span class="font-medium text-gray-900">OPEN</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">soporteuno</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="copyPassword('soporteuno', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center relative overflow-hidden">
+                                            <i class="fas fa-copy mr-2"></i>Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-mobile-alt text-yellow-600"></i>
+                                            </div>
+                                            <span class="font-medium text-gray-900">SMARTFLEX</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">Soporte2025.</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="copyPassword('Soporte2025.', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center relative overflow-hidden">
+                                            <i class="fas fa-copy mr-2"></i>Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-chart-line text-indigo-600"></i>
+                                            </div>
+                                            <span class="font-medium text-gray-900">AXIS</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="password-field font-mono bg-gray-100 px-3 py-2 rounded-md text-gray-700">afrivas</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="copyPassword('afrivas', this)" class="copy-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md inline-flex items-center relative overflow-hidden">
+                                            <i class="fas fa-copy mr-2"></i>Copiar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="mt-6 text-center text-gray-500 text-sm">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    Sistema de gestión de credenciales - Sesión protegida con 2FA
+                </div>
             </div>
         </div>
     </div>
@@ -186,20 +505,312 @@
     </div>
 
     <script>
+        // Global variables
+        let currentPage = 'login';
+        let loginAttempts = 0;
+        let codeAttempts = 0;
+        let maxAttempts = 3;
+        let timerInterval;
+        let resendTimerInterval;
+        let codeTimer = 300; // 5 minutes
+        let resendTimer = 60; // 60 seconds
+        let isCodeExpired = false;
+
+        // Login credentials
+        const validCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // 2FA code
+        const validCode = '123456';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('loginPage');
+        });
+
+        // Page management
+        function showPage(pageId) {
+            const pages = ['loginPage', 'twoFactorPage', 'dashboardPage'];
+            pages.forEach(page => {
+                const element = document.getElementById(page);
+                if (page === pageId) {
+                    element.classList.remove('hidden');
+                    element.classList.add('fade-in');
+                } else {
+                    element.classList.add('hidden');
+                    element.classList.remove('fade-in');
+                }
+            });
+            currentPage = pageId;
+        }
+
+        // Login form handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        function handleLogin() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+            const errorText = document.getElementById('loginErrorText');
+            const loginBtn = document.getElementById('loginBtn');
+
+            // Show loading
+            loginBtn.innerHTML = '<div class="loading-spinner mr-2"></div>Verificando...';
+            loginBtn.disabled = true;
+
+            setTimeout(() => {
+                if (username === validCredentials.username && password === validCredentials.password) {
+                    // Successful login
+                    loginBtn.innerHTML = '<i class="fas fa-check mr-2"></i>¡Acceso Autorizado!';
+                    loginBtn.className = loginBtn.className.replace('from-blue-600 to-indigo-600', 'from-green-600 to-emerald-600');
+                    
+                    setTimeout(() => {
+                        showPage('twoFactorPage');
+                        initializeTwoFactor();
+                    }, 1000);
+                } else {
+                    // Failed login
+                    loginAttempts++;
+                    let errorMessage = '';
+                    
+                    if (loginAttempts >= maxAttempts) {
+                        errorMessage = 'Demasiados intentos fallidos. Cuenta bloqueada temporalmente.';
+                        loginBtn.disabled = true;
+                        loginBtn.innerHTML = '<i class="fas fa-ban mr-2"></i>Cuenta Bloqueada';
+                        loginBtn.className = loginBtn.className.replace('from-blue-600 to-indigo-600', 'from-red-600 to-red-700');
+                    } else {
+                        errorMessage = `Credenciales incorrectas. Intentos restantes: ${maxAttempts - loginAttempts}`;
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión';
+                        loginBtn.disabled = false;
+                    }
+                    
+                    errorText.textContent = errorMessage;
+                    errorDiv.classList.remove('hidden');
+                    
+                    // Clear form
+                    document.getElementById('password').value = '';
+                }
+            }, 1500);
+        }
+
+        // Password visibility toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggle = document.getElementById('passwordToggle');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                toggle.className = 'fas fa-eye';
+            }
+        }
+
+        // Two-factor authentication
+        function initializeTwoFactor() {
+            codeAttempts = 0;
+            document.getElementById('attemptsLeft').textContent = maxAttempts;
+            
+            // Simulate sending code
+            simulateSendCode();
+            
+            // Start timers
+            startCodeTimer();
+            startResendTimer();
+            
+            // Clear any previous errors
+            document.getElementById('codeError').classList.add('hidden');
+            
+            // Clear digit inputs
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`digit${i}`).value = '';
+            }
+            
+            // Focus first input
+            document.getElementById('digit1').focus();
+        }
+
+        function simulateSendCode() {
+            const methods = [
+                { type: 'SMS', number: '+1 (***) ***-1234', icon: 'fa-sms' },
+                { type: 'Email', address: 'a****@empresa.com', icon: 'fa-envelope' }
+            ];
+            
+            const selectedMethod = methods[Math.floor(Math.random() * methods.length)];
+            
+            setTimeout(() => {
+                document.getElementById('codeSendingStatus').classList.add('hidden');
+                document.getElementById('codeSentConfirmation').classList.remove('hidden');
+                
+                const methodText = selectedMethod.type === 'SMS' 
+                    ? `Código enviado por SMS a ${selectedMethod.number}`
+                    : `Código enviado por email a ${selectedMethod.address}`;
+                
+                document.getElementById('sentMethod').innerHTML = `
+                    <i class="fas ${selectedMethod.icon} mr-2"></i>${methodText}
+                `;
+            }, 2000);
+        }
+
+        function startCodeTimer() {
+            codeTimer = 300; // 5 minutes
+            isCodeExpired = false;
+            
+            timerInterval = setInterval(() => {
+                codeTimer--;
+                const minutes = Math.floor(codeTimer / 60);
+                const seconds = codeTimer % 60;
+                document.getElementById('timerText').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (codeTimer <= 0) {
+                    clearInterval(timerInterval);
+                    isCodeExpired = true;
+                    document.getElementById('timerText').textContent = '0:00';
+                    showError('El código ha expirado. Por favor solicita uno nuevo.');
+                }
+            }, 1000);
+        }
+
+        function startResendTimer() {
+            resendTimer = 60;
+            const resendBtn = document.getElementById('resendBtn');
+            const resendText = document.getElementById('resendText');
+            
+            resendBtn.disabled = true;
+            
+            resendTimerInterval = setInterval(() => {
+                resendTimer--;
+                document.getElementById('resendTimer').textContent = resendTimer;
+                
+                if (resendTimer <= 0) {
+                    clearInterval(resendTimerInterval);
+                    resendBtn.disabled = false;
+                    resendText.innerHTML = '<i class="fas fa-redo mr-2"></i>Reenviar código';
+                }
+            }, 1000);
+        }
+
+        // Digit input handling
+        function moveToNext(current, nextId) {
+            if (current.value.length === 1 && nextId) {
+                document.getElementById(nextId).focus();
+            }
+            
+            // Auto-verify when all digits are entered
+            if (nextId === null) {
+                setTimeout(verifyCode, 100);
+            }
+        }
+
+        function moveToPrev(event, current, prevId) {
+            if (event.key === 'Backspace' && current.value === '' && prevId) {
+                document.getElementById(prevId).focus();
+            }
+        }
+
+        // Code verification
+        function verifyCode() {
+            if (isCodeExpired) {
+                showError('El código ha expirado. Por favor solicita uno nuevo.');
+                return;
+            }
+
+            const code = [];
+            for (let i = 1; i <= 6; i++) {
+                code.push(document.getElementById(`digit${i}`).value);
+            }
+            
+            const enteredCode = code.join('');
+            
+            if (enteredCode.length !== 6) {
+                showError('Por favor ingresa el código completo de 6 dígitos.');
+                return;
+            }
+            
+            if (enteredCode === validCode) {
+                // Successful verification
+                clearInterval(timerInterval);
+                clearInterval(resendTimerInterval);
+                
+                showSuccess();
+                setTimeout(() => {
+                    showPage('dashboardPage');
+                }, 1500);
+            } else {
+                // Failed verification
+                codeAttempts++;
+                const attemptsLeft = maxAttempts - codeAttempts;
+                document.getElementById('attemptsLeft').textContent = attemptsLeft;
+                
+                if (attemptsLeft <= 0) {
+                    showError('Demasiados intentos fallidos. Acceso denegado.');
+                    setTimeout(() => {
+                        showPage('loginPage');
+                        resetSystem();
+                    }, 3000);
+                } else {
+                    showError(`Código incorrecto. Intentos restantes: ${attemptsLeft}`);
+                    // Clear inputs
+                    for (let i = 1; i <= 6; i++) {
+                        document.getElementById(`digit${i}`).value = '';
+                    }
+                    document.getElementById('digit1').focus();
+                }
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('codeError');
+            const errorText = document.getElementById('codeErrorText');
+            
+            errorText.textContent = message;
+            errorDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                errorDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        function showSuccess() {
+            const errorDiv = document.getElementById('codeError');
+            errorDiv.innerHTML = `
+                <i class="fas fa-check-circle mr-2 text-green-600"></i>
+                <span class="text-green-600">Código verificado correctamente. Accediendo al sistema...</span>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Resend code
+        function resendCode() {
+            document.getElementById('codeSendingStatus').classList.remove('hidden');
+            document.getElementById('codeSentConfirmation').classList.add('hidden');
+            
+            simulateSendCode();
+            startResendTimer();
+            
+            // Reset timer
+            clearInterval(timerInterval);
+            startCodeTimer();
+        }
+
+        // Password copying functionality
         function copyPassword(password, button) {
-            // Copiar al portapapeles
             navigator.clipboard.writeText(password).then(function() {
-                // Cambiar el estado del botón temporalmente
                 const originalContent = button.innerHTML;
                 const originalClass = button.className;
                 
                 button.innerHTML = '<i class="fas fa-check mr-2"></i>¡Copiado!';
                 button.className = button.className.replace('bg-blue-500 hover:bg-blue-600', 'bg-green-500');
                 
-                // Mostrar toast
                 showToast();
                 
-                // Restaurar el botón después de 2 segundos
                 setTimeout(function() {
                     button.innerHTML = originalContent;
                     button.className = originalClass;
@@ -207,7 +818,6 @@
                 
             }).catch(function(err) {
                 console.error('Error al copiar: ', err);
-                // Fallback para navegadores que no soportan clipboard API
                 fallbackCopyTextToClipboard(password, button);
             });
         }
@@ -255,7 +865,7 @@
             }, 3000);
         }
 
-        // Añadir efecto de ripple a los botones
+        // Ripple effect for buttons
         document.addEventListener('click', function(e) {
             if (e.target.closest('.copy-btn')) {
                 const button = e.target.closest('.copy-btn');
@@ -277,30 +887,52 @@
                 }, 600);
             }
         });
-    </script>
 
-    <style>
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple-animation 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
+        // Logout functionality
+        function logout() {
+            if (confirm('¿Estás seguro de que deseas cerrar la sesión?')) {
+                showPage('loginPage');
+                resetSystem();
             }
         }
 
-        .copy-btn {
-            position: relative;
-            overflow: hidden;
+        function resetSystem() {
+            // Clear timers
+            clearInterval(timerInterval);
+            clearInterval(resendTimerInterval);
+            
+            // Reset attempts
+            loginAttempts = 0;
+            codeAttempts = 0;
+            
+            // Reset form
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginError').classList.add('hidden');
+            
+            // Reset login button
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión';
+            loginBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center';
+            loginBtn.disabled = false;
         }
-    </style>
+
+        // Prevent back button after successful login
+        window.addEventListener('popstate', function(event) {
+            if (currentPage === 'dashboardPage') {
+                history.pushState(null, null, location.href);
+            }
+        });
+
+        // Security: Clear sensitive data on page unload
+        window.addEventListener('beforeunload', function() {
+            // Clear form data
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`digit${i}`).value = '';
+            }
+        });
+    </script>
 </body>
 </html>
-    
