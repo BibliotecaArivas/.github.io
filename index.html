@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenido - BibliotecaArivas</title>
     <style>
+        /* El mismo CSS que antes */
         * {
             margin: 0;
             padding: 0;
@@ -98,6 +99,16 @@
             background: rgba(255,255,255,0.1);
         }
 
+        .private-link {
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .private-link::after {
+            content: "🔒";
+            margin-left: 8px;
+        }
+
         @media (max-width: 768px) {
             nav ul {
                 grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -128,21 +139,20 @@
     <div class="contenedor">
         <nav>
             <ul>
+                <!-- Enlaces protegidos -->
+                <li><a href="#" class="private-link" onclick="checkPassword('Excepciones_Autoriazadas_para_Retiro_en_los_CAC.html')">📖 Excepciones Autoriazadas para Retiro en los CAC❌🙅</a></li>
+                <li><a href="#" class="private-link" onclick="checkPassword('Formas_de_Pago_y_Periodos_de_facturacion.html')">Formas de Pago y Periodos de facturacion❌🙅</a></li>
+                <li><a href="#" class="private-link" onclick="checkPassword('escenarios_comunes_para_retiro_de_servicios.html')">Escenarios comunes para retiro de servicios❌🙅</a></li>
+                <li><a href="#" class="private-link" onclick="checkPassword('formulario_reactivain.html')">Formulario reactivain❌🙅</a></li>
+                <li><a href="#" class="private-link" onclick="checkPassword('gestion_de_aplicativos_contrasenas.html')">Gestion de aplicativos contraseñas❌🙅</a></li>
+
+                <!-- Enlaces normales -->
                 <li><a href="BlackMirror_RankingDeEpisodios.html" target="_blank">🎬 Ranking de Episodios de BlackMirror</a></li>
                 <li><a href="Como_instalar_python.html" target="_blank">📖 Como instalar python</a></li>
                 <li><a href="ElSilencioDeLosBits.html" target="_blank">📕 El Silencio de los Bits</a></li>
                 <li><a href="ejercicio_py.html" target="_blank">📖 Ejercicio Básico de Python</a></li>
-                <li><a href="Excepciones_Autoriazadas_para_Retiro_en_los_CAC.html" target="_blank">📖 Excepciones Autoriazadas para Retiro en los CAC</a></li>
-                <li><a href="Formas_de_Pago_y_Periodos_de_facturacion.html" target="_blank">Formas de Pago y Periodos de facturacion</a></li>
-                <li><a href="escenarios_comunes_para_retiro_de_servicios.html" target="_blank">Escenarios comunes para retiro de servicios</a></li>
-                <li><a href="formulario_reactivain.html" target="_blank">Formulario reactivain</a></li>
-                <li><a href="gestion_de_aplicativos_contrasenas.html" target="_blank">Gestion de aplicativos contraseñas</a></li>
-                <li><a href="guia_para_instalar_mrholmes.html" target="_blank">Gua para instalar Mrholmes</a></li>
-
                 <li><a href="catalogo_peliculas.html" target="_blank">Catálogo películas</a></li>
                 <li><a href="movieflix.html" target="_blank">🎬 MovieFlix</a></li>
-               
-
                 <li><a href="NovelaCortaLikeMe.html" target="_blank">📕 LikeMe</a></li>
                 <li><a href="contactanos.html" target="_blank">📧 Contáctanos</a></li>
                 <li><a href="index.html" target="_blank">🏠</a></li>
@@ -153,8 +163,7 @@
                 <li><a href="carpetas_temp_y_prefetch.html" target="_blank">📖 Carpetas Temp y Prefetch</a></li>
                 <li><a href="comandos_de_it.html" target="_blank">📖 Comandos de IT</a></li>
                 <li><a href="panorama_de_amenazas.html" target="_blank">📖 Panorama de Amenazas</a></li>
-                <li><a href="" target="_blank">📖</a></li>
-                
+                <li><a href="#" target="_blank">📖</a></li>
             </ul>
         </nav>
     </div>
@@ -164,5 +173,19 @@
             <li><a href="#Contenido">⬆️ Volver al inicio</a></li>
         </ul>
     </footer>
+
+    <script>
+        // Contraseña predefinida (cámbiala por una segura)
+        const PASSWORD = 'BibliotecaArivas2024';
+        
+        function checkPassword(page) {
+            const input = prompt('Ingrese la contraseña para acceder a contenido privado:');
+            if (input === PASSWORD) {
+                window.open(page, '_blank');
+            } else {
+                alert('Acceso denegado. Contraseña incorrecta.');
+            }
+        }
+    </script>
 </body>
 </html>
