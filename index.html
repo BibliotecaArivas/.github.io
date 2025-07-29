@@ -1,115 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenido - BibliotecaArivas</title>
     <style>
-        header{
-            width: 100%;
-            height: 50px;
-            background-color: rgb(255, 255, 255);
-            display: flex;
-            justify-content: justify;
-            align-items: justify;
-            color: rgb(0, 0, 0);
-            margin: 0;
-            margin-top: 60px;
-        }
-        header h1 {
-            margin-left: 30px;
-        }
-        body {
-            background-color: rgb(255, 255, 255);
-        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        .contenedor {
-            width: 100%;
-            height: auto;
-            background-color: rgb(255, 255, 255);
-            align-items: center;
-            display: grid;
-            grid-template-columns: auto auto auto;
-            padding: 40px 20px;
-            box-sizing: border-box;
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding-top: 70px;
         }
-        nav {
+
+        header {
+            position: fixed;
+            top: 0;
             width: 100%;
-            height: 100%;
-            padding: 10px 10px;
+            height: 70px;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            display: flex;
             align-items: center;
-        }
-        ul {
-            padding: 20px 20px;
-            background-color: rgb(255, 255, 255);
-            width: 500px;
-            margin: 10px;
             justify-content: center;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            display: flex;
             align-items: center;
-            list-style: circle;
-            font: 1em sans-serif;
+            gap: 10px;
         }
-        li {
-            margin: 20px;
-            font-size: 30px;
+
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
         }
-        a {
+
+        nav ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            list-style: none;
+        }
+
+        nav li {
+            margin: 0;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            background: white;
+            border-radius: 12px;
             text-decoration: none;
-            color: rgb(255, 255, 255);
-            padding: 10px 5px;
-            text-shadow: 2px 1px 1px black,
-                0px 1px 0px black,
-                0px 0px 0px black,
-                0px 0px 0px black;
-                font-size: 20px;
+            color: #2c3e50;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            gap: 12px;
         }
-        @media only screen and (max-width: 700px) {
-            .contenedor {
-                grid-template-columns: auto;
-                padding: 40px 20px;
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            background: #f8f9fa;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        footer ul {
+           list-style: none;
+        }
+
+        footer a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 15px;
             }
-            nav {
-                text-align: justify;
+            
+            nav a {
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 1.4rem;
             }
         }
     </style>
 </head>
-<header>
-    <h1>🗂️ Contenido 🔽</h1> <a name="Contenido"></a>
-
-</header>
-
 <body>
+    <header>
+        <h1>🗂️ Contenido</h1> <a name="Contenido"></a>
+    </header>
+
     <div class="contenedor">
         <nav>
             <ul>
-                <li><a href="BlackMirror_RankingDeEpisodios.html" target="_blank">🎬Ranking de Episodios de BlackMirror</a></li>
-                <li><a href="Como_instalar_python.html" target="_blank">📖Como instalar python</a></li>
-                <li><a href="ElSilencioDeLosBits.html" target="_blank">📕El Silencio de los Bits (Novela corta similar a la serie BlackMirror)</a></li>
-                <li><a href="ejercicio_py.html" target="_blank">📖Ejercicio Básico de Python</a></li>
-                <li><a href="NovelaCortaLikeMe.html" target="_blank">📕LikeMe (Novela corta similar a la Serie BlackMirror)</a></li>
-                <li><a href="contactanos.html" target="_blank"><abbr title="Contactanos">📧</abbr> </a></li>
-                <li><a href="index.html" target="_blank"><abbr title="Inicio">🏠</abbr></a></li>
-                <li><a href="notas_phishing.html" target="_blank">📖Notas: Phishing</a></li>
-                <li><a href="paste.html" target="_blank">📖Pastebin</a></li>
-                <li><a href="recursos_de_seguridad_informatica_y_reparacion_de_sistemas.html" target="_blank">📖Recursos de Seguridad Informatica y Reparacion de Sistemas</a></li>
-                <li><a href="historia_de_mary_bell.html" target="_blank">📕Historia de Mary Bell</a></li>
-                <li><a href="carpetas_temp_y_prefetch_en_windows.html" target="_blank">📖Carpetas Temp y Prefetch en Windows</a></li>
-                <li><a href="comandos_de_it_que_te_salvaran_el_dia.html" target="_blank">📖Comandos de IT que te salvarán el día</a></li>
-                <li><a href="panorama_de_amenazas_de_ciberseguridad_con_objetivos_y_propositos_de_los_ataques.html" target="_blank">📖Panorama de Amenazas de Ciberseguridad</a></li>
-                <li><a href="guia_para_instalar_mrholmes.html" target="_blank">📖Guía para Instalar MrHolmes en Kali Linux</a></li>
-                <li><a href="movieflix.html" target="_blank">🎬MovieFlix</a></li>
+                <li><a href="BlackMirror_RankingDeEpisodios.html" target="_blank">🎬 Ranking de Episodios de BlackMirror</a></li>
+                <li><a href="Como_instalar_python.html" target="_blank">📖 Como instalar python</a></li>
+                <li><a href="ElSilencioDeLosBits.html" target="_blank">📕 El Silencio de los Bits</a></li>
+                <li><a href="ejercicio_py.html" target="_blank">📖 Ejercicio Básico de Python</a></li>
+                <li><a href="Excepciones_Autoriazadas_para_Retiro_en_los_CAC.html" target="_blank">📖 Excepciones Autoriazadas para Retiro en los CAC</a></li>
+                <li><a href="Formas_de_Pago_y_Periodos_de_facturacion.html" target="_blank">Formas de Pago y Periodos de facturacion</a></li>
+                <li><a href="escenarios_comunes_para_retiro_de_servicios.html" target="_blank">Escenarios comunes para retiro de servicios</a></li>
+                <li><a href="formulario_reactivain.html" target="_blank">Formulario reactivain</a></li>
+                <li><a href="gestion_de_aplicativos_contrasenas.html" target="_blank">Gestion de aplicativos contraseñas</a></li>
+                <li><a href="guia_para_instalar_mrholmes.html" target="_blank">Gua para instalar Mrholmes</a></li>
+
+                <li><a href="catalogo_peliculas.html" target="_blank">Catálogo películas</a></li>
+                <li><a href="movieflix.html" target="_blank">🎬 MovieFlix</a></li>
+               
+
+                <li><a href="NovelaCortaLikeMe.html" target="_blank">📕 LikeMe</a></li>
+                <li><a href="contactanos.html" target="_blank">📧 Contáctanos</a></li>
+                <li><a href="index.html" target="_blank">🏠</a></li>
+                <li><a href="notas_phishing.html" target="_blank">📖 Notas de Phishing</a></li>
+                <li><a href="paste.html" target="_blank">📖 Pastebin</a></li>
+                <li><a href="recursos_de_seguridad_informatica.html" target="_blank">📖 Recursos de Seguridad</a></li>
+                <li><a href="historia_de_mary_bell.html" target="_blank">📕 Historia de Mary Bell</a></li>
+                <li><a href="carpetas_temp_y_prefetch.html" target="_blank">📖 Carpetas Temp y Prefetch</a></li>
+                <li><a href="comandos_de_it.html" target="_blank">📖 Comandos de IT</a></li>
+                <li><a href="panorama_de_amenazas.html" target="_blank">📖 Panorama de Amenazas</a></li>
+                <li><a href="" target="_blank">📖</a></li>
+                
             </ul>
         </nav>
     </div>
-</body>
 
-<footer>
-    <li style="list-style: none;"><a href="#Contenido">⬆️</a></li>
-</footer>
+    <footer>
+        <ul>
+            <li><a href="#Contenido">⬆️ Volver al inicio</a></li>
+        </ul>
+    </footer>
+</body>
 </html>
