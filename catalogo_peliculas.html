@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineFlix Pro - Tu Plataforma de Películas</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #121212;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 5%;
+            background: rgba(10,10,10,0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff0066;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: #fff;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1280px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Grid de películas */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .movie-card {
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.7);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-bottom: 3px solid #ff0066;
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .movie-year {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff0066;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 1000px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Contenedor del video */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Información del video */
+        .video-info {
+            padding: 20px;
+            background: #1a1a1a;
+        }
+
+        .video-description {
+            color: #ddd;
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .notice {
+            background: rgba(255,0,102,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ff0066;
+            color: #ff99cc;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer-text {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .movie-poster {
+                height: 220px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+.movie-metadata {
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.modal-year, .modal-genre {
+    color: #aaa;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.video-description {
+    color: #ddd;
+    line-height: 1.6;
+    font-size: 16px;
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">Cine<span>Flix</span> Pro</a>
+    </header>
+
+    <div class="container">
+        <h1 style="margin-bottom: 30px; font-size: 28px; text-align: center;">Catálogo de Películas</h1>
+        <div class="movies-grid" id="moviesGrid">
+            <!-- Tarjetas de películas -->
+          
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/sx9p2e40boux" 
+     data-movie-title="Happy Gilmore 2" 
+     data-movie-description="Visite de nuevo la carrera de golf de Happy Gilmore tras su victoria en el Tour Championship." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <span class="ribbon">NUEVO</span>
+    <img src="https://tse3.mm.bing.net/th/id/OIP.bR2JzbOYDbaq2-uDWzKNiQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Happy Gilmore 2</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+<!-- Tarjeta de película 2 -->
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/5tb22kmq44vc" 
+     data-movie-title="Woman of the Hour" 
+     data-movie-description="Rodney Alcala era un asesino en plena matanza cuando descaradamente participó y ganó una cita en el popular programa de televisión "The Dating Game." 
+     data-movie-year="2024"
+     data-movie-genre="Crimen">
+    <img src="https://m.media-amazon.com/images/M/MV5BNDVmNWQwYzctZGI4YS00M2M4LThlZTgtOTExOGI3MzY1NzJmXkEyXkFqcGc@._V1_FMjpg_UX1122_.jpg" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Woman of the Hour</h2>
+        <p class="movie-year">2024</p>
+    </div>
+</div>
+            
+<!-- new movies -->
+<!-- Grown Ups -->
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/2e18jymz6j82" 
+     data-movie-title="Grown Ups" 
+     data-movie-description="Después de la muerte de su entrenador de baloncesto de la escuela secundaria, cinco buenos amigos y ex compañeros de equipo se reúnen para un fin de semana de vacaciones del 4 de julio." 
+     data-movie-year="2024"
+     data-movie-genre="Comedia">
+    <img src="https://pics.filmaffinity.com/grown_ups-567297059-large.jpg" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Grown Ups</h2>
+        <p class="movie-year">2010</p>
+    </div>
+</div>
+
+<!-- Grown Ups 2 -->
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/hdhqut7319bz" 
+     data-movie-title="Son Como Niños 2" 
+     data-movie-description="Lenny se ha trasladado con su familia a la pequeña ciudad donde tanto él como sus amigos se criaron. En esta ocasión, los adultos serán quienes reciban toda una lección de sus propios hijos." 
+     data-movie-year="2024"
+     data-movie-genre="Comedia">
+    <img src="https://m.media-amazon.com/images/M/MV5BM2Y2ODhmZjctYjBkOS00Y2Q4LTlhMmQtZTcxOTkyYTg1MzAzXkEyXkFqcGc@._V1_FMjpg_UX1132_.jpg" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Son Como Niños 2</h2>
+        <p class="movie-year">2013</p>
+    </div>
+</div>
+
+<!-- Rick and morty 8 temporada -->
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/xv54o02linay" 
+     data-movie-title="Episodio 1" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/4r0d5z6v911u" 
+     data-movie-title="Episodio 2" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/dky86nzp9rzs" 
+     data-movie-title="Episodio 3" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/24dyeeaxw0fv" 
+     data-movie-title="Episodio 4" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+<div class="movie-card" 
+     data-video-src="https://mivalyo.com/embed/80nmsg7yj6nr" 
+     data-movie-title="Episodio 5" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+<div class="movie-card" 
+     data-video-src="" 
+     data-movie-title="Episodio 6" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+<div class="movie-card" 
+     data-video-src="" 
+     data-movie-title="Episodio 7" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+<div class="movie-card" 
+     data-video-src="" 
+     data-movie-title="Episodio 8" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+<div class="movie-card" 
+     data-video-src="" 
+     data-movie-title="Episodio 9" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+
+<div class="movie-card" 
+     data-video-src="" 
+     data-movie-title="Episodio 10" 
+     data-movie-description="Comedia animada que narra las aventuras de un científico loco Rick Sánchez, que regresa después de 20 años para vivir con su hija, su marido y sus hijos Morty y Summer." 
+     data-movie-year="2025"
+     data-movie-genre="Comedia">
+    <img src="https://iili.io/3bGGPC7.webp" class="movie-poster">
+    <div class="movie-info">
+        <h2 class="movie-title">Rick and morty 8 Temporada</h2>
+        <p class="movie-year">2025</p>
+    </div>
+</div>
+
+            <!-- Agrega más tarjetas de películas aquí -->
+        </div>
+    </div>
+
+    <!-- Modal de video -->
+   <div class="modal" id="videoModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-title" id="modalTitle"></span>
+            <button class="close-btn" id="closeModal">&times;</button>
+        </div>
+        <div class="video-container">
+            <iframe src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+            <div class="movie-metadata">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-year" id="modalYear"></p>
+                <p class="modal-genre" id="modalGenre"></p>
+            </div>
+            <p class="video-description" id="modalDescription"></p>
+            <div class="notice">
+                ¡Por favor desactiva AdBlock para ver este video!
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer>
+        <p class="footer-text">© 2025 CineFlix Pro - Tu Plataforma de Películas</p>
+    </footer>
+
+    <script>
+      // Elementos del modal
+const modal = document.getElementById('videoModal');
+const modalIframe = modal.querySelector('iframe');
+const modalTitle = document.getElementById('modalTitle');
+const modalYear = document.getElementById('modalYear');
+const modalGenre = document.getElementById('modalGenre');
+const modalDescription = document.getElementById('modalDescription');
+const closeModal = document.getElementById('closeModal');
+
+// Obtener todas las tarjetas de películas
+const movieCards = document.querySelectorAll('.movie-card');
+
+// Agregar evento de clic a cada tarjeta
+movieCards.forEach(card => {
+    card.addEventListener('click', () => {
+        // Obtener todos los datos de la tarjeta
+        const videoSrc = card.getAttribute('data-video-src');
+        const movieTitle = card.getAttribute('data-movie-title');
+        const movieYear = card.getAttribute('data-movie-year');
+        const movieGenre = card.getAttribute('data-movie-genre');
+        const movieDescription = card.getAttribute('data-movie-description');
+        
+        // Actualizar el contenido del modal
+        modalIframe.src = videoSrc;
+        modalTitle.textContent = movieTitle;
+        modalYear.textContent = `Año: ${movieYear}`;
+        modalGenre.textContent = `Género: ${movieGenre}`;
+        modalDescription.textContent = movieDescription;
+        
+        // Mostrar el modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+});
+                      
+        // Cerrar modal al hacer clic en el botón cerrar
+        closeModal.addEventListener('click', () => {
+            closeModalFunction();
+        });
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModalFunction();
+            }
+        });
+        
+        // Cerrar modal con la tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModalFunction();
+            }
+        });
+        
+        // Función para cerrar el modal
+        function closeModalFunction() {
+            modal.classList.remove('active');
+            modalIframe.src = ''; // Limpiar la fuente del iframe
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>
