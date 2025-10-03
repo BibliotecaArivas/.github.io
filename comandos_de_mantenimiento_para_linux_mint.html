@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comandos de Mantenimiento - Linux Mint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c5530;
+            --secondary: #4a7c59;
+            --accent: #8fb996;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .intro {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .intro p {
+            margin-bottom: 1rem;
+        }
+
+        .category-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .category {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-header {
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .category-header i {
+            font-size: 1.5rem;
+        }
+
+        .category-content {
+            padding: 1rem;
+        }
+
+        .command-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .command-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .command-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .command {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command:hover {
+            background-color: #e9ecef;
+        }
+
+        .command::after {
+            content: "Haz clic para copiar";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0 4px 0 4px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .command:hover::after {
+            opacity: 1;
+        }
+
+        .command-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .tips {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .tips h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .tip-item i {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .category-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fab fa-linux"></i>
+            </div>
+            <h1>Comandos de Mantenimiento</h1>
+            <p class="subtitle">Linux Mint - Guía completa para mantener tu sistema optimizado</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <p>Esta página contiene una colección completa de comandos útiles para el mantenimiento de tu sistema Linux Mint. Haz clic en cualquier comando para copiarlo al portapapeles.</p>
+            <p><strong>Nota:</strong> Algunos comandos requieren privilegios de administrador (sudo).</p>
+        </div>
+
+        <div class="category-container">
+            <!-- Mantenimiento del Sistema -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-tools"></i>
+                    <h2>Mantenimiento del Sistema</h2>
+                </div>
+                <div class="category-content">
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Actualizar lista de paquetes</span>
+                        </div>
+                        <div class="command">sudo apt update</div>
+                        <div class="command-description">Actualiza la lista de paquetes disponibles desde los repositorios.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Actualizar paquetes instalados</span>
+                        </div>
+                        <div class="command">sudo apt upgrade</div>
+                        <div class="command-description">Actualiza todos los paquetes instalados a sus versiones más recientes.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Actualización completa</span>
+                        </div>
+                        <div class="command">sudo apt full-upgrade</div>
+                        <div class="command-description">Actualización completa que puede eliminar paquetes obsoletos si es necesario.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar paquetes innecesarios</span>
+                        </div>
+                        <div class="command">sudo apt autoremove</div>
+                        <div class="command-description">Elimina paquetes que ya no son necesarios.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar caché de paquetes</span>
+                        </div>
+                        <div class="command">sudo apt autoclean</div>
+                        <div class="command-description">Elimina archivos de paquetes antiguos de la caché.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Paquetes -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-box-open"></i>
+                    <h2>Gestión de Paquetes</h2>
+                </div>
+                <div class="category-content">
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Buscar paquetes</span>
+                        </div>
+                        <div class="command">apt search [nombre]</div>
+                        <div class="command-description">Busca paquetes en los repositorios.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Información de un paquete</span>
+                        </div>
+                        <div class="command">apt show [paquete]</div>
+                        <div class="command-description">Muestra información detallada sobre un paquete.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Listar paquetes instalados</span>
+                        </div>
+                        <div class="command">apt list --installed</div>
+                        <div class="command-description">Muestra todos los paquetes instalados en el sistema.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Reparar dependencias</span>
+                        </div>
+                        <div class="command">sudo apt --fix-broken install</div>
+                        <div class="command-description">Intenta reparar dependencias rotas de paquetes.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Reparar configuración de paquetes</span>
+                        </div>
+                        <div class="command">sudo dpkg --configure -a</div>
+                        <div class="command-description">Reconfigura paquetes que no se instalaron correctamente.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mantenimiento de Disco -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-hdd"></i>
+                    <h2>Mantenimiento de Disco</h2>
+                </div>
+                <div class="category-content">
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Ver espacio en disco</span>
+                        </div>
+                        <div class="command">df -h</div>
+                        <div class="command-description">Muestra el espacio usado y disponible en los discos.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Ver tamaño de directorios</span>
+                        </div>
+                        <div class="command">du -sh /directorio/*</div>
+                        <div class="command-description">Muestra el tamaño de los directorios de forma legible.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Encontrar archivos grandes</span>
+                        </div>
+                        <div class="command">find / -type f -size +100M 2>/dev/null</div>
+                        <div class="command-description">Encuentra archivos de más de 100MB en el sistema.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar caché de paquetes</span>
+                        </div>
+                        <div class="command">sudo apt clean</div>
+                        <div class="command-description">Elimina todos los archivos de paquetes de la caché.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Verificar disco</span>
+                        </div>
+                        <div class="command">sudo fsck /dev/sda1</div>
+                        <div class="command-description">Verifica y repara el sistema de archivos (ejecutar sin montar).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monitoreo del Sistema -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Monitoreo del Sistema</h2>
+                </div>
+                <div class="category-content">
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Ver procesos en ejecución</span>
+                        </div>
+                        <div class="command">top</div>
+                        <div class="command-description">Muestra los procesos en ejecución y el uso de recursos.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Monitor interactivo</span>
+                        </div>
+                        <div class="command">htop</div>
+                        <div class="command-description">Versión mejorada de top con interfaz más amigable.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Uso de memoria</span>
+                        </div>
+                        <div class="command">free -h</div>
+                        <div class="command-description">Muestra el uso de memoria RAM y swap.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Información del sistema</span>
+                        </div>
+                        <div class="command">hostnamectl</div>
+                        <div class="command-description">Muestra información sobre el sistema y el host.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Ver logs del sistema</span>
+                        </div>
+                        <div class="command">journalctl -f</div>
+                        <div class="command-description">Muestra los logs del sistema en tiempo real.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Limpieza del Sistema -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-broom"></i>
+                    <h2>Limpieza del Sistema</h2>
+                </div>
+                <div class="category-content">
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar archivos temporales</span>
+                        </div>
+                        <div class="command">sudo rm -rf /tmp/*</div>
+                        <div class="command-description">Elimina todos los archivos del directorio temporal.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar caché del usuario</span>
+                        </div>
+                        <div class="command">rm -rf ~/.cache/*</div>
+                        <div class="command-description">Elimina la caché del usuario actual.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar logs antiguos</span>
+                        </div>
+                        <div class="command">sudo journalctl --vacuum-time=7d</div>
+                        <div class="command-description">Elimina logs del sistema más antiguos de 7 días.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar kernels antiguos</span>
+                        </div>
+                        <div class="command">sudo apt autoremove --purge</div>
+                        <div class="command-description">Elimina kernels antiguos y sus archivos de configuración.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Limpiar thumbnails</span>
+                        </div>
+                        <div class="command">rm -rf ~/.cache/thumbnails/*</div>
+                        <div class="command-description">Elimina las miniaturas de archivos en caché.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comandos de Emergencia -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-first-aid"></i>
+                    <h2>Comandos de Emergencia</h2>
+                </div>
+                <div class="category-content">
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Recuperar GRUB</span>
+                        </div>
+                        <div class="command">sudo update-grub</div>
+                        <div class="command-description">Actualiza la configuración del gestor de arranque GRUB.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Instalar GRUB</span>
+                        </div>
+                        <div class="command">sudo grub-install /dev/sda</div>
+                        <div class="command-description">Reinstala GRUB en el disco principal.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Forzar cierre de proceso</span>
+                        </div>
+                        <div class="command">sudo kill -9 [PID]</div>
+                        <div class="command-description">Termina forzosamente un proceso por su ID.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Matar proceso por nombre</span>
+                        </div>
+                        <div class="command">sudo pkill [nombre]</div>
+                        <div class="command-description">Termina todos los procesos con un nombre específico.</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command-title">
+                            <span>Script de mantenimiento rápido</span>
+                        </div>
+                        <div class="command">sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean</div>
+                        <div class="command-description">Ejecuta varias operaciones de mantenimiento en una sola línea.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips">
+            <h2><i class="fas fa-lightbulb"></i> Consejos de Mantenimiento Regular</h2>
+            <div class="tip-item">
+                <i class="fas fa-calendar-day"></i>
+                <div>
+                    <h3>Diariamente</h3>
+                    <p>Ejecuta <code>sudo apt update</code> para mantener actualizada la lista de paquetes.</p>
+                </div>
+            </div>
+            <div class="tip-item">
+                <i class="fas fa-calendar-week"></i>
+                <div>
+                    <h3>Semanalmente</h3>
+                    <p>Ejecuta <code>sudo apt upgrade && sudo apt autoremove</code> para mantener el sistema actualizado.</p>
+                </div>
+            </div>
+            <div class="tip-item">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                    <h3>Mensualmente</h3>
+                    <p>Realiza una limpieza de logs y caché para liberar espacio en disco.</p>
+                </div>
+            </div>
+            <div class="tip-item">
+                <i class="fas fa-calendar-check"></i>
+                <div>
+                    <h3>Trimestralmente</h3>
+                    <p>Verifica la salud de tus discos y realiza backups de tus datos importantes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i> Comando copiado al portapapeles
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Guía de Comandos de Mantenimiento para Linux Mint</p>
+            <p>Recuerda siempre tener precaución al ejecutar comandos con privilegios de administrador.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const commands = document.querySelectorAll('.command');
+            const notification = document.getElementById('copyNotification');
+            
+            commands.forEach(command => {
+                command.addEventListener('click', function() {
+                    const textToCopy = this.textContent;
+                    
+                    // Crear un área de texto temporal para copiar
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // Mostrar notificación
+                    notification.classList.add('show');
+                    
+                    // Ocultar notificación después de 2 segundos
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
