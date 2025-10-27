@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Reproducción de contenido audiovisual. Solo con fines educativos o de demostración." />
+    <title>It Serie</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #111, #222);
+            color: #f0f0f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Contenedor principal (menú de capítulos) */
+        #menuCapitulos {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #e50914;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .warning {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+        }
+
+        .capitulos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .capitulos button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            min-width: 120px;
+            flex: 1;
+        }
+
+        .capitulos button:hover {
+            background-color: #b20710;
+            transform: scale(1.02);
+        }
+
+        /* Modo video a pantalla completa */
+        #fullscreenVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #fullscreenVideo iframe {
+            width: 95vw;
+            height: 95vh;
+            max-width: 1200px;
+            max-height: 675px; /* 16:9 */
+            border: none;
+            border-radius: 8px;
+        }
+
+        #fullscreenVideo .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        #fullscreenVideo .close-btn:hover {
+            background: rgba(229, 9, 20, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú de capítulos -->
+    <div id="menuCapitulos">
+        <h1>IT: Bienvenidos a Derry 2025</h1>
+<p>Siguiendo los acontecimientos de la década de 1960, el período previo a los acontecimientos de la primera película de la serie "It" de Stephen King.</p>
+  
+
+
+        <div class="capitulos">
+            <button data-src="https://dingtezuni.com/embed/75u0846gbuwz">Capítulo 1</button>
+            <button data-src="">Capítulo 2</button>
+            <button data-src="">Capítulo 3</button>
+            <button data-src="">Capítulo 4</button>
+            <button data-src="">Capítulo 5</button>
+            <button data-src="">Capítulo 6</button>
+            <button data-src="">Capítulo 7</button>
+            <button data-src="">Capítulo 8</button>
+        </div>
+    </div>
+
+    <!-- Contenedor de video a pantalla completa -->
+    <div id="fullscreenVideo">
+        <button class="close-btn" id="cerrarVideoBtn" aria-label="Cerrar video">&times;</button>
+        <iframe id="videoIframe" src="" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <script>
+        const menu = document.getElementById('menuCapitulos');
+        const fullscreenVideo = document.getElementById('fullscreenVideo');
+        const iframe = document.getElementById('videoIframe');
+        const closeBtn = document.getElementById('cerrarVideoBtn');
+
+        // Botones de capítulos
+        document.querySelectorAll('.capitulos button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const src = btn.getAttribute('data-src').trim();
+                iframe.src = src;
+                menu.style.display = 'none';
+                fullscreenVideo.style.display = 'flex';
+            });
+        });
+
+        // Cerrar video
+        closeBtn.addEventListener('click', () => {
+            iframe.src = '';
+            menu.style.display = 'block';
+            fullscreenVideo.style.display = 'none';
+        });
+
+        // Opcional: cerrar con la tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && fullscreenVideo.style.display === 'flex') {
+                closeBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
