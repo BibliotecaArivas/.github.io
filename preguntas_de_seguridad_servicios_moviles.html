@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación de Servicios Fijos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input[type="text"], input[type="email"], select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #printBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #printBtn:hover {
+            background-color: #2980b9;
+        }
+        
+        #resetBtn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #c0392b;
+        }
+        
+        .validation-message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .info-box {
+            background-color: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Servicio Móvil</h1>
+      
+        
+        <div class="info-box">
+            <strong>Importante:</strong> El titular debe responder correctamente al menos 3 de las 5 preguntas de seguridad para completar la validación.
+        </div>
+        
+        <div class="form-section">
+            <label for="nombreTitular">Nombre del titular:</label>
+            <input type="text" id="nombreTitular" placeholder="Ingrese su nombre completo">
+        </div>
+        
+        <div class="form-section">
+            <h2>Preguntas de Seguridad</h2>
+            
+            <div class="question">
+                <div class="question-text">1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor?</div>
+                <input type="text" id="pregunta1" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.</div>
+                <input type="text" id="pregunta2" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. ¿Por favor me puede confirmar el número al cual Ud. se comunicó con más frecuencia en el último mes?</div>
+               <input type="text" id="pregunta3" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. ¿Por favor me puede confirmar la fecha en la que le acreditan el saldo de su plan?</div>
+                <input type="text" id="pregunta4" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. ¿Cuál es el correo electrónico donde recibe su factura digital?</div>
+                <input type="email" id="pregunta5" placeholder="">
+            </div>
+        </div>
+        
+        <div id="validationMessage" class="validation-message"></div>
+        
+        <div class="buttons">
+            <button id="printBtn">Imprimir y Guardar en TXT</button>
+            <button id="resetBtn">Limpiar Formulario</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const printBtn = document.getElementById('printBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const validationMessage = document.getElementById('validationMessage');
+            
+            // Función para validar las respuestas
+            function validarRespuestas() {
+                const nombreTitular = document.getElementById('nombreTitular').value.trim();
+                const respuestas = [
+                    document.getElementById('pregunta1').value.trim(),
+                    document.getElementById('pregunta2').value.trim(),
+                    document.getElementById('pregunta3').value,
+                    document.getElementById('pregunta4').value.trim(),
+                    document.getElementById('pregunta5').value.trim()
+                ];
+                
+                // Validar que se haya ingresado el nombre
+                if (nombreTitular === '') {
+                    validationMessage.textContent = 'Por favor, ingrese el nombre del titular.';
+                    validationMessage.className = 'validation-message error';
+                    return false;
+                }
+                
+                // Contar respuestas válidas
+                let respuestasValidas = 0;
+                for (let i = 0; i < respuestas.length; i++) {
+                    if (respuestas[i] !== '') {
+                        respuestasValidas++;
+                    }
+                }
+                
+                // Verificar si hay al menos 3 respuestas
+                if (respuestasValidas < 3) {
+                    validationMessage.textContent = 'Debe responder al menos 3 de las 5 preguntas de seguridad.';
+                    validationMessage.className = 'validation-message error';
+                    return false;
+                }
+                
+                validationMessage.textContent = 'Validación exitosa. Puede proceder a imprimir.';
+                validationMessage.className = 'validation-message success';
+                return true;
+            }
+            
+            // Función para generar el contenido del archivo TXT
+            function generarContenidoTXT() {
+                const nombreTitular = document.getElementById('nombreTitular').value;
+                const preguntas = [
+                    "1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor?",
+                    "2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.",
+                    "3. ¿Por favor me puede confirmar el número al cual Ud. se comunicó con más frecuencia en el último mes?",
+                    "4. ¿Por favor me puede confirmar la fecha en la que le acreditan el saldo de su plan?",
+                    "5. ¿Cuál es el correo electrónico donde recibe su factura digital?"
+                ];
+                
+                const respuestas = [
+                    document.getElementById('pregunta1').value,
+                    document.getElementById('pregunta2').value,
+                    document.getElementById('pregunta3').value,
+                    document.getElementById('pregunta4').value,
+                    document.getElementById('pregunta5').value
+                ];
+                
+                let contenido = `VALIDACIÓN DE SERVICIO MOVIL\n`;
+                contenido += `==============================\n\n`;
+                contenido += `Fecha: ${new Date().toLocaleString()}\n`;
+                contenido += `Nombre del titular: ${nombreTitular}\n\n`;
+                contenido += `RESPUESTAS A PREGUNTAS DE SEGURIDAD:\n`;
+                contenido += `------------------------------------\n\n`;
+                
+                for (let i = 0; i < preguntas.length; i++) {
+                    contenido += `${preguntas[i]}\n`;
+                    contenido += `Respuesta: ${respuestas[i] || 'No respondida'}\n\n`;
+                }
+                
+                return contenido;
+            }
+            
+            // Función para guardar como archivo TXT
+            function guardarTXT(contenido, nombreArchivo) {
+                const blob = new Blob([contenido], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nombreArchivo;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+            
+            // Evento para el botón de imprimir/guardar
+            printBtn.addEventListener('click', function() {
+                if (validarRespuestas()) {
+                    const contenido = generarContenidoTXT();
+                    const nombreTitular = document.getElementById('nombreTitular').value.replace(/\s+/g, '_');
+                    const fecha = new Date().toISOString().slice(0, 10);
+                    const nombreArchivo = `Validacion_Servicios_${nombreTitular}_${fecha}.txt`;
+                    
+                    // Guardar como TXT
+                    guardarTXT(contenido, nombreArchivo);
+                    
+                    // También abrir diálogo de impresión
+                   
+                }
+            });
+            
+            // Evento para el botón de limpiar
+            resetBtn.addEventListener('click', function() {
+                document.getElementById('nombreTitular').value = '';
+                document.getElementById('pregunta1').value = '';
+                document.getElementById('pregunta2').value = '';
+                document.getElementById('pregunta3').value = '';
+                document.getElementById('pregunta4').value = '';
+                document.getElementById('pregunta5').value = '';
+                validationMessage.textContent = '';
+                validationMessage.className = 'validation-message';
+            });
+        });
+    </script>
+</body>
+</html>
