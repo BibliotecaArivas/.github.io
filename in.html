@@ -233,6 +233,26 @@
             text-decoration: underline;
         }
 
+        .copy-text-l {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+            color: var(--primary-color);
+            /* Cambia el color para que se destaquen */
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            display: inline-block;
+            /* Permite un mejor padding/hover */
+        }
+
+        .copy-text-l:hover-l {
+            background-color: var(--highlight-bg);
+            /* Un ligero fondo al pasar el ratón */
+            text-decoration: underline;
+        }
+
         /* Nuevo estilo para el botón de Descarga */
         .btn-download {
             background-color: var(--success-color);
@@ -356,6 +376,10 @@
             <div class="form-group">
                 <label for="resumenRetiro">Preguntas de seguridad:</label>
                 <textarea id="resumenRetiro" name="resumenRetiro" rows="3" placeholder=""></textarea>
+                <p class="copy-text-l"><a href="preguntas_de_seguridad_servicios_fijos.html" target="_blank">Fijos</a>
+                </p>
+                <p class="copy-text-l"><a href="preguntas_de_seguridad_servicios_moviles.html" target="_blank">Movil</a>
+                </p>
             </div>
 
             <div class="button-group">
@@ -505,78 +529,78 @@
         }
 
 
-// Función para descargar el contenido de la gestión como archivo .txt
-function descargarGestionTxt() {
-    const form = document.getElementById('techcomForm');
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
+        // Función para descargar el contenido de la gestión como archivo .txt
+        function descargarGestionTxt() {
+            const form = document.getElementById('techcomForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
 
-    const formData = new FormData(form);
-    const campaignName = formData.get('campana') || 'SIN CAMPAÑA';
-    const anillamadorID = formData.get('anillamadorID') || 'Sin ID';
-    let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
+            const formData = new FormData(form);
+            const campaignName = formData.get('campana') || 'SIN CAMPAÑA';
+            const anillamadorID = formData.get('anillamadorID') || 'Sin ID';
+            let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
 
-    // Mapeo y orden de los campos para el output
-    const orderedKeys = [
-        { key: 'campana', label: 'CAMPAÑA' },
-        { key: 'usuario', label: 'USUARIO' },
-        { key: 'das', label: 'DAS' },
-        { key: 'tipoGestion', label: 'Tipo de Gestión' },
-        { key: 'fechaGestion', label: 'Fecha de gestión' },
-        { key: 'horaGestion', label: 'Hora de gestión' },
-        { key: 'anillamadorID', label: 'Anillamador / ID' },
-        { key: 'nombre', label: 'NOMBRE' },
-        { key: 'cedula', label: 'CÉDULA' },
-        { key: 'servicio', label: 'SERVICIO' },
-        { key: 'actualizacionDatos', label: 'Actualización de datos' },
-        { key: 'numerosContacto', label: 'Números de contacto' },
-        { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
-        { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
-        { key: 'resultadoGestion', label: 'Resultado de gestión' },
-        { key: 'observacion', label: 'Observación' },
-        { key: 'resumenRetiro', label: 'Preguntas de seguridad' }
-    ];
+            // Mapeo y orden de los campos para el output
+            const orderedKeys = [
+                { key: 'campana', label: 'CAMPAÑA' },
+                { key: 'usuario', label: 'USUARIO' },
+                { key: 'das', label: 'DAS' },
+                { key: 'tipoGestion', label: 'Tipo de Gestión' },
+                { key: 'fechaGestion', label: 'Fecha de gestión' },
+                { key: 'horaGestion', label: 'Hora de gestión' },
+                { key: 'anillamadorID', label: 'Anillamador / ID' },
+                { key: 'nombre', label: 'NOMBRE' },
+                { key: 'cedula', label: 'CÉDULA' },
+                { key: 'servicio', label: 'SERVICIO' },
+                { key: 'actualizacionDatos', label: 'Actualización de datos' },
+                { key: 'numerosContacto', label: 'Números de contacto' },
+                { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
+                { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
+                { key: 'resultadoGestion', label: 'Resultado de gestión' },
+                { key: 'observacion', label: 'Observación' },
+                { key: 'resumenRetiro', label: 'Preguntas de seguridad' }
+            ];
 
-    orderedKeys.forEach(item => {
-        const value = formData.get(item.key);
-        let displayValue = (value && value.trim()) || 'NO REGISTRADO';
+            orderedKeys.forEach(item => {
+                const value = formData.get(item.key);
+                let displayValue = (value && value.trim()) || 'NO REGISTRADO';
 
-        outputText += `${item.label}: ${displayValue}\n`;
-    });
+                outputText += `${item.label}: ${displayValue}\n`;
+            });
 
-    outputText += '\n---------------------------------------------------------------------------';
+            outputText += '\n---------------------------------------------------------------------------';
 
-    // 1. Crear un Blob (Binary Large Object) con el contenido del texto
-    const blob = new Blob([outputText], { type: 'text/plain' });
-    
-    // 2. Crear una URL para el Blob
-    const url = URL.createObjectURL(blob);
-    
-    // 3. Crear un enlace temporal (<a>)
-    const a = document.createElement('a');
-    a.href = url;
-    
-    // 4. Establecer el nombre del archivo de descarga
-    // Formato sugerido: GESTION_SWAT_AFRIVAS_20251204_1026_ID.txt
-    const fecha = formData.get('fechaGestion').replace(/-/g, '');
-    const hora = formData.get('horaGestion').replace(/:/g, '');
-    const usuario = formData.get('usuario') || 'Usuario';
-    const nombreArchivo = `GESTION_${campaignName}_${usuario}_${fecha}_${hora}_${anillamadorID}.txt`;
-    
-    a.download = nombreArchivo;
-    
-    // 5. Simular un clic para iniciar la descarga
-    document.body.appendChild(a);
-    a.click();
-    
-    // 6. Limpiar (remover el enlace y la URL del Blob)
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert(`Archivo "${nombreArchivo}" generado y descargado exitosamente.`);
-}
+            // 1. Crear un Blob (Binary Large Object) con el contenido del texto
+            const blob = new Blob([outputText], { type: 'text/plain' });
+
+            // 2. Crear una URL para el Blob
+            const url = URL.createObjectURL(blob);
+
+            // 3. Crear un enlace temporal (<a>)
+            const a = document.createElement('a');
+            a.href = url;
+
+            // 4. Establecer el nombre del archivo de descarga
+            // Formato sugerido: GESTION_SWAT_AFRIVAS_20251204_1026_ID.txt
+            const fecha = formData.get('fechaGestion').replace(/-/g, '');
+            const hora = formData.get('horaGestion').replace(/:/g, '');
+            const usuario = formData.get('usuario') || 'Usuario';
+            const nombreArchivo = `GESTION_${campaignName}_${usuario}_${fecha}_${hora}_${anillamadorID}.txt`;
+
+            a.download = nombreArchivo;
+
+            // 5. Simular un clic para iniciar la descarga
+            document.body.appendChild(a);
+            a.click();
+
+            // 6. Limpiar (remover el enlace y la URL del Blob)
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert(`Archivo "${nombreArchivo}" generado y descargado exitosamente.`);
+        }
 
     </script>
 
