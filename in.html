@@ -263,10 +263,50 @@
         .btn-download:hover {
             background-color: #1e7e34;
         }
+
+        /*notificaciones*/
+        /* ... [CSS Existente] ... */
+
+        /* Nuevo estilo para las Notificaciones Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast-message {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(-20px);
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast-message.success {
+            background-color: var(--success-color);
+        }
+
+        .toast-message.error {
+            background-color: var(--clean-color);
+        }
+
+        /* ... [Resto del CSS Existente] ... */
     </style>
 </head>
 
 <body>
+<div id="toastContainer" class="toast-container">
+        </div>
 
     <div class="form-container">
         <h1>Formulario de Gestión</h1>
@@ -316,8 +356,20 @@
             <h2>Datos del Cliente y Servicio</h2>
 
             <div class="form-group">
-                <label for="nombre">Nombre:</label>
+                <label for="nombre">Nombre del titular:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Nombre completo del cliente">
+            </div>
+
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <label for="nombredelapersona">Nombre de la 3era persona o familiar:</label>
+                    <input type="text" id="nombredelapersona"" name=" nombredelapersona""
+                        placeholder="Nombre de la 3era persona o familia">
+                </div>
+                <div class="form-group">
+                    <label for="parentesto">Parentesto:</label>
+                    <input type="text" id="parentesto" name="parentesto" placeholder="Parentesto">
+                </div>
             </div>
 
             <div class="form-group-inline">
@@ -365,12 +417,49 @@
             <div class="form-group">
                 <label for="resultadoGestion">Resultado de gestión:</label>
                 <input type="text" id="resultadoGestion" name="resultadoGestion" required placeholder="">
+                <p class="copy-text">retiro contactado / </p>
+                <p class="copy-text">retiro en proceso / </p>
+                <p class="copy-text">no procede / </p>
+                <p class="copy-text">no aplica / </p>
             </div>
 
             <div class="form-group">
                 <label for="observacion">Observación:</label>
                 <textarea id="observacion" name="observacion" rows="4"
                     placeholder="Notas detalladas sobre la gestión"></textarea>
+                    <p class="copy-text">No es titular del servicio se le indica fechas... según su período de facturación, para que se pueda comunicar el titular.</p>
+                <p class="copy-text">No se pudo validar el contrato ya que cólgo la llamada.</p>
+                <p class="copy-text">No se ingreso solicitud / no se hizo grabación rod</p>
+                <p class="copy-text">procesos coactivos se direcciona a cis.</p>
+            </div>
+            <div class="form-group">
+                <form action="#">
+                    <label for="provincias">Provincias:</label>
+                    <select name="provincias" id="provincias">
+                        <option value="azuay">Azuay</option>
+                        <option value="bolivar">Bolívar</option>
+                        <option value="cañar">Cañar</option>
+                        <option value="carchi">Carchi</option>
+                        <option value="eloro">El oro</option>
+                        <option value="esmeraldas">Esmeraldas</option>
+                        <option value="galapagos">Galápagos</option>
+                        <option value="guayas">Guayas</option>
+                        <option value="imbabura">Imbabura</option>
+                        <option value="loja">Loja</option>
+                        <option value="losrios">Los Ríos</option>
+                        <option value="manabi">Manabí</option>
+                        <option value="moronasantiago">Morona Santiago</option>
+                        <option value="napo">Napo</option>
+                        <option value="orellana">Orellana</option>
+                        <option value="pastaza">Pastaza</option>
+                        <option value="pichincha">Pichincha | 2</option>
+                        <option value="santaelena">Santa Elena</option>
+                        <option value="santodomingo">Santo Domingo</option>
+                        <option value="sucumbios">Sucumbíos</option>
+                        <option value="tungurahua">Tungurahua</option>
+                        <option value="zamorachinchipe">Zamora</option>
+                    </select>
+                </form>
             </div>
 
             <div class="form-group">
@@ -396,213 +485,261 @@
     </div>
 
     <script>
-        // Función para copiar texto al portapapeles
-        function copyToClipboard(text) {
-            // navigator.clipboard es el método moderno y preferido
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text)
-                    .then(() => {
-                        alert(`"${text.trim()}" copiado al portapapeles.`);
-                    })
-                    .catch(err => {
-                        console.error('Error al copiar (API Clipboard):', err);
-                        // Si falla, se usa el método de fallback
-                        fallbackCopyTextToClipboard(text);
-                    });
-            } else {
-                // Fallback para navegadores antiguos o contextos no seguros (http)
-                fallbackCopyTextToClipboard(text);
-            }
+    // Función central para mostrar notificaciones Toast
+    function showToast(message, type = 'info', duration = 3000) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast-message ${type}`;
+        toast.textContent = message;
+
+        container.prepend(toast); // Añadir arriba
+
+        // Mostrar el toast
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
+
+        // Ocultar y remover el toast después de la duración
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                container.removeChild(toast);
+            }, 300); // Esperar la transición de opacidad
+        }, duration);
+    }
+
+    // Función para copiar texto al portapapeles (ACTUALIZADA con showToast)
+    function copyToClipboard(text) {
+        // navigator.clipboard es el método moderno y preferido
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    showToast(`"${text.substring(0, 30).trim()}..." copiado.`, 'success');
+                })
+                .catch(err => {
+                    console.error('Error al copiar (API Clipboard):', err);
+                    // Si falla, se usa el método de fallback
+                    fallbackCopyTextToClipboard(text);
+                });
+        } else {
+            // Fallback para navegadores antiguos o contextos no seguros (http)
+            fallbackCopyTextToClipboard(text);
         }
+    }
 
-        // Función de fallback para navegadores antiguos
-        function fallbackCopyTextToClipboard(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            // Evita que el scroll se mueva al añadir el textarea
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.position = "fixed";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                const successful = document.execCommand('copy');
-                const msg = successful ? 'exitoso' : 'fallido';
-                alert(`"${text.trim()}" copiado al portapapeles (método fallback).`);
-            } catch (err) {
-                console.error('Error al copiar (execCommand):', err);
-                alert('Error: No se pudo copiar el texto al portapapeles.');
-            }
-            document.body.removeChild(textArea);
+    // Función de fallback para navegadores antiguos (ACTUALIZADA con showToast)
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed"; // Ocultar el textarea
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast(`"${text.substring(0, 30).trim()}..." copiado.`, 'success');
+        } catch (err) {
+            console.error('Error al copiar (execCommand):', err);
+            showToast('Error: No se pudo copiar el texto.', 'error', 5000);
         }
+        document.body.removeChild(textArea);
+    }
 
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Establece la fecha y hora actual por defecto
-            const now = new Date();
-            const date = now.toISOString().split('T')[0];
-            const time = now.toTimeString().split(' ')[0].substring(0, 5);
-            document.getElementById('fechaGestion').value = date;
-            document.getElementById('horaGestion').value = time;
-        });
-
-        // Función para simular el guardado de datos
-        function guardarGestion() {
-            const form = document.getElementById('techcomForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            const formData = new FormData(form);
-            const campaignName = formData.get('campana') || 'SIN CAMPAÑA';
-            let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
-
-            // Mapeo y orden de los campos para el output (NUEVOS CAMPOS AÑADIDOS)
-            const orderedKeys = [
-                { key: 'campana', label: 'CAMPAÑA' },
-                { key: 'usuario', label: 'USUARIO' },
-                { key: 'das', label: 'DAS' },
-                { key: 'tipoGestion', label: 'Tipo de Gestión' },
-                { key: 'fechaGestion', label: 'Fecha de gestión' },
-                { key: 'horaGestion', label: 'Hora de gestión' },
-                { key: 'anillamadorID', label: 'Anillamador / ID' },
-                // NUEVOS CAMPOS
-                { key: 'nombre', label: 'NOMBRE' },
-                { key: 'cedula', label: 'CÉDULA' },
-                { key: 'servicio', label: 'SERVICIO' },
-                { key: 'actualizacionDatos', label: 'Actualización de datos' },
-                { key: 'numerosContacto', label: 'Números de contacto' },
-                { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
-                { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
-                // FIN NUEVOS CAMPOS
-                { key: 'resultadoGestion', label: 'Resultado de gestión' },
-                { key: 'observacion', label: 'Observación' },
-                { key: 'resumenRetiro', label: 'Preguntas de seguridad' }
-            ];
-
-            orderedKeys.forEach(item => {
-                const value = formData.get(item.key);
-                let displayValue = (value && value.trim()) || 'NO REGISTRADO';
-
-                outputText += `${item.label}: ${displayValue}\n`;
-            });
-
-            outputText += '\n---------------------------------------------------------------------------';
-
-            document.getElementById('outputText').textContent = outputText;
-            document.getElementById('output').style.display = 'block';
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        // Establece la fecha y hora actual por defecto
+        const now = new Date();
+        const date = now.toISOString().split('T')[0];
+        const time = now.toTimeString().split(' ')[0].substring(0, 5);
+        document.getElementById('fechaGestion').value = date;
+        document.getElementById('horaGestion').value = time;
 
         // NUEVO CÓDIGO: Configurar el evento de clic para copiar
         const copyElements = document.querySelectorAll('.copy-text');
 
         copyElements.forEach(element => {
             element.addEventListener('click', () => {
-                // Elimina espacios en blanco al inicio y final del texto
+                // Obtiene solo el texto del párrafo, ignorando hijos como <a>
+                let textToCopy = element.textContent.trim();
+                
+                // Si el elemento contiene un enlace y está destinado a abrir una página, 
+                // copiamos el texto completo para el textarea, pero no navegamos.
+                // Los elementos con clase '.copy-text' son los párrafos de sugerencia.
+                copyToClipboard(textToCopy);
+            });
+        });
+        
+        // Clic en los elementos con clase .copy-text-l (que tienen enlaces)
+        const copyLinkElements = document.querySelectorAll('.copy-text-l a');
+        
+        copyLinkElements.forEach(element => {
+            element.addEventListener('click', (event) => {
+                // Detiene la navegación del enlace
+                event.preventDefault(); 
+                
+                // Copia el texto del enlace (e.g., "Fijos" o "Movil")
                 const textToCopy = element.textContent.trim();
                 copyToClipboard(textToCopy);
             });
         });
+    });
 
-        // Función para limpiar todos los campos del formulario
-        function limpiarFormulario() {
-            const form = document.getElementById('techcomForm');
 
-            form.reset();
-
-            // 2. Reestablecer los valores por defecto que se setearon en JS (Fecha/Hora)
-            const now = new Date();
-            const date = now.toISOString().split('T')[0];
-            const time = now.toTimeString().split(' ')[0].substring(0, 5);
-            document.getElementById('fechaGestion').value = date;
-            document.getElementById('horaGestion').value = time;
-
-            // 3. Ocultar el cuadro de output si está visible
-            document.getElementById('output').style.display = 'none';
-
-            // 4. Reestablecer el valor por defecto de Campaña (editable)
-            document.getElementById('campana').value = 'SWAT';
-
-            alert('El formulario ha sido limpiado y la fecha/hora actual ha sido reestablecida.');
+    // Función para simular el guardado de datos (ACTUALIZADA con showToast)
+    function guardarGestion() {
+        const form = document.getElementById('techcomForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            showToast('⚠️ Faltan campos obligatorios. Revise el formulario.', 'error', 4000);
+            return;
         }
 
+        const formData = new FormData(form);
+        const campaignName = formData.get('campana') || 'SIN CAMPAÑA';
+        let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
 
-        // Función para descargar el contenido de la gestión como archivo .txt
-        function descargarGestionTxt() {
-            const form = document.getElementById('techcomForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
+        // ... (Tu lógica de mapeo de campos, sin cambios) ...
+        const orderedKeys = [
+            { key: 'campana', label: 'CAMPAÑA' },
+            { key: 'usuario', label: 'USUARIO' },
+            { key: 'das', label: 'DAS' },
+            { key: 'tipoGestion', label: 'Tipo de Gestión' },
+            { key: 'fechaGestion', label: 'Fecha de gestión' },
+            { key: 'horaGestion', label: 'Hora de gestión' },
+            { key: 'anillamadorID', label: 'Anillamador / ID' },
+            { key: 'nombre', label: 'NOMBRE del titular' },
+            { key: 'nombredelapersona', label: 'Nombre 3era persona' },
+            { key: 'parentesto', label: 'Parentesto' },
+            { key: 'cedula', label: 'CÉDULA' },
+            { key: 'servicio', label: 'SERVICIO' },
+            { key: 'actualizacionDatos', label: 'Actualización de datos' },
+            { key: 'numerosContacto', label: 'Números de contacto' },
+            { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
+            { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
+            { key: 'resultadoGestion', label: 'Resultado de gestión' },
+            { key: 'observacion', label: 'Observación' },
+            { key: 'provincias', label: 'Provincia seleccionada' },
+            { key: 'resumenRetiro', label: 'Preguntas de seguridad' }
+        ];
+
+        orderedKeys.forEach(item => {
+            const value = formData.get(item.key);
+            let displayValue = (value && value.trim()) || 'NO REGISTRADO';
+
+            // Para la provincia, usa el texto de la opción seleccionada si es posible
+            if (item.key === 'provincias') {
+                const selectElement = document.getElementById('provincias');
+                displayValue = selectElement.options[selectElement.selectedIndex].text || displayValue;
             }
 
-            const formData = new FormData(form);
-            const campaignName = formData.get('campana') || 'SIN CAMPAÑA';
-            const anillamadorID = formData.get('anillamadorID') || 'Sin ID';
-            let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
 
-            // Mapeo y orden de los campos para el output
-            const orderedKeys = [
-                { key: 'campana', label: 'CAMPAÑA' },
-                { key: 'usuario', label: 'USUARIO' },
-                { key: 'das', label: 'DAS' },
-                { key: 'tipoGestion', label: 'Tipo de Gestión' },
-                { key: 'fechaGestion', label: 'Fecha de gestión' },
-                { key: 'horaGestion', label: 'Hora de gestión' },
-                { key: 'anillamadorID', label: 'Anillamador / ID' },
-                { key: 'nombre', label: 'NOMBRE' },
-                { key: 'cedula', label: 'CÉDULA' },
-                { key: 'servicio', label: 'SERVICIO' },
-                { key: 'actualizacionDatos', label: 'Actualización de datos' },
-                { key: 'numerosContacto', label: 'Números de contacto' },
-                { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
-                { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
-                { key: 'resultadoGestion', label: 'Resultado de gestión' },
-                { key: 'observacion', label: 'Observación' },
-                { key: 'resumenRetiro', label: 'Preguntas de seguridad' }
-            ];
+            outputText += `${item.label}: ${displayValue}\n`;
+        });
 
-            orderedKeys.forEach(item => {
-                const value = formData.get(item.key);
-                let displayValue = (value && value.trim()) || 'NO REGISTRADO';
+        outputText += '\n---------------------------------------------------------------------------';
 
-                outputText += `${item.label}: ${displayValue}\n`;
-            });
+        document.getElementById('outputText').textContent = outputText;
+        document.getElementById('output').style.display = 'block';
+        showToast('✅ Gestión guardada y lista para copiar/descargar.', 'success'); // Mensaje de éxito
+    }
 
-            outputText += '\n---------------------------------------------------------------------------';
+    // Función para limpiar todos los campos del formulario (ACTUALIZADA con showToast)
+    function limpiarFormulario() {
+        const form = document.getElementById('techcomForm');
+        form.reset();
 
-            // 1. Crear un Blob (Binary Large Object) con el contenido del texto
-            const blob = new Blob([outputText], { type: 'text/plain' });
+        // 2. Reestablecer los valores por defecto que se setearon en JS (Fecha/Hora)
+        const now = new Date();
+        const date = now.toISOString().split('T')[0];
+        const time = now.toTimeString().split(' ')[0].substring(0, 5);
+        document.getElementById('fechaGestion').value = date;
+        document.getElementById('horaGestion').value = time;
 
-            // 2. Crear una URL para el Blob
-            const url = URL.createObjectURL(blob);
+        // 3. Ocultar el cuadro de output si está visible
+        document.getElementById('output').style.display = 'none';
 
-            // 3. Crear un enlace temporal (<a>)
-            const a = document.createElement('a');
-            a.href = url;
+        // 4. Reestablecer el valor por defecto de Campaña (editable)
+        document.getElementById('campana').value = 'SWAT';
+        
+        showToast('🧹 Formulario limpiado. Fecha/hora actualizadas.', 'info'); // Mensaje de limpieza
+    }
 
-            // 4. Establecer el nombre del archivo de descarga
-            // Formato sugerido: GESTION_SWAT_AFRIVAS_20251204_1026_ID.txt
-            const fecha = formData.get('fechaGestion').replace(/-/g, '');
-            const hora = formData.get('horaGestion').replace(/:/g, '');
-            const usuario = formData.get('usuario') || 'Usuario';
-            const nombreArchivo = `GESTION_${campaignName}_${usuario}_${fecha}_${hora}_${anillamadorID}.txt`;
 
-            a.download = nombreArchivo;
-
-            // 5. Simular un clic para iniciar la descarga
-            document.body.appendChild(a);
-            a.click();
-
-            // 6. Limpiar (remover el enlace y la URL del Blob)
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert(`Archivo "${nombreArchivo}" generado y descargado exitosamente.`);
+    // Función para descargar el contenido de la gestión como archivo .txt (ACTUALIZADA con showToast)
+    function descargarGestionTxt() {
+        const form = document.getElementById('techcomForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            showToast('⚠️ Faltan campos obligatorios. No se puede descargar.', 'error', 4000);
+            return;
         }
 
-    </script>
+        const formData = new FormData(form);
+        const campaignName = formData.get('campana') || 'SIN CAMPAÑA';
+        const anillamadorID = formData.get('anillamadorID') || 'Sin ID';
+        let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
+
+        // ... (Lógica de mapeo y formateo de texto, igual a guardarGestion) ...
+        const orderedKeys = [
+            { key: 'campana', label: 'CAMPAÑA' },
+            { key: 'usuario', label: 'USUARIO' },
+            { key: 'das', label: 'DAS' },
+            { key: 'tipoGestion', label: 'Tipo de Gestión' },
+            { key: 'fechaGestion', label: 'Fecha de gestión' },
+            { key: 'horaGestion', label: 'Hora de gestión' },
+            { key: 'anillamadorID', label: 'Anillamador / ID' },
+            { key: 'nombre', label: 'NOMBRE del titular' },
+            { key: 'nombredelapersona', label: 'Nombre 3era persona' },
+            { key: 'parentesto', label: 'Parentesto' },
+            { key: 'cedula', label: 'CÉDULA' },
+            { key: 'servicio', label: 'SERVICIO' },
+            { key: 'actualizacionDatos', label: 'Actualización de datos' },
+            { key: 'numerosContacto', label: 'Números de contacto' },
+            { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
+            { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
+            { key: 'resultadoGestion', label: 'Resultado de gestión' },
+            { key: 'observacion', label: 'Observación' },
+            { key: 'provincias', label: 'Provincia seleccionada' },
+            { key: 'resumenRetiro', label: 'Preguntas de seguridad' }
+        ];
+
+
+        orderedKeys.forEach(item => {
+            const value = formData.get(item.key);
+            let displayValue = (value && value.trim()) || 'NO REGISTRADO';
+
+            if (item.key === 'provincias') {
+                const selectElement = document.getElementById('provincias');
+                displayValue = selectElement.options[selectElement.selectedIndex].text || displayValue;
+            }
+
+            outputText += `${item.label}: ${displayValue}\n`;
+        });
+
+
+        outputText += '\n---------------------------------------------------------------------------';
+
+        // 1. Crear Blob y forzar descarga
+        const blob = new Blob([outputText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+
+        const fecha = formData.get('fechaGestion').replace(/-/g, '');
+        const hora = formData.get('horaGestion').replace(/:/g, '');
+        const usuario = formData.get('usuario') || 'Usuario';
+        const nombreArchivo = `GESTION_${campaignName}_${usuario}_${fecha}_${hora}_${anillamadorID}.txt`;
+
+        a.download = nombreArchivo;
+        document.body.appendChild(a);
+        a.click();
+
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast(`⬇️ Archivo "${nombreArchivo}" descargado.`, 'success', 5000); // Mensaje de descarga
+    }
+</script>
 
 </body>
 
