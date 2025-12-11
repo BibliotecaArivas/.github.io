@@ -126,15 +126,18 @@
     <aside class="sidebar">
       <h3>🗒️ Se ofreció:</h3>
       <div class="note">
-        * no acepta el 100% de descuento en pb x 5 meses consecutivos.<br>
-        * no acepta cesión de derechos.<br>
-        * no acepta el 55% de descuento en su pb de decodificador principal x 3 meses consecutivos.<br>
-        * no acepta aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.<br>
+        <span class="helper-inline copy-text">*no acepta el 100% de descuento en pb x 5 meses consecutivos.<br></span>
+        <span class="helper-inline copy-text">*no acepta cesión de derechos.<br></span>
+        <span class="helper-inline copy-text">*no acepta el 55% de descuento en su pb para decodificador principal x 3 meses consecutivos.<br></span>
+        <span class="helper-inline copy-text">*no acepta aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.<br></span>
+        
       </div>
 
       <h3>🗒️ Beneficios:</h3>
       <div class="note">
-        * aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.
+        <span class="helper-inline copy-text">*aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.</span>
+        <span class="helper-inline copy-text"></span>
+        
       </div>
     </aside>
 
@@ -151,6 +154,10 @@
           <div>
             <label for="campana">Campaña</label>
             <input id="campana" name="campana" type="text" value="SWAT" required>
+                <div style="margin-top:8px;">
+              <span class="helper-inline copy-text">SWAT</span>
+              <span class="helper-inline copy-text">MORA</span>
+            </div>
           </div>
           <div>
             <label for="usuario">Usuario</label>
@@ -183,36 +190,60 @@
         <div class="row">
           <div>
             <label for="anillamadorID">Anillamador / ID</label>
-            <input id="anillamadorID" name="anillamadorID" type="text" required placeholder="ID / referencia">
+            <input id="anillamadorID" name="anillamadorID" type="text" required placeholder="Ingresa anillamador">
           </div>
 
         <div class="row">
           <div>
             <label for="nombre">Nombre del titular</label>
-            <input id="nombre" name="nombre" type="text" placeholder="Nombre completo">
+            <input id="nombre" name="nombre" type="text" placeholder="Nombres / Apellidos Completos">
           </div>
 
              <div>
             <label for="cedula">Cédula</label>
-            <input id="cedula" name="cedula" type="text" placeholder="Número de identificación">
+            <input id="cedula" name="cedula" type="text" placeholder="Ingresa número de cédula">
           </div>
         </div>
 
           <div>
             <label for="nombredelapersona">Nombre 3era persona o familiar</label>
-            <input id="nombredelapersona" name="nombredelapersona" type="text" placeholder="Nombre 3era persona">
+            <input id="nombredelapersona" name="nombredelapersona" type="text" placeholder="Nombre 3era persona o familiar...">
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label for="parentesto">Parentesto</label>
-            <input id="parentesto" name="parentesto" type="text" placeholder="Parentesco">
+            <label for="parentesco">Parentesco</label>
+            <input id="parentesco" name="parentesco" type="text" placeholder="Ingresa parentesco">
+          </div>
+
+             <div>
+            <label for="servicio">Servicio</label>
+            <input id="servicio" name="servicio" type="text" placeholder="Ingresa números de servicios">
+          </div>
+
+          </div>
+
+
+          
+<div class="row">
+     <div>
+            <label for="ruc">RUC</label>
+            <input id="ruc" name="ruc" type="text" placeholder="Ingresa ruc">
           </div>
 
           <div>
-            <label for="servicio">Servicio</label>
-            <input id="servicio" name="servicio" type="text" placeholder="Números de servicios">
+            <label for="empresa">Nombre de la empresa:</label>
+            <input id="empresa" name="empresa" type="text" placeholder="Ingresa nombre de la empresa">
+          </div>
+ <div>
+            <label for="nombredelrepresentantelegal">Nombre del representante legal o asignado</label>
+            <input id="nombredelrepresentantelegal" name="nombredelrepresentantelegal" type="text" placeholder="Nombre del representante legal o asignado">
+          </div>
+      
+          <div>
+            <label for="serviciodelaempresa">Servicios de la empresa</label>
+            <input id="serviciodelaempresa" name="serviciodelaempresa" type="text" placeholder="Ingresa números de servicios">
           </div>
         </div>
 
@@ -222,11 +253,16 @@
         <div class="row">
           <div>
             <label for="actualizacionDatos">Actualización de datos</label>
-            <textarea id="actualizacionDatos" name="actualizacionDatos" rows="2" placeholder="Detalles..."></textarea>
+            <textarea id="actualizacionDatos" name="actualizacionDatos" rows="2" placeholder="Si / No"></textarea>
+            <div style="margin-top:8px;">
+              <span class="helper-inline copy-text">Sí, se actualiza datos en llamada.</span>
+              <span class="helper-inline copy-text">No, Hubo problemas con el omnicanal.</span>
+              <span class="helper-inline copy-text">No, Datos estan actualizados última actualización fecha:</span>
+            </div>
           </div>
           <div>
             <label for="numerosContacto">Números de contacto</label>
-            <input id="numerosContacto" name="numerosContacto" type="text" placeholder="0999...">
+            <input id="numerosContacto" name="numerosContacto" type="text" placeholder="0999999999">
           </div>
         </div>
 
@@ -235,11 +271,11 @@
         <div class="row">
           <div>
             <label for="peticionSCQU">Petición de SCQU</label>
-            <textarea id="peticionSCQU" name="peticionSCQU" rows="2" placeholder="Código"></textarea>
+            <textarea id="peticionSCQU" name="peticionSCQU" rows="2" placeholder="Ingresa Códigos para TF IF o DTH"></textarea>
           </div>
           <div>
             <label for="ticketSolicitud">Ticket de Solicitud</label>
-            <input id="ticketSolicitud" name="ticketSolicitud" type="text" placeholder="Código smartflex">
+            <input id="ticketSolicitud" name="ticketSolicitud" type="text" placeholder="Ingresa Códigos para Servicio Móvil">
           </div>
         </div>
 
@@ -248,14 +284,25 @@
             <label for="resultadoGestion">Resultado de gestión</label>
             <input id="resultadoGestion" name="resultadoGestion" type="text" required placeholder="">
             <div style="margin-top:8px;">
-              <span class="helper-inline copy-text">retiro contactado</span>
-              <span class="helper-inline copy-text">retiro en proceso</span>
+              <span class="helper-inline copy-text">no aplica / </span>
+              <span class="helper-inline copy-text">no procede / </span>
+              <span class="helper-inline copy-text">retiro contactado /</span>
+              <span class="helper-inline copy-text">retiro en proceso / entrega de equipos en cis /</span>
               <span class="helper-inline copy-text">pendiente / escaldo comercial</span>
+              <span class="helper-inline copy-text">pendiente / escaldo técnico</span>
             </div>
           </div>
           <div>
             <label for="observacion">Observación</label>
-            <textarea id="observacion" name="observacion" rows="4" placeholder="Notas detalladas"></textarea>
+            <textarea id="observacion" name="observacion" rows="4" placeholder=""></textarea>
+                   <div style="margin-top:8px;">
+              <span class="helper-inline copy-text">No es titular del servicio se le indica fechas... según su período de facturación, para que se pueda comunicar el titular.</span>
+              <span class="helper-inline copy-text">*No se pudo validar el contrato ya que el cliente cólgo la llamada.</span>
+              <span class="helper-inline copy-text">*No se ingresa solicitud / no se hizo grabación rod</span>
+              <span class="helper-inline copy-text">*Titular acepta entrega de equipo en cis</span>
+              <span class="helper-inline copy-text">procesos coactivos se direcciona a cis.</span>
+              <span class="helper-inline copy-text"></span>
+            </div>
           </div>
         </div>
 
@@ -273,11 +320,11 @@
               <option value="pichincha">Pichincha 2</option>
               <option value="cotopaxi">Cotopaxi 3</option>
               <option value="chimborazo">Chimborazo 3</option>
-              <option value="tungurahua">Tungurahua</option>
+              <option value="tungurahua">Tungurahua 3</option>
               <option value="pastaza">Pastaza 3</option>
               <option value="manabi">Manabí 4</option>
               <option value="galapagos">Galápagos 4</option>
-              <option value="santodomingo">Santo Domingo 4</option>
+              <option value="santodomingo">Santo Domingo Tsachilas 4</option>
               <option value="bolivar">Bolívar 5</option>
               <option value="santaelena">Santa Elena 5</option>
               <option value="losrios">Los Ríos 5</option>
@@ -292,14 +339,14 @@
           </div>
           <div>
             <label for="cis">Agencia para entrega de equipo</label>
-            <textarea id="cis" name="cis" rows="3" placeholder="Agencia para entrega de equipo"></textarea>
+            <textarea id="cis" name="cis" rows="3" placeholder="Ingresa cis"></textarea>
           </div>
         </div>
 
         <div class="row">
           <div>
             <label for="preguntas">Preguntas de seguridad</label>
-            <textarea id="preguntas" name="preguntas" rows="3" placeholder="Preguntas de seguridad / respuestas"></textarea>
+            <textarea id="preguntas" name="preguntas" rows="3" placeholder="Ingresa preguntas más las respuestas del cliente"></textarea>
             <div style="margin-top:8px;">
                 <p><a href="preguntas_de_seguridad_servicios_fijos.html" target="_blank">Fijos</a></p>
                 <p><a href="preguntas_de_seguridad_servicios_moviles.html" target="_blank">Movil</a></p>
@@ -405,9 +452,13 @@
         { key: 'anillamadorID', label: 'Anillamador / ID' },
         { key: 'nombre', label: 'NOMBRE del titular' },
         { key: 'nombredelapersona', label: 'Nombre 3era persona' },
-        { key: 'parentesto', label: 'Parentesto' },
+        { key: 'parentesco', label: 'Parentesco' },
         { key: 'cedula', label: 'CÉDULA' },
         { key: 'servicio', label: 'SERVICIO' },
+        { key: 'ruc', label: 'RUC' },
+        { key: 'empresa', label: 'Nombre de la empresa' },
+        { key: 'nombredelrepresentantelegal', label: 'Nombre del representante legal o asignado' },
+        { key: 'serviciodelaempresa', label: 'Servicios de la empresa' },
         { key: 'actualizacionDatos', label: 'Actualización de datos' },
         { key: 'numerosContacto', label: 'Números de contacto' },
         { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
@@ -498,9 +549,13 @@
         { key: 'anillamadorID', label: 'Anillamador / ID' },
         { key: 'nombre', label: 'NOMBRE del titular' },
         { key: 'nombredelapersona', label: 'Nombre 3era persona' },
-        { key: 'parentesto', label: 'Parentesto' },
+        { key: 'parentesco', label: 'Parentesco' },
         { key: 'cedula', label: 'CÉDULA' },
         { key: 'servicio', label: 'SERVICIO' },
+        { key: 'ruc', label: 'RUC' },
+        { key: 'empresa', label: 'Nombre de la empresa' },
+        { key: 'nombredelrepresentantelegal', label: 'Nombre del representante legal o asignado' },
+        { key: 'serviciodelaempresa', label: 'Servicios de la empresa' },
         { key: 'actualizacionDatos', label: 'Actualización de datos' },
         { key: 'numerosContacto', label: 'Números de contacto' },
         { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
