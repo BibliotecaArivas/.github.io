@@ -380,233 +380,214 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
-    /********** Utilidades Toast & Copy **********/
-    function showToast(message, type = 'info', duration = 3000){
-      const container = document.getElementById('toastContainer');
-      if(!container) return;
-      const t = document.createElement('div');
-      t.className = 'toast ' + (type === 'success' ? 'success' : type === 'error' ? 'error' : 'info');
-      t.textContent = message;
-      container.appendChild(t);
-      // force reflow for animation
-      setTimeout(()=> t.classList.add('show'), 10);
-      setTimeout(()=> { t.classList.remove('show'); setTimeout(()=> t.remove(), 300); }, duration);
-    }
+/********** Utilidades Toast & Copy **********/
+function showToast(message, type = 'info', duration = 3000){
+  const container = document.getElementById('toastContainer');
+  if(!container) return;
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type === 'success' ? 'success' : type === 'error' ? 'error' : 'info');
+  t.textContent = message;
+  container.appendChild(t);
 
-    function copyToClipboard(text){
-      if(navigator.clipboard && window.isSecureContext){
-        navigator.clipboard.writeText(text).then(()=> showToast('Copiado al portapapeles', 'success'));
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = text; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); showToast('Copiado al portapapeles', 'success'); } catch(e){ showToast('No se pudo copiar', 'error'); }
-        ta.remove();
+  setTimeout(()=> t.classList.add('show'), 10);
+  setTimeout(()=> { t.classList.remove('show'); setTimeout(()=> t.remove(), 300); }, duration);
+}
+
+function copyToClipboard(text){
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(()=> showToast('Copiado al portapapeles', 'success'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast('Copiado al portapapeles', 'success'); }
+    catch(e){ showToast('No se pudo copiar', 'error'); }
+    ta.remove();
+  }
+}
+
+/********** Init fecha/hora y eventos **********/
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  document.getElementById('fechaGestion').value = now.toISOString().split('T')[0];
+  document.getElementById('horaGestion').value = now.toTimeString().split(' ')[0].substring(0,5);
+
+  document.querySelectorAll('.copy-text').forEach(el => {
+    el.addEventListener('click', ()=> copyToClipboard(el.textContent.trim()));
+  });
+
+  const preguntas = document.getElementById('preguntas');
+  document.querySelectorAll('.text-inserter').forEach(btn => {
+    btn.addEventListener('click', (ev)=>{
+      ev.preventDefault();
+      const txt = btn.getAttribute('data-text') || btn.textContent.trim();
+      if(preguntas){
+        preguntas.value += (preguntas.value.length ? '\n' : '') + txt + ': ';
+        preguntas.focus();
+        showToast('Separador agregado a Preguntas', 'info', 1500);
       }
-    }
-
-    /********** Init fecha/hora y eventos **********/
-    document.addEventListener('DOMContentLoaded', () => {
-      // fecha/hora por defecto
-      const now = new Date();
-      document.getElementById('fechaGestion').value = now.toISOString().split('T')[0];
-      document.getElementById('horaGestion').value = now.toTimeString().split(' ')[0].substring(0,5);
-
-      // attach copy event to .copy-text
-      document.querySelectorAll('.copy-text').forEach(el => {
-        el.addEventListener('click', ()=> copyToClipboard(el.textContent.trim()));
-      });
-
-      // insertar texto en preguntas (text-inserter)
-      const preguntas = document.getElementById('preguntas');
-      document.querySelectorAll('.text-inserter').forEach(btn => {
-        btn.addEventListener('click', (ev)=>{
-          ev.preventDefault();
-          const txt = btn.getAttribute('data-text') || btn.textContent.trim();
-          if(preguntas){
-            preguntas.value += (preguntas.value.length ? '\n' : '') + txt + ': ';
-            preguntas.focus();
-            showToast('Separador agregado a Preguntas', 'info', 1500);
-          }
-        });
-      });
-
-      // si existen gestiones guardadas, no hacemos nada pero podrías listarlas
     });
+  });
+});
 
-    /********** FUNCIONES PRINCIPALES **********/
+/********** ESTRUCTURA ORDENADA **********/
+const orderedKeys = [
+  { key: 'campana', label: 'CAMPAÑA' },
+  { key: 'usuario', label: 'USUARIO' },
+  { key: 'das', label: 'DAS' },
+  { key: 'tipoGestion', label: 'Tipo de Gestión' },
+  { key: 'fechaGestion', label: 'Fecha de gestión' },
+  { key: 'horaGestion', label: 'Hora de gestión' },
 
-    function guardarGestion(){
-      const form = document.getElementById('techcomForm');
-      if(!form) { showToast('Formulario no encontrado', 'error'); return; }
-      if(!form.checkValidity()){
-        form.reportValidity();
-        showToast('Faltan campos obligatorios', 'error');
-        return;
+  { separator: true },
+
+  { key: 'anillamadorID', label: 'Anillamador / ID' },
+  { key: 'nombre', label: 'NOMBRE del titular' },
+  { key: 'nombredelapersona', label: 'Nombre 3era persona' },
+  { key: 'parentesco', label: 'Parentesco' },
+  { key: 'cedula', label: 'CÉDULA' },
+  { key: 'servicio', label: 'SERVICIO' },
+
+  { separator: true },
+
+  { key: 'ruc', label: 'RUC' },
+  { key: 'empresa', label: 'Nombre de la empresa' },
+  { key: 'nombredelrepresentantelegal', label: 'Nombre del representante legal o asignado' },
+  { key: 'serviciodelaempresa', label: 'Servicios de la empresa' },
+
+  { separator: true },
+
+  { key: 'actualizacionDatos', label: 'Actualización de datos' },
+  { key: 'numerosContacto', label: 'Números de contacto' },
+  { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
+  { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
+
+  { separator: true },
+
+  { key: 'resultadoGestion', label: 'Resultado de gestión' },
+
+  { separator: true },
+
+  { key: 'observacion', label: 'Observación' },
+  { key: 'provincias', label: 'Provincia seleccionada' },
+  { key: 'cis', label: 'Agencia para entrega de equipo' },
+
+  { separator: true },
+
+  { key: 'preguntas', label: 'Preguntas de seguridad' }
+];
+
+/********** GUARDAR GESTIÓN **********/
+function guardarGestion(){
+  const form = document.getElementById('techcomForm');
+  if(!form){ showToast('Formulario no encontrado', 'error'); return; }
+
+  if(!form.checkValidity()){
+    form.reportValidity();
+    showToast('Faltan campos obligatorios', 'error');
+    return;
+  }
+
+  const formData = new FormData(form);
+  const obj = {};
+
+  orderedKeys.forEach(item => {
+    if(item.separator) return;
+    let val = formData.get(item.key);
+
+    if(item.key === 'provincias'){
+      const sel = document.getElementById('provincias');
+      val = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : val;
+    }
+
+    obj[item.key] = val ? val.toString().trim() : '';
+  });
+
+  const lista = JSON.parse(localStorage.getItem('gestionesGuardadas') || '[]');
+  lista.push({ id: Date.now(), createdAt: new Date().toISOString(), data: obj });
+  localStorage.setItem('gestionesGuardadas', JSON.stringify(lista));
+
+  let pretty = `--- REGISTRO DE GESTIÓN (${obj.campana || 'SIN CAMPAÑA'}) ---\n\n`;
+
+  orderedKeys.forEach(k => {
+    if(k.separator){
+      pretty += `\n`;
+    } else {
+      pretty += `${k.label}: ${obj[k.key] || 'NO REGISTRADO'}\n`;
+    }
+  });
+
+  pretty += '\n-----------------------------------------------------------------';
+
+  document.getElementById('outputText').textContent = pretty;
+  document.getElementById('output').style.display = 'block';
+
+  showToast('✅ Gestión guardada correctamente', 'success');
+}
+
+/********** LIMPIAR FORMULARIO **********/
+function limpiarFormulario(){
+  const form = document.getElementById('techcomForm');
+  form.reset();
+
+  const now = new Date();
+  document.getElementById('fechaGestion').value = now.toISOString().split('T')[0];
+  document.getElementById('horaGestion').value = now.toTimeString().split(' ')[0].substring(0,5);
+
+  document.getElementById('output').style.display = 'none';
+  showToast('🧹 Formulario limpiado', 'info');
+}
+
+/********** DESCARGAR TXT **********/
+function descargarGestionTxt(){
+  const form = document.getElementById('techcomForm');
+  if(!form){ showToast('Formulario no encontrado', 'error'); return; }
+
+  if(!form.checkValidity()){
+    form.reportValidity();
+    showToast('Complete los campos obligatorios', 'error');
+    return;
+  }
+
+  const formData = new FormData(form);
+  let outputText = `--- REGISTRO DE GESTIÓN (${formData.get('campana') || 'SIN_CAMPAÑA'}) ---\n\n`;
+
+  orderedKeys.forEach(item => {
+    if(item.separator){
+      outputText += "\n";
+    } else {
+      let val = formData.get(item.key);
+
+      if(item.key === 'provincias'){
+        const sel = document.getElementById('provincias');
+        val = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : val;
       }
 
-      // Leer todos los campos (incluyendo cis y preguntas)
-      const formData = new FormData(form);
-      const obj = {};
-      // campos que queremos en orden y con etiquetas
-      const orderedKeys = [
-        { key: 'campana', label: 'CAMPAÑA' },
-        { key: 'usuario', label: 'USUARIO' },
-        { key: 'das', label: 'DAS' },
-        { key: 'tipoGestion', label: 'Tipo de Gestión' },
-        { key: 'fechaGestion', label: 'Fecha de gestión' },
-        { key: 'horaGestion', label: 'Hora de gestión' },
-        { key: 'anillamadorID', label: 'Anillamador / ID' },
-        { key: 'nombre', label: 'NOMBRE del titular' },
-        { key: 'nombredelapersona', label: 'Nombre 3era persona' },
-        { key: 'parentesco', label: 'Parentesco' },
-        { key: 'cedula', label: 'CÉDULA' },
-        { key: 'servicio', label: 'SERVICIO' },
-        { key: 'ruc', label: 'RUC' },
-        { key: 'empresa', label: 'Nombre de la empresa' },
-        { key: 'nombredelrepresentantelegal', label: 'Nombre del representante legal o asignado' },
-        { key: 'serviciodelaempresa', label: 'Servicios de la empresa' },
-        { key: 'actualizacionDatos', label: 'Actualización de datos' },
-        { key: 'numerosContacto', label: 'Números de contacto' },
-        { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
-        { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
-        { key: 'resultadoGestion', label: 'Resultado de gestión' },
-        { key: 'observacion', label: 'Observación' },
-        { key: 'provincias', label: 'Provincia seleccionada' },
-        { key: 'cis', label: 'Agencia para entrega de equipo' },
-        { key: 'preguntas', label: 'Preguntas de seguridad' }
-      ];
-
-      // Construir objeto con todos los campos (asegurando leer textarea y select)
-      orderedKeys.forEach(item => {
-        let val = formData.get(item.key);
-        // Para selects como provincias obtener texto de opción si existe
-        if(item.key === 'provincias'){
-          const sel = document.getElementById('provincias');
-          val = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : val;
-        }
-        // Asegurar que no sea null
-        obj[item.key] = (val && typeof val === 'string') ? val.trim() : (val || '');
-      });
-
-      // Guardar en localStorage (lista)
-      const listaKey = 'gestionesGuardadas';
-      const lista = JSON.parse(localStorage.getItem(listaKey) || '[]');
-      const registro = {
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-        data: obj
-      };
-      lista.push(registro);
-      localStorage.setItem(listaKey, JSON.stringify(lista));
-
-      // Mostrar output en pantalla
-      const outputText = document.getElementById('outputText');
-      const output = document.getElementById('output');
-      let pretty = `--- REGISTRO DE GESTIÓN (${obj.campana || 'SIN CAMPAÑA'}) ---\n\n`;
-      orderedKeys.forEach(k => {
-        pretty += `${k.label}: ${obj[k.key] || 'NO REGISTRADO'}\n`;
-      });
-      pretty += '\n-----------------------------------------------------------------';
-      outputText.textContent = pretty;
-      output.style.display = 'block';
-
-      showToast('✅ Gestión guardada correctamente', 'success', 3000);
+      val = val ? val.toString().trim() : 'NO REGISTRADO';
+      outputText += `${item.label}: ${val}\n`;
     }
+  });
 
-    function limpiarFormulario(){
-      const form = document.getElementById('techcomForm');
-      if(!form) return;
-      form.reset();
+  outputText += '\n-----------------------------------------------------------------';
 
-      // reestablecer fecha/hora
-      const now = new Date();
-      document.getElementById('fechaGestion').value = now.toISOString().split('T')[0];
-      document.getElementById('horaGestion').value = now.toTimeString().split(' ')[0].substring(0,5);
-      // limpiar output
-      const output = document.getElementById('output');
-      if(output) output.style.display = 'none';
-      showToast('🧹 Formulario limpiado', 'info', 1400);
-    }
+  const fecha = formData.get('fechaGestion')?.replace(/-/g,'') || '00000000';
+  const hora = formData.get('horaGestion')?.replace(/:/g,'') || '0000';
+  const usuario = formData.get('usuario') || 'Usuario';
+  const id = formData.get('anillamadorID') || 'SinID';
 
-    function descargarGestionTxt(){
-      const form = document.getElementById('techcomForm');
-      if(!form) { showToast('Formulario no encontrado', 'error'); return; }
-      if(!form.checkValidity()){
-        form.reportValidity();
-        showToast('Complete los campos obligatorios', 'error');
-        return;
-      }
+  const safe = s => (''+s).replace(/[^\w\-_\. ]/g,'').substring(0,80);
+  const filename = `GESTION_${safe(usuario)}_${fecha}_${hora}_${safe(id)}.txt`;
 
-      const formData = new FormData(form);
-      const campaignName = formData.get('campana') || 'SIN_CAMPAÑA';
-      const anillamadorID = formData.get('anillamadorID') || 'SinID';
-      const usuario = formData.get('usuario') || 'Usuario';
-      const fecha = formData.get('fechaGestion') ? formData.get('fechaGestion').replace(/-/g,'') : 'YYYYMMDD';
-      const hora = formData.get('horaGestion') ? formData.get('horaGestion').replace(/:/g,'') : 'HHMM';
+  const blob = new Blob([outputText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  a.remove(); URL.revokeObjectURL(url);
 
-      // Reusar la misma estructura orderedKeys para consistencia
-      const orderedKeys = [
-        { key: 'campana', label: 'CAMPAÑA' },
-        { key: 'usuario', label: 'USUARIO' },
-        { key: 'das', label: 'DAS' },
-        { key: 'tipoGestion', label: 'Tipo de Gestión' },
-        { key: 'fechaGestion', label: 'Fecha de gestión' },
-        { key: 'horaGestion', label: 'Hora de gestión' },
-        { key: 'anillamadorID', label: 'Anillamador / ID' },
-        { key: 'nombre', label: 'NOMBRE del titular' },
-        { key: 'nombredelapersona', label: 'Nombre 3era persona' },
-        { key: 'parentesco', label: 'Parentesco' },
-        { key: 'cedula', label: 'CÉDULA' },
-        { key: 'servicio', label: 'SERVICIO' },
-        { key: 'ruc', label: 'RUC' },
-        { key: 'empresa', label: 'Nombre de la empresa' },
-        { key: 'nombredelrepresentantelegal', label: 'Nombre del representante legal o asignado' },
-        { key: 'serviciodelaempresa', label: 'Servicios de la empresa' },
-        { key: 'actualizacionDatos', label: 'Actualización de datos' },
-        { key: 'numerosContacto', label: 'Números de contacto' },
-        { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
-        { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
-        { key: 'resultadoGestion', label: 'Resultado de gestión' },
-        { key: 'observacion', label: 'Observación' },
-        { key: 'provincias', label: 'Provincia seleccionada' },
-        { key: 'cis', label: 'Agencia para entrega de equipo' },
-        { key: 'preguntas', label: 'Preguntas de seguridad' }
-      ];
+  showToast(`⬇️ Archivo "${filename}" descargado.`, 'success');
+}
 
-      let outputText = `--- REGISTRO DE GESTIÓN (${campaignName}) ---\n\n`;
+</script>
 
-      orderedKeys.forEach(item => {
-        let val = formData.get(item.key);
-        if(item.key === 'provincias'){
-          const sel = document.getElementById('provincias');
-          val = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : val;
-        }
-        val = (val && typeof val === 'string') ? val.trim() : (val || 'NO REGISTRADO');
-        if(!val) val = 'NO REGISTRADO';
-        outputText += `${item.label}: ${val}\n`;
-      });
-
-      outputText += '\n-----------------------------------------------------------------';
-
-      // Limpiar nombre de archivo
-      const safe = s => (''+s).replace(/[^\w\-_\. ]/g,'').substring(0,80);
-      const filename = `GESTION_${safe(campaignName)}_${safe(usuario)}_${fecha}_${hora}_${safe(anillamadorID)}.txt`;
-
-      const blob = new Blob([outputText], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = filename;
-      document.body.appendChild(a); a.click();
-      a.remove(); URL.revokeObjectURL(url);
-
-      showToast(`⬇️ Archivo "${filename}" descargado.`, 'success', 3500);
-    }
-
-    // (Opcional) función para listar guardados - no mostrada por ahora
-    function listarGestionesGuardadas(){
-      const lista = JSON.parse(localStorage.getItem('gestionesGuardadas') || '[]');
-      return lista;
-    }
-  </script>
 </body>
 </html>
