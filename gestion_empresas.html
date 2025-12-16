@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empresa</title>
+
+<style>
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #eef3fb 0%, #f7f9fc 100%);
+  color: #1e293b;
+}
+
+/* ================= LAYOUT ================= */
+.container {
+  max-width: 1300px;
+  margin: 32px auto;
+  padding: 16px;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.08),
+    0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+/* ================= HEADER ================= */
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+.header h1::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 4px;
+  background: #2563eb;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+/* ================= SECTIONS ================= */
+.section-title {
+  margin: 28px 0 14px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+/* ================= FORM GRID ================= */
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ================= LABELS ================= */
+label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+  color: #334155;
+}
+label .req {
+  color: #ef4444;
+}
+
+/* ================= INPUTS ================= */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  font-size: 14px;
+  color: #0f172a;
+  transition: all .2s ease;
+}
+
+input[readonly] {
+  background: #eef2ff;
+  color: #1e40af;
+  font-weight: 700;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* ================= BUTTONS ================= */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.btn {
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  color: #ffffff;
+  letter-spacing: .02em;
+  transition: all .2s ease;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+.btn-download {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+.btn-clean {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ================= OUTPUT ================= */
+#output {
+  margin-top: 28px;
+  background: #020617;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #020617;
+  box-shadow: inset 0 0 0 1px #1e293b;
+}
+
+#output pre {
+  color: #e5e7eb;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ================= TOAST ================= */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast {
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-weight: 800;
+  font-size: 13px;
+  color: #ffffff;
+  background: #2563eb;
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: .25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success {
+  background: #16a34a;
+}
+
+.toast.error {
+  background: #dc2626;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+textarea{
+ height: 500px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+
+<!-- MAIN -->
+<main class="card">
+
+<div class="header">
+  <h1>Formulario de Gestión para Empresas</h1>
+</div>
+
+<form id="techcomForm">
+
+<div class="section-title">Información básica</div>
+
+<div class="row">
+  <div>
+    <label>Campaña</label>
+    <input name="campana" value="SWAT" readonly>
+  </div>
+  <div>
+    <label>Usuario</label>
+    <input name="usuario" value="AFRIVAS" readonly>
+  </div>
+</div>
+
+<div class="row">
+  <div><label>DAS</label><input name="das" value="TECHCOM" readonly></div>
+  <div><label>Tipo Gestión</label><input name="tipoGestion" value="IN" readonly></div>
+</div>
+
+<div class="row">
+  <div><label>Fecha</label><input type="date" id="fechaGestion" name="fechaGestion" required></div>
+  <div><label>Hora</label><input type="time" id="horaGestion" name="horaGestion" required></div>
+</div>
+
+<div class="section-title">Datos del representante legal o Empresa</div>
+
+<div class="row">
+  <div><label>Anillamador/ID <span class="req">*</span></label><input name="anillamadorID" required></div>
+  <div><label>Nombres completos del representante legal o empresa:</label><input name="nombre"></div>
+  <div><label>Nombres completos de la 3era persona</label><input name="nombresdela3erapersona"></div>
+  <div><label>Parentesco, Cargo o Rol en la empresa</label><input name="cargo"></div>
+</div>
+
+<div class="row">
+  <div><label>RUC</label><input name="ruc"></div>
+  <div><label>Servicios</label><input name="servicio"></div>
+</div>
+
+<div class="section-title">Resultado</div>
+
+<div class="row">
+  <div><label>Códigos de solicitudes</label><input name="codigos"></div>
+  <div><label>Resultado <span class="req">*</span></label><input name="resultadoGestion" value="" required></div>
+  <div><label>Observación</label><textarea name="observacion"></textarea></div>
+  <div><label>Período o Ciclo de facturación</label>
+    <select id="periodo" name="periodo">
+              <option value="">-- Seleccione --</option>
+              <option value="periodo 7">periodo 7</option>
+              <option value="periodo 14">periodo 14</option>
+              <option value="periodo 21">periodo 21</option>
+              <option value="periodo 28">periodo 28</option>
+              <option value="ciclo 3">ciclo 3</option>
+              <option value="ciclo 4">ciclo 4</option>
+              <option value="ciclo 5">ciclo 5</option>
+              <option value="ciclo 6">ciclo 6</option>
+            </select>
+</div>
+
+  <div><label>Cis</label><input name="cis"></div>
+  <div><label>Fechas para la entrega del equipos</label><input name="entrega"></div>
+</div>
+
+
+<div>
+            <label for="provincias">Provincia</label>
+            <select id="provincias" name="provincias">
+              <option value="">-- Seleccione --</option>
+              <option value="imbabura 1">Imbabura 1</option>
+              <option value="carchi 1">Carchi 1</option>
+              <option value="sucumbios 1">Sucumbíos 1</option>
+              <option value="esmeraldas 1">Esmeraldas 1</option>
+              <option value="napo 2">Napo 2</option>
+              <option value="orellana 2">Orellana 2</option>
+              <option value="pichincha 2">Pichincha 2</option>
+              <option value="cotopaxi 3">Cotopaxi 3</option>
+              <option value="chimborazo 3">Chimborazo 3</option>
+              <option value="tungurahua 3">Tungurahua 3</option>
+              <option value="pastaza 3">Pastaza 3</option>
+              <option value="manabi 4">Manabí 4</option>
+              <option value="galapagos 4">Galápagos 4</option>
+              <option value="santodomingo 4">Santo Domingo Tsachilas 4</option>
+              <option value="bolivar 5">Bolívar 5</option>
+              <option value="santaelena 5">Santa Elena 5</option>
+              <option value="losrios 5">Los Ríos 5</option>
+              <option value="guayas 5">Guayas 5</option>
+              <option value="moronasantiago 6">Morona Santiago 6</option>
+              <option value="azuay 6">Azuay 6</option>
+              <option value="cañar 6">Cañar 6</option>
+              <option value="eloro 7">El oro 7</option>
+              <option value="loja 7">Loja 7</option>
+              <option value="zamorachinchipe 7">Zamora chinchipe 7</option>
+            </select>
+          </div>
+
+
+<div class="buttons">
+  <button type="button" class="btn btn-clean" onclick="limpiarFormulario()">Limpiar</button>
+  <button type="button" class="btn btn-download" onclick="descargarGestionTxt()">TXT</button>
+  <button type="button" class="btn btn-save" onclick="guardarGestion()">Guardar</button>
+</div>
+
+</form>
+
+<div id="output"><pre id="outputText"></pre></div>
+
+</main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ================= JS ================= */
+function showToast(msg,type='info'){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className='toast '+(type||'');
+  t.textContent=msg;
+  c.appendChild(t);
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>{t.classList.remove('show');t.remove();},3000);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const n=new Date();
+  fechaGestion.value=n.toISOString().split('T')[0];
+  horaGestion.value=n.toTimeString().slice(0,5);
+});
+
+const orderedKeys=[
+  {key:'campana',label:'CAMPAÑA'},
+  {key:'usuario',label:'USUARIO'},
+  {key:'das',label:'DAS'},
+  {key:'fechaGestion',label:'FECHA'},
+  {key:'horaGestion',label:'HORA'},
+  {separator:true},
+  {key:'anillamadorID',label:'Anillamador'},
+  {key:'nombre',label:'Nombres del representante legal o empresa'},
+  {key:'nombresdela3erapersona',label:'Nombres de la 3era persona'}, 
+  {key:'cargo',label:'Parentesco, Cargo o Rol en la empresa'}, 
+  {key:'ruc',label:'Ruc'},
+  {key:'servicio',label:'Servicios'},
+   {key:'codigos',label:'Códigos de solicitudes'},
+  {separator:true},
+  {key:'resultadoGestion',label:'Resultado de la gestión'},
+  {separator:true},
+  {key:'observacion',label:'Observación'},
+  {key:'periodo',label:'Período o Ciclo de facturación'},
+  {key:'cis',label:'Cis'},
+  {key:'entrega',label:'Fechas para la entrega del equipos'},
+  {separator:true},
+  {key:'provincias',label:'Provincias'},
+];
+
+function guardarGestion(){
+  const f=new FormData(techcomForm);
+  let txt='--- REGISTRO ---\n\n';
+  orderedKeys.forEach(i=>{
+    if(i.separator) txt+='\n';
+    else txt+=`${i.label}: ${f.get(i.key)||''}\n`;
+  });
+  outputText.textContent=txt;
+  output.style.display='block';
+  showToast('Gestión guardada','success');
+}
+
+function limpiarFormulario(){
+  techcomForm.reset();
+  output.style.display='none';
+  showToast('Formulario limpio');
+}
+
+function descargarGestionTxt(){
+  guardarGestion(); // genera el texto primero
+
+  const form = document.getElementById('techcomForm');
+  const formData = new FormData(form);
+
+  const nombre = formData.get('nombre') || 'SIN_NOMBRE';
+  const cedula = formData.get('ruc') || 'SIN_CEDULA';
+
+  // Limpiar caracteres no permitidos en nombres de archivo
+  const safe = txt =>
+    txt
+      .toString()
+      .trim()
+      .replace(/[^\w\d\- ]+/g, '')
+      .replace(/\s+/g, '_')
+      .substring(0, 40);
+
+  const fileName = `GESTION_${safe(nombre)}_${safe(cedula)}.txt`;
+
+  const blob = new Blob(
+    [document.getElementById('outputText').textContent],
+    { type: 'text/plain;charset=utf-8' }
+  );
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  showToast(`Archivo descargado: ${fileName}`, 'success');
+}
+</script>
+
+</body>
+</html>
