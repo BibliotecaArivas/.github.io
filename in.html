@@ -117,6 +117,9 @@
       form .row { grid-template-columns: 1fr; }
       .sidebar { min-height:auto; order:2; }
     }
+    textarea{
+   height: 500px;
+   }
   </style>
 </head>
 <body>
@@ -160,8 +163,8 @@
             <label for="campana">Campaña</label>
             <input id="campana" name="campana" type="text" value="SWAT" required>
                 <div style="margin-top:8px;">
-              <span class="helper-inline copy-text">SWAT</span>
-              <span class="helper-inline copy-text">MORA</span>
+              <span style="font-size: 10px;"><a href="gestion_mora.html" target="_blank">mora</a></span>
+              <span style="font-size: 10px;"><a href="gestion_empresas.html" target="_blank">empresa</a></span>
             </div>
           </div>
           <div>
@@ -227,42 +230,18 @@
             <input id="servicio" name="servicio" type="text" placeholder="Ingresa números de servicios">
           </div>
 
-          </div>
-
-
-          
-<div class="row">
-     <div>
-            <label for="ruc">RUC</label>
-            <input id="ruc" name="ruc" type="text" placeholder="Ingresa ruc">
-          </div>
-
-          <div>
-            <label for="empresa">Nombre de la empresa:</label>
-            <input id="empresa" name="empresa" type="text" placeholder="Ingresa nombre de la empresa">
-          </div>
- <div>
-            <label for="nombredelrepresentantelegal">Nombre del representante legal o asignado</label>
-            <input id="nombredelrepresentantelegal" name="nombredelrepresentantelegal" type="text" placeholder="Nombre del representante legal o asignado">
-          </div>
-      
-          <div>
-            <label for="serviciodelaempresa">Servicios de la empresa</label>
-            <input id="serviciodelaempresa" name="serviciodelaempresa" type="text" placeholder="Ingresa números de servicios">
-          </div>
         </div>
-
       
        
 
         <div class="row">
           <div>
             <label for="actualizacionDatos">Actualización de datos</label>
-            <textarea id="actualizacionDatos" name="actualizacionDatos" rows="2" placeholder="Si / No"></textarea>
+            <input id="actualizacionDatos" name="actualizacionDatos" type="text" placeholder="Si / No">
             <div style="margin-top:8px;">
               <span class="helper-inline copy-text">Sí, se actualiza datos en llamada.</span>
-              <span class="helper-inline copy-text">No, Hubo problemas con el omnicanal.</span>
-              <span class="helper-inline copy-text">No, Datos estan actualizados última actualización fecha:</span>
+              <span class="helper-inline copy-text">No, Hubo caída de omnicanal.</span>
+              <span class="helper-inline copy-text">No, Datos están actualizados última actualización fecha:</span>
             </div>
           </div>
           <div>
@@ -276,7 +255,7 @@
         <div class="row">
           <div>
             <label for="peticionSCQU">Petición de SCQU</label>
-            <textarea id="peticionSCQU" name="peticionSCQU" rows="2" placeholder="Ingresa Códigos para TF IF o DTH"></textarea>
+            <input id="peticionSCQU" name="peticionSCQU" type="text" placeholder="Ingresa Códigos para TF IF o DTH">
           </div>
           <div>
             <label for="ticketSolicitud">Ticket de Solicitud</label>
@@ -304,8 +283,8 @@
               <span class="helper-inline copy-text">No es titular del servicio se le indica comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el titular y realizar los procesos.</span>
               <span class="helper-inline copy-text">*No se pudo validar el contrato ya que el cliente colgó la llamada.</span>
               <span class="helper-inline copy-text">*No se ingresa solicitud / No se brinda Beneficios ya que el cliente colgó la llamada.</span>
-              <span class="helper-inline copy-text">*Titular acepta entrega de equipo en cis se ingresa solicitud y se le indica la última pb segun su período de facturación.</span>
-              <span class="helper-inline copy-text">*Titular acepta la cacelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía fija: </span>
+              <span class="helper-inline copy-text">*Titular acepta entrega de equipo en cis se ingresa solicitud y se le indica la última pb según su período de facturación.</span>
+              <span class="helper-inline copy-text">*Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía fija: </span>
               <span class="helper-inline copy-text">procesos coactivos se direcciona a cis.</span>
               <span class="helper-inline copy-text"></span>
             </div>
@@ -345,7 +324,7 @@
           </div>
           <div>
             <label for="cis">Agencia para entrega de equipo</label>
-            <textarea id="cis" name="cis" rows="3" placeholder="Ingresa cis"></textarea>
+            <input id="cis" name="cis" type="text" placeholder="Ingresa cis">
           </div>
         </div>
 
@@ -446,13 +425,6 @@ const orderedKeys = [
   { key: 'parentesco', label: 'Parentesco' },
   { key: 'cedula', label: 'CÉDULA' },
   { key: 'servicio', label: 'SERVICIO' },
-
-  { separator: true },
-
-  { key: 'ruc', label: 'RUC' },
-  { key: 'empresa', label: 'Nombre de la empresa' },
-  { key: 'nombredelrepresentantelegal', label: 'Nombre del representante legal o asignado' },
-  { key: 'serviciodelaempresa', label: 'Servicios de la empresa' },
 
   { separator: true },
 
