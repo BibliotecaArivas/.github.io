@@ -5,121 +5,778 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Formulario de Gestión — Dashboard</title>
   <style>
-    /* ----- Reset ligero ----- */
-    * { box-sizing: border-box; }
-    html,body { height:100%; margin:0; font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif; background:#f3f6fb; color:#263238; }
-    a { color: #0b69ff; text-decoration:none; }
-    a:hover { text-decoration:underline; }
+    /* ========================================
+       VARIABLES CSS PARA TEMA CONSISTENTE
+       ======================================== */
+    :root {
+      --primary: #0b69ff;
+      --primary-dark: #0052cc;
+      --primary-light: #e6f2ff;
+      --secondary: #10b981;
+      --danger: #e11d48;
+      --warning: #f59e0b;
+      --success: #10b981;
+      --info: #06b6d4;
+      
+      --bg-main: #f0f4f9;
+      --bg-card: #ffffff;
+      --bg-sidebar: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --bg-input: #fbfcfe;
+      
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-light: #94a3b8;
+      
+      --border: #e2e8f0;
+      --border-focus: #0b69ff;
+      
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.1);
+      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+      --shadow-xl: 0 20px 48px rgba(15, 23, 42, 0.15);
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-    /* ----- Layout ----- */
+    /* ========================================
+       RESET Y BASE
+       ======================================== */
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0;
+    }
+    
+    html, body { 
+      height: 100%; 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    a { 
+      color: var(--primary); 
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    a:hover { 
+      color: var(--primary-dark);
+      text-decoration: none;
+    }
+
+    /* ========================================
+       ANIMACIONES GLOBALES
+       ======================================== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* ========================================
+       LAYOUT PRINCIPAL
+       ======================================== */
     .container {
-      max-width:1200px;
-      margin:30px auto;
-      display:grid;
-      grid-template-columns: 300px 1fr;
-      gap:28px;
-      align-items:start;
-      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 32px;
+      align-items: start;
+      animation: fadeIn 0.6s ease-out;
     }
 
-    /* Sidebar con imagen e notas */
+    /* ========================================
+       SIDEBAR CON GRADIENTE
+       ======================================== */
     .sidebar {
-      background: #fff;
-      border-radius:12px;
-      padding:18px;
-      box-shadow: 0 8px 22px rgba(20,30,60,0.06);
-      border: 1px solid #e6edf3;
-      min-height: 680px;
-      display:flex;
-      flex-direction: column;
-      gap:14px;
+      background: var(--bg-sidebar);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 32px;
+      animation: slideInLeft 0.8s ease-out;
+      color: white;
+      overflow: hidden;
     }
-    .sidebar img {
-      width:100%;
-      border-radius:8px;
-      display:block;
-      object-fit:cover;
-      border:1px solid #e9f0f7;
+
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 8s infinite;
     }
+
     .sidebar h3 {
-      margin:10px 0 2px; font-size:14px; color:#0b69ff;
+      margin: 16px 0 12px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
     }
-    .note { font-size:13px; color:#374151; line-height:1.45; padding:8px; background:#fbfdff; border-radius:6px; border:1px solid #eef6ff; }
 
-    /* Form card */
+    .sidebar h3::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent);
+      border-radius: 2px;
+    }
+
+    .note {
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text-primary);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    .note:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ========================================
+       CARD PRINCIPAL DEL FORMULARIO
+       ======================================== */
     .card {
-      background:#fff;
-      border-radius:12px;
-      padding:22px;
-      box-shadow: 0 8px 30px rgba(15,25,50,0.05);
-      border: 1px solid #e6edf3;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      animation: slideInRight 0.8s ease-out;
+      transition: var(--transition);
     }
+
+    .card:hover {
+      box-shadow: var(--shadow-xl);
+    }
+
+    /* ========================================
+       HEADER CON EFECTO GLASS
+       ======================================== */
     .header {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--primary-light);
+      background: linear-gradient(135deg, var(--primary-light) 0%, transparent 100%);
+      padding: 20px;
+      border-radius: var(--radius-md);
+      margin: -32px -32px 32px -32px;
     }
-    .header h1 { margin:0; font-size:20px; color:#0b69ff; }
-    .header p { margin:0; color:#6b7280; font-size:13px; }
 
-    /* Section titles */
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header h1::before {
+      content: '📋';
+      font-size: 32px;
+      -webkit-text-fill-color: initial;
+    }
+
+    .header p {
+      margin: 12px 0 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-style: italic;
+      padding: 12px 20px;
+      background: white;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ========================================
+       SECTION TITLES CON ICONOS
+       ======================================== */
     .section-title {
-      display:flex; align-items:center; gap:10px;
-      margin: 18px 0 8px; color:#334155; font-weight:600;
-      border-bottom: 1px dashed #e6eef8; padding-bottom:10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 32px 0 20px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, transparent 100%);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
     }
 
-    /* Form grid */
-    form .row { display:grid; grid-template-columns: repeat(2,1fr); gap:12px; margin-bottom:12px; }
-    form .row-three { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-bottom:12px; }
-    label { display:block; font-size:13px; color:#334155; margin-bottom:6px; font-weight:600; }
-    input[type="text"], input[type="date"], input[type="time"], select, textarea {
-      width:100%; padding:10px 12px; border-radius:8px; border:1px solid #d7e6f4; background:#fbfeff;
-      font-size:14px; color:#123;
-      transition: box-shadow .15s, border-color .15s;
+    .section-title:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-md);
     }
-    input[readonly] { opacity:0.9; background:#f1fcff; }
-    input:focus, textarea:focus, select:focus {
-      outline:none; border-color:#0b69ff; box-shadow:0 6px 20px rgba(11,105,255,0.08);
+
+    .section-title::before {
+      content: '▸';
+      font-size: 20px;
+      font-weight: bold;
     }
-    textarea { min-height:84px; resize:vertical; }
 
-    .helper-inline { font-size:13px; color:#0b69ff; cursor:pointer; display:inline-block; padding:4px 6px; border-radius:6px; margin-top:6px; }
-    .helper-inline:hover { background:#f0f8ff; }
+    /* ========================================
+       FORM GRID MEJORADO
+       ======================================== */
+    form .row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
 
-    /* Buttons */
-    .buttons { display:flex; gap:12px; margin-top:16px; }
+    form .row-three {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* ========================================
+       LABELS CON ANIMACIÓN
+       ======================================== */
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    label::before {
+      content: '●';
+      color: var(--primary);
+      font-size: 8px;
+    }
+
+    /* ========================================
+       INPUTS MODERNOS CON EFECTOS
+       ======================================== */
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border);
+      background: var(--bg-input);
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(11, 105, 255, 0.1),
+                  var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    input[readonly] {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      cursor: not-allowed;
+      opacity: 0.8;
+      border-style: dashed;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       HELPER TEXTS INTERACTIVOS
+       ======================================== */
+    .helper-inline {
+      font-size: 12px;
+      color: var(--primary);
+      cursor: pointer;
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      margin: 4px 4px 4px 0;
+      background: var(--primary-light);
+      border: 1px solid transparent;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .helper-inline:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-dark);
+    }
+
+    /* ========================================
+       BOTONES CON EFECTOS AVANZADOS
+       ======================================== */
+    .buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px dashed var(--border);
+    }
+
     .btn {
-      padding:10px 14px; border-radius:8px; font-weight:700; cursor:pointer; border: none; flex:1; font-size:14px;
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      flex: 1;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .btn-clean { background:#e11d48; color:#fff; }
-    .btn-download { background:#10b981; color:#fff; }
-    .btn-save { background:#0b69ff; color:#fff; }
 
-    /* Output box */
-    #output { margin-top:16px; padding:12px; border-radius:8px; background:#f7fffa; border:1px solid #d1fae5; display:none; }
-    #output pre { white-space:pre-wrap; font-family:monospace; font-size:13px; margin:0; color:#064e3b; }
-
-    /* Toasts */
-    .toast-container { position:fixed; top:18px; right:18px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
-    .toast { padding:10px 14px; border-radius:8px; color:white; font-weight:700; box-shadow:0 6px 24px rgba(15,23,42,0.12); opacity:0; transform:translateY(-8px); transition:0.25s; }
-    .toast.show { opacity:1; transform:none; }
-    .toast.success { background:#10b981; }
-    .toast.info { background:#0b69ff; }
-    .toast.error { background:#ef4444; }
-
-    /* Responsive */
-    @media (max-width:980px) {
-      .container { grid-template-columns: 1fr; padding:12px; }
-      form .row-three { grid-template-columns: 1fr; }
-      form .row { grid-template-columns: 1fr; }
-      .sidebar { min-height:auto; order:2; }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
     }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-clean {
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+      color: #fff;
+    }
+
+    .btn-clean:hover {
+      background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+    }
+
+    .btn-download:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, #0b69ff 0%, #0052cc 100%);
+      color: #fff;
+    }
+
+    .btn-save:hover {
+      background: linear-gradient(135deg, #0052cc 0%, #0041a3 100%);
+    }
+
+    /* ========================================
+       OUTPUT BOX CON ANIMACIÓN
+       ======================================== */
+    #output {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border: 2px solid var(--success);
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+      box-shadow: var(--shadow-md);
+    }
+
+    #output strong {
+      display: block;
+      margin-bottom: 12px;
+      color: #065f46;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #output pre {
+      white-space: pre-wrap;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      margin: 0;
+      color: #064e3b;
+      background: rgba(255, 255, 255, 0.6);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--success);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       TOASTS MEJORADOS
+       ======================================== */
+    .toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 420px;
+    }
+
+    .toast {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      color: white;
+      font-weight: 600;
+      box-shadow: var(--shadow-xl);
+      opacity: 0;
+      transform: translateX(400px);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 300px;
+      border-left: 4px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .toast::before {
+      font-size: 24px;
+    }
+
+    .toast.success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .toast.success::before {
+      content: '✓';
+    }
+
+    .toast.info {
+      background: linear-gradient(135deg, #0b69ff 0%, #0052cc 100%);
+    }
+
+    .toast.info::before {
+      content: 'ℹ';
+    }
+
+    .toast.error {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    .toast.error::before {
+      content: '✕';
+    }
+
+    /* ========================================
+       ENLACES ESPECIALES
+       ======================================== */
+    a[href*=".html"] {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--primary-light);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 12px;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    a[href*=".html"]:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    a[href*=".html"]::before {
+      content: '🔗';
+    }
+
+    /* ========================================
+       SELECT MEJORADO
+       ======================================== */
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230b69ff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    select:hover {
+      border-color: var(--primary);
+    }
+
+    /* ========================================
+       SCROLLBAR PERSONALIZADO
+       ======================================== */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--border);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+      border-radius: 10px;
+      border: 2px solid var(--border);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, #5a3a7d 100%);
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 20px 16px;
+        gap: 24px;
+      }
+
+      .sidebar {
+        position: static;
+        order: 2;
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .card {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      form .row,
+      form .row-three {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 16px 12px;
+      }
+
+      .card {
+        padding: 20px 16px;
+      }
+
+      .header {
+        margin: -20px -16px 24px -16px;
+        padding: 16px;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .toast-container {
+        left: 12px;
+        right: 12px;
+        max-width: none;
+      }
+
+      .toast {
+        min-width: 0;
+      }
+    }
+
+    /* ========================================
+       UTILIDADES ADICIONALES
+       ======================================== */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--primary-light);
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 24px 0;
+    }
+
+    /* ========================================
+       LOADING SPINNER (Para futuras funciones)
+       ======================================== */
+    .spinner {
+      border: 3px solid rgba(11, 105, 255, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ========================================
+       EFECTOS HOVER PARA INPUTS
+       ======================================== */
+    input[type="text"]:hover:not(:focus),
+    input[type="date"]:hover:not(:focus),
+    input[type="time"]:hover:not(:focus),
+    select:hover:not(:focus),
+    textarea:hover:not(:focus) {
+      border-color: var(--primary);
+      background: white;
+    }
+
+    /* ========================================
+       PLACEHOLDER STYLING
+       ======================================== */
+    ::placeholder {
+      color: var(--text-light);
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    /* ========================================
+       FOCUS VISIBLE PARA ACCESIBILIDAD
+       ======================================== */
+    *:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
     textarea{
-   height: 500px;
-   }
+ height: 900px;
+}
   </style>
 </head>
 <body>
@@ -138,8 +795,16 @@
 
       <h3>🗒️ Beneficios:</h3>
       <div class="note">
-        <span class="helper-inline copy-text">*aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.</span>
+        <span class="helper-inline copy-text">*Titular acepta aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.</span>
         <span class="helper-inline copy-text"></span>
+        
+      </div>
+
+      <h3>🗒️ Script beneficio o retiro:</h3>
+      <div class="note">
+        <span>"Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio."</span>
+       <br><br> <hr>
+        <span>"Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con la activación del beneficio."</span>
         
       </div>
     </aside>
