@@ -1210,9 +1210,10 @@ function descargarGestionTxt(){
   const hora = formData.get('horaGestion')?.replace(/:/g,'') || '0000';
   const usuario = formData.get('usuario') || 'Usuario';
   const id = formData.get('anillamadorID') || 'SinID';
+  const cedula = formData.get('cedula') || 'cedula';
 
   const safe = s => (''+s).replace(/[^\w\-_\. ]/g,'').substring(0,80);
-  const filename = `GESTION_${safe(usuario)}_${fecha}_${hora}_${safe(id)}.txt`;
+  const filename = `GESTION_${safe(usuario)}_${fecha}_${hora}__${safe(cedula)}_${safe(id)}.txt`;
 
   const blob = new Blob([outputText], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
