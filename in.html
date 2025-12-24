@@ -121,6 +121,7 @@
       animation: slideDown 0.4s ease-out;
       backdrop-filter: blur(10px);
       border: 2px solid rgba(255, 255, 255, 0.3);
+      max-width: 90%;
     }
 
     .autosave-banner.show {
@@ -137,6 +138,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .autosave-info {
@@ -144,6 +146,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      min-width: 0;
     }
 
     .autosave-time {
@@ -165,6 +168,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-shrink: 0;
     }
 
     .autosave-clear:hover {
@@ -265,6 +269,8 @@
       border: 1px solid var(--border);
       animation: slideInRight 0.8s ease-out;
       transition: var(--transition);
+      position: relative;
+      z-index: 1;
     }
 
     .card:hover {
@@ -405,6 +411,8 @@
       color: var(--text-primary);
       transition: var(--transition);
       font-family: inherit;
+      position: relative;
+      z-index: 2;
     }
 
     input[type="text"]:focus,
@@ -418,6 +426,7 @@
       box-shadow: 0 0 0 4px rgba(11, 105, 255, 0.1),
                   var(--shadow-md);
       transform: translateY(-2px);
+      z-index: 10;
     }
 
     input[readonly] {
@@ -448,6 +457,8 @@
       border: 1px solid transparent;
       transition: var(--transition);
       font-weight: 500;
+      position: relative;
+      z-index: 2;
     }
 
     .helper-inline:hover {
@@ -456,6 +467,7 @@
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
       border-color: var(--primary-dark);
+      z-index: 3;
     }
 
     /* ========================================
@@ -467,10 +479,12 @@
       margin-top: 32px;
       padding-top: 24px;
       border-top: 2px dashed var(--border);
+      flex-wrap: wrap;
     }
 
     .btn {
       flex: 1;
+      min-width: 200px;
       padding: 14px 24px;
       border-radius: var(--radius-md);
       font-weight: 700;
@@ -487,6 +501,7 @@
       overflow: hidden;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      z-index: 2;
     }
 
     .btn::before {
@@ -510,6 +525,7 @@
     .btn:hover {
       transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
+      z-index: 3;
     }
 
     .btn:active {
@@ -658,6 +674,8 @@
       font-size: 12px;
       transition: var(--transition);
       border: 1px solid transparent;
+      position: relative;
+      z-index: 2;
     }
 
     a[href*=".html"]:hover {
@@ -666,6 +684,7 @@
       border-color: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: var(--shadow-sm);
+      z-index: 3;
     }
 
     a[href*=".html"]::before {
@@ -712,7 +731,7 @@
     }
 
     /* ========================================
-       RESPONSIVE DESIGN
+       RESPONSIVE DESIGN - ARREGLADO
        ======================================== */
     @media (max-width: 1024px) {
       .container {
@@ -753,6 +772,7 @@
 
       .btn {
         width: 100%;
+        min-width: 0;
       }
 
       .autosave-banner {
@@ -760,6 +780,7 @@
         right: 12px;
         transform: none;
         font-size: 12px;
+        max-width: calc(100% - 24px);
       }
     }
 
@@ -781,6 +802,10 @@
         font-size: 20px;
       }
 
+      .header h1::before {
+        font-size: 24px;
+      }
+
       .toast-container {
         left: 12px;
         right: 12px;
@@ -793,6 +818,16 @@
 
       .autosave-info {
         font-size: 12px;
+      }
+
+      .autosave-banner {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .autosave-clear {
+        width: 100%;
+        justify-content: center;
       }
     }
 
@@ -865,6 +900,18 @@
 
     textarea {
       height: 500px;
+    }
+
+    /* ========================================
+       FIX PARA CAMPOS EN MODO RESPONSIVE
+       ======================================== */
+    .row > div {
+      position: relative;
+      z-index: 1;
+    }
+
+    .row > div:focus-within {
+      z-index: 10;
     }
   </style>
 </head>
@@ -961,41 +1008,38 @@
               <label for="anillamadorID">Anillamador / ID</label>
               <input id="anillamadorID" name="anillamadorID" type="text" required placeholder="Ingresa anillamador">
             </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="nombre">Nombre del titular</label>
+              <input id="nombre" name="nombre" type="text" placeholder="Nombres / Apellidos Completos">
             </div>
 
-            <div class="row">
-              <div>
-                <label for="nombre">Nombre del titular</label>
-                <input id="nombre" name="nombre" type="text" placeholder="Nombres / Apellidos Completos">
-              </div>
-
-              <div>
-                <label for="cedula">Cédula</label>
-                <input id="cedula" name="cedula" type="text" placeholder="Ingresa número de cédula">
-              </div>
+            <div>
+              <label for="cedula">Cédula</label>
+              <input id="cedula" name="cedula" type="text" placeholder="Ingresa número de cédula">
             </div>
+          </div>
 
-       <div class="row">
+          <div class="row">
             <div>
               <label for="nombredelapersona">Nombre 3era persona o familiar</label>
               <input id="nombredelapersona" name="nombredelapersona" type="text" placeholder="Nombre 3era persona o familiar...">
             </div>
           
-
             <div>
               <label for="parentesco">Parentesco</label>
               <input id="parentesco" name="parentesco" type="text" placeholder="Ingresa parentesco">
             </div>
-</div>
+          </div>
 
-<div class="row">
-   <div>
+          <div class="row">
+            <div>
               <label for="servicio">Servicio</label>
               <input id="servicio" name="servicio" type="text" placeholder="Ingresa números de servicios">
             </div>
-</div>
-           
-          
+          </div>
 
           <div class="row">
             <div>
