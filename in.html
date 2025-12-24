@@ -94,6 +94,84 @@
       50% { transform: scale(1.05); }
     }
 
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================
+       BANNER DE AUTOGUARDADO
+       ======================================== */
+    .autosave-banner {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl);
+      display: none;
+      align-items: center;
+      gap: 16px;
+      font-weight: 600;
+      font-size: 14px;
+      animation: slideDown 0.4s ease-out;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .autosave-banner.show {
+      display: flex;
+    }
+
+    .autosave-banner::before {
+      content: '✓';
+      font-size: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .autosave-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .autosave-time {
+      font-size: 11px;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    .autosave-clear {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .autosave-clear:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
     /* ========================================
        LAYOUT PRINCIPAL
        ======================================== */
@@ -676,6 +754,13 @@
       .btn {
         width: 100%;
       }
+
+      .autosave-banner {
+        left: 12px;
+        right: 12px;
+        transform: none;
+        font-size: 12px;
+      }
     }
 
     @media (max-width: 640px) {
@@ -704,6 +789,10 @@
 
       .toast {
         min-width: 0;
+      }
+
+      .autosave-info {
+        font-size: 12px;
       }
     }
 
@@ -774,12 +863,23 @@
       outline-offset: 2px;
     }
 
-    textarea{
- height: 900px;
-}
+    textarea {
+      height: 900px;
+    }
   </style>
 </head>
 <body>
+
+  <!-- BANNER DE AUTOGUARDADO -->
+  <div class="autosave-banner" id="autosaveBanner">
+    <div class="autosave-info">
+      <div>Datos guardados automáticamente</div>
+      <div class="autosave-time" id="autosaveTime"></div>
+    </div>
+    <button class="autosave-clear" onclick="clearAutoSave()">
+      🗑️ Eliminar Autoguardado
+    </button>
+  </div>
 
   <div class="container">
     <!-- SIDEBAR (imagen + notas) -->
@@ -790,23 +890,18 @@
         <span class="helper-inline copy-text">*no acepta cesión de derechos.<br></span>
         <span class="helper-inline copy-text">*no acepta el 55% de descuento en su pb para decodificador principal x 3 meses consecutivos.<br></span>
         <span class="helper-inline copy-text">*no acepta aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.<br></span>
-        
       </div>
 
       <h3>🗒️ Beneficios:</h3>
       <div class="note">
         <span class="helper-inline copy-text">*Titular acepta aumento de velocidad a 400mb y descuento del 50% en pb x 8 meses consecutivos.</span>
-      
-        
       </div>
 
       <h3>🗒️ Script beneficio o retiro:</h3>
       <div class="note">
         <span>"Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio."</span>
-       <br><br> <hr>
-        <br>
+        <br><br><hr><br>
         <span>"Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con la activación del beneficio."</span>
-        
       </div>
     </aside>
 
@@ -816,215 +911,216 @@
         <h1>Formulario de Gestión</h1>
       </div>
 
-         <main class="card">
-      <div class="header">
-        <p>“Gracias por comunicarse a la CNT, mi nombre es (Nombre y apellido del asesor/a) le recuerdo que esta llamada es grabada y monitoreada para su seguridad ¿con quién tengo el gusto?”</p>
-      </div>
+      <main class="card">
+        <div class="header">
+          <p>"Gracias por comunicarse a la CNT, mi nombre es (Nombre y apellido del asesor/a) le recuerdo que esta llamada es grabada y monitoreada para su seguridad ¿con quién tengo el gusto?"</p>
+        </div>
 
-      <form id="techcomForm" autocomplete="off">
-        <div class="section-title">Información básica</div>
+        <form id="techcomForm" autocomplete="off">
+          <div class="section-title">Información básica</div>
 
-        <div class="row">
-          <div>
-            <label for="campana">Campaña</label>
-            <input id="campana" name="campana" type="text" value="SWAT" required>
-                <div style="margin-top:8px;">
-              <span style="font-size: 10px;"><a href="gestion_mora.html" target="_blank">mora</a></span>
-              <span style="font-size: 10px;"><a href="gestion_empresas.html" target="_blank">empresa</a></span>
+          <div class="row">
+            <div>
+              <label for="campana">Campaña</label>
+              <input id="campana" name="campana" type="text" value="SWAT" required>
+              <div style="margin-top:8px;">
+                <span style="font-size: 10px;"><a href="gestion_mora.html" target="_blank">mora</a></span>
+                <span style="font-size: 10px;"><a href="gestion_empresas.html" target="_blank">empresa</a></span>
+              </div>
+            </div>
+            <div>
+              <label for="usuario">Usuario</label>
+              <input id="usuario" name="usuario" type="text" value="AFRIVAS" readonly>
             </div>
           </div>
-          <div>
-            <label for="usuario">Usuario</label>
-            <input id="usuario" name="usuario" type="text" value="AFRIVAS" readonly>
-          </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label for="das">DAS</label>
-            <input id="das" name="das" type="text" value="TECHCOM" readonly>
-          </div>
-          <div>
-            <label for="tipoGestion">Tipo de Gestión</label>
-            <input id="tipoGestion" name="tipoGestion" type="text" value="IN" readonly>
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="fechaGestion">Fecha de gestión</label>
-            <input id="fechaGestion" name="fechaGestion" type="date" required>
-          </div>
-          <div>
-            <label for="horaGestion">Hora de gestión</label>
-            <input id="horaGestion" name="horaGestion" type="time" required>
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="anillamadorID">Anillamador / ID</label>
-            <input id="anillamadorID" name="anillamadorID" type="text" required placeholder="Ingresa anillamador">
-          </div>
-
-        <div class="row">
-          <div>
-            <label for="nombre">Nombre del titular</label>
-            <input id="nombre" name="nombre" type="text" placeholder="Nombres / Apellidos Completos">
-          </div>
-
-             <div>
-            <label for="cedula">Cédula</label>
-            <input id="cedula" name="cedula" type="text" placeholder="Ingresa número de cédula">
-          </div>
-        </div>
-
-          <div>
-            <label for="nombredelapersona">Nombre 3era persona o familiar</label>
-            <input id="nombredelapersona" name="nombredelapersona" type="text" placeholder="Nombre 3era persona o familiar...">
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="parentesco">Parentesco</label>
-            <input id="parentesco" name="parentesco" type="text" placeholder="Ingresa parentesco">
-          </div>
-
-             <div>
-            <label for="servicio">Servicio</label>
-            <input id="servicio" name="servicio" type="text" placeholder="Ingresa números de servicios">
-          </div>
-
-        </div>
-      
-       
-
-        <div class="row">
-          <div>
-            <label for="actualizacionDatos">Actualización de datos</label>
-            <input id="actualizacionDatos" name="actualizacionDatos" type="text" placeholder="Si / No">
-            <div style="margin-top:8px;">
-              <span class="helper-inline copy-text">Sí, se actualiza datos en llamada.</span>
-              <span class="helper-inline copy-text">No, Hubo caída de omnicanal.</span>
-              <span class="helper-inline copy-text">No, Datos están actualizados última actualización fecha:</span>
+          <div class="row">
+            <div>
+              <label for="das">DAS</label>
+              <input id="das" name="das" type="text" value="TECHCOM" readonly>
+            </div>
+            <div>
+              <label for="tipoGestion">Tipo de Gestión</label>
+              <input id="tipoGestion" name="tipoGestion" type="text" value="IN" readonly>
             </div>
           </div>
-          <div>
-            <label for="numerosContacto">Números de contacto</label>
-            <input id="numerosContacto" name="numerosContacto" type="text" placeholder="0999999999">
-          </div>
-        </div>
 
-        <div class="section-title">Solicitud y Resultado</div>
-
-        <div class="row">
-          <div>
-            <label for="peticionSCQU">Petición de SCQU</label>
-            <input id="peticionSCQU" name="peticionSCQU" type="text" placeholder="Ingresa Códigos para TF IF o DTH">
-          </div>
-          <div>
-            <label for="ticketSolicitud">Ticket de Solicitud</label>
-            <input id="ticketSolicitud" name="ticketSolicitud" type="text" placeholder="Ingresa Códigos para Servicio Móvil">
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="resultadoGestion">Resultado de gestión</label>
-            <input id="resultadoGestion" name="resultadoGestion" type="text" required placeholder="">
-            <div style="margin-top:8px;">
-              <span class="helper-inline copy-text">no aplica / </span>
-              <span class="helper-inline copy-text">no procede / </span>
-              <span class="helper-inline copy-text">retiro contactado /</span>
-              <span class="helper-inline copy-text">retiro en proceso / entrega de equipos en cis /</span>
-              <span class="helper-inline copy-text">pendiente / escaldo comercial</span>
-              <span class="helper-inline copy-text">pendiente / escaldo técnico</span>
+          <div class="row">
+            <div>
+              <label for="fechaGestion">Fecha de gestión</label>
+              <input id="fechaGestion" name="fechaGestion" type="date" required>
+            </div>
+            <div>
+              <label for="horaGestion">Hora de gestión</label>
+              <input id="horaGestion" name="horaGestion" type="time" required>
             </div>
           </div>
-          <div>
-            <label for="observacion">Observación</label>
-            <textarea id="observacion" name="observacion" rows="4" placeholder=""></textarea>
-                   <div style="margin-top:8px;">
-              <span class="helper-inline copy-text">No es titular del servicio se le indica comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el titular y realizar los procesos.</span>
-              <span class="helper-inline copy-text">*No se pudo validar el contrato ya que el cliente colgó la llamada.</span>
-              <span class="helper-inline copy-text">*No se ingresa solicitud / No se brinda Beneficios ya que el cliente colgó la llamada.</span>
-              <span class="helper-inline copy-text">*Titular acepta entrega de equipo en cis se ingresa solicitud y se le indica la última pb según su período de facturación.</span>
-              <span class="helper-inline copy-text">*Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía fija: </span>
-              <span class="helper-inline copy-text">procesos coactivos se direcciona a cis.</span>
-              <span class="helper-inline copy-text"></span>
+
+          <div class="row">
+            <div>
+              <label for="anillamadorID">Anillamador / ID</label>
+              <input id="anillamadorID" name="anillamadorID" type="text" required placeholder="Ingresa anillamador">
+            </div>
+</div>
+            <div class="row">
+              <div>
+                <label for="nombre">Nombre del titular</label>
+                <input id="nombre" name="nombre" type="text" placeholder="Nombres / Apellidos Completos">
+              </div>
+
+              <div>
+                <label for="cedula">Cédula</label>
+                <input id="cedula" name="cedula" type="text" placeholder="Ingresa número de cédula">
+              </div>
+            </div>
+           
+             <div class="row">
+            <div>
+              <label for="nombredelapersona">Nombre 3era persona o familiar</label>
+              <input id="nombredelapersona" name="nombredelapersona" type="text" placeholder="Nombre 3era persona o familiar...">
+            </div>
+          
+
+         
+            <div>
+              <label for="parentesco">Parentesco</label>
+              <input id="parentesco" name="parentesco" type="text" placeholder="Ingresa parentesco">
+            </div>
+            </div>
+
+            <div class="row">
+            <div>
+              <label for="servicio">Servicio</label>
+              <input id="servicio" name="servicio" type="text" placeholder="Ingresa números de servicios">
+            </div></div>
+          
+
+          <div class="row">
+            <div>
+              <label for="actualizacionDatos">Actualización de datos</label>
+              <input id="actualizacionDatos" name="actualizacionDatos" type="text" placeholder="Si / No">
+              <div style="margin-top:8px;">
+                <span class="helper-inline copy-text">Sí, se actualiza datos en llamada.</span>
+                <span class="helper-inline copy-text">No, Hubo caída de omnicanal.</span>
+                <span class="helper-inline copy-text">No, Datos están actualizados última actualización fecha:</span>
+              </div>
+            </div>
+            
+            <div>
+              <label for="numerosContacto">Números de contacto</label>
+              <input id="numerosContacto" name="numerosContacto" type="text" placeholder="0999999999">
             </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label for="provincias">Provincia</label>
-            <select id="provincias" name="provincias">
-              <option value="">-- Seleccione --</option>
-              <option value="imbabura">Imbabura 1</option>
-              <option value="carchi">Carchi 1</option>
-              <option value="sucumbios">Sucumbíos 1</option>
-              <option value="esmeraldas">Esmeraldas 1</option>
-              <option value="napo">Napo 2</option>
-              <option value="orellana">Orellana 2</option>
-              <option value="pichincha">Pichincha 2</option>
-              <option value="cotopaxi">Cotopaxi 3</option>
-              <option value="chimborazo">Chimborazo 3</option>
-              <option value="tungurahua">Tungurahua 3</option>
-              <option value="pastaza">Pastaza 3</option>
-              <option value="manabi">Manabí 4</option>
-              <option value="galapagos">Galápagos 4</option>
-              <option value="santodomingo">Santo Domingo Tsachilas 4</option>
-              <option value="bolivar">Bolívar 5</option>
-              <option value="santaelena">Santa Elena 5</option>
-              <option value="losrios">Los Ríos 5</option>
-              <option value="guayas">Guayas 5</option>
-              <option value="moronasantiago">Morona Santiago 6</option>
-              <option value="azuay">Azuay 6</option>
-              <option value="cañar">Cañar 6</option>
-              <option value="eloro">El oro 7</option>
-              <option value="loja">Loja 7</option>
-              <option value="zamorachinchipe">Zamora chinchipe 7</option>
-            </select>
-          </div>
-          <div>
-            <label for="cis">Agencia para entrega de equipo</label>
-            <input id="cis" name="cis" type="text" placeholder="Ingresa cis">
-          </div>
-        </div>
+          <div class="section-title">Solicitud y Resultado</div>
 
-        <div class="row">
-          <div>
-            <label for="preguntas">Preguntas de seguridad</label>
-            <textarea id="preguntas" name="preguntas" rows="3" placeholder="Ingresa preguntas más las respuestas del cliente"></textarea>
-            <div style="margin-top:8px;">
+          <div class="row">
+         
+            <div>
+              <label for="ticketSolicitud">Ticket de Solicitud</label>
+              <input id="ticketSolicitud" name="ticketSolicitud" type="text" placeholder="Ingresa Códigos para Servicio Móvil">
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="resultadoGestion">Resultado de gestión</label>
+              <input id="resultadoGestion" name="resultadoGestion" type="text" required placeholder="">
+              <div style="margin-top:8px;">
+                <span class="helper-inline copy-text">no aplica / </span>
+                <span class="helper-inline copy-text">no procede / </span>
+                <span class="helper-inline copy-text">retiro contactado /</span>
+                <span class="helper-inline copy-text">retiro en proceso / entrega de equipos en cis /</span>
+                <span class="helper-inline copy-text">pendiente / escaldo comercial</span>
+                <span class="helper-inline copy-text">pendiente / escaldo técnico</span>
+              </div>
+            </div>
+            <div>
+              <label for="observacion">Observación</label>
+              <textarea id="observacion" name="observacion" rows="4" placeholder=""></textarea>
+              <div style="margin-top:8px;">
+                <span class="helper-inline copy-text">No es titular del servicio se le indica comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el titular y realizar los procesos.</span>
+                <span class="helper-inline copy-text">*No se pudo validar el contrato ya que el cliente colgó la llamada.</span>
+                <span class="helper-inline copy-text">*No se ingresa solicitud / No se brinda Beneficios ya que el cliente colgó la llamada.</span>
+                <span class="helper-inline copy-text">*Titular acepta entrega de equipo en cis se ingresa solicitud y se le indica la última pb según su período de facturación.</span>
+                <span class="helper-inline copy-text">*Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía fija: </span>
+                <span class="helper-inline copy-text">procesos coactivos se direcciona a cis.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="provincias">Provincia</label>
+              <select id="provincias" name="provincias">
+                <option value="">-- Seleccione --</option>
+                <option value="imbabura">Imbabura 1</option>
+                <option value="carchi">Carchi 1</option>
+                <option value="sucumbios">Sucumbíos 1</option>
+                <option value="esmeraldas">Esmeraldas 1</option>
+                <option value="napo">Napo 2</option>
+                <option value="orellana">Orellana 2</option>
+                <option value="pichincha">Pichincha 2</option>
+                <option value="cotopaxi">Cotopaxi 3</option>
+                <option value="chimborazo">Chimborazo 3</option>
+                <option value="tungurahua">Tungurahua 3</option>
+                <option value="pastaza">Pastaza 3</option>
+                <option value="manabi">Manabí 4</option>
+                <option value="galapagos">Galápagos 4</option>
+                <option value="santodomingo">Santo Domingo Tsachilas 4</option>
+                <option value="bolivar">Bolívar 5</option>
+                <option value="santaelena">Santa Elena 5</option>
+                <option value="losrios">Los Ríos 5</option>
+                <option value="guayas">Guayas 5</option>
+                <option value="moronasantiago">Morona Santiago 6</option>
+                <option value="azuay">Azuay 6</option>
+                <option value="cañar">Cañar 6</option>
+                <option value="eloro">El oro 7</option>
+                <option value="loja">Loja 7</option>
+                <option value="zamorachinchipe">Zamora chinchipe 7</option>
+              </select>
+            </div>
+            <div>
+              <label for="cis">Agencia para entrega de equipo</label>
+              <input id="cis" name="cis" type="text" placeholder="Ingresa cis">
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="preguntas">Preguntas de seguridad</label>
+              <textarea id="preguntas" name="preguntas" rows="3" placeholder="Ingresa preguntas más las respuestas del cliente"></textarea>
+              <div style="margin-top:8px;">
                 <p><a href="preguntas_de_seguridad_servicios_fijos.html" target="_blank">Fijos</a></p>
                 <p><a href="preguntas_de_seguridad_servicios_moviles.html" target="_blank">Movil</a></p>
-             </div>
+              </div>
+            </div>
+            <div></div>
           </div>
-          <div></div>
+
+          <div class="buttons">
+            <button type="button" class="btn btn-clean" onclick="limpiarFormulario()">🧹 Limpiar Formulario</button>
+            <button type="button" class="btn btn-download" onclick="descargarGestionTxt()">⬇️ Descargar TXT</button>
+            <button type="button" class="btn btn-save" onclick="guardarGestion()">💾 Guardar Gestión</button>
+          </div>
+        </form>
+
+        <div id="output">
+          <strong>✅ Datos guardados</strong>
+          <pre id="outputText"></pre>
         </div>
+      </main>
+    </div>
 
-        <div class="buttons">
-          <button type="button" class="btn btn-clean" onclick="limpiarFormulario()">🧹 Limpiar Formulario</button>
-          <button type="button" class="btn btn-download" onclick="descargarGestionTxt()">⬇️ Descargar TXT</button>
-          <button type="button" class="btn btn-save" onclick="guardarGestion()">💾 Guardar Gestión</button>
-        </div>
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
 
-      </form>
+    <script>
+/********** Variables Globales **********/
+let autoSaveTimeout;
+const AUTOSAVE_KEY = 'formAutoSave';
+const GESTIONES_KEY = 'gestionesGuardadas';
 
-      <div id="output">
-        <strong>✅ Datos guardados</strong>
-        <pre id="outputText"></pre>
-      </div>
-    </main>
-  </div>
-
-  <!-- Toast container -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <script>
 /********** Utilidades Toast & Copy **********/
 function showToast(message, type = 'info', duration = 3000){
   const container = document.getElementById('toastContainer');
@@ -1050,16 +1146,131 @@ function copyToClipboard(text){
   }
 }
 
+/********** Sistema de Autoguardado **********/
+function autoSaveForm(){
+  clearTimeout(autoSaveTimeout);
+  
+  autoSaveTimeout = setTimeout(() => {
+    const form = document.getElementById('techcomForm');
+    if(!form) return;
+
+    const formData = new FormData(form);
+    const saveData = {};
+
+    // Guardar todos los campos incluyendo select
+    for (let [key, value] of formData.entries()) {
+      saveData[key] = value;
+    }
+
+    // Guardar timestamp
+    const saveObject = {
+      data: saveData,
+      timestamp: new Date().toISOString()
+    };
+
+    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(saveObject));
+    updateAutoSaveBanner();
+
+  }, 500); // Espera 500ms después de que el usuario deje de escribir
+}
+
+function loadAutoSave(){
+  const saved = localStorage.getItem(AUTOSAVE_KEY);
+  
+  if(saved){
+    try {
+      const { data, timestamp } = JSON.parse(saved);
+      
+      // Restaurar todos los campos
+      for (let [key, value] of Object.entries(data)) {
+        const field = document.getElementById(key);
+        if(field){
+          if(field.tagName === 'SELECT'){
+            // Para select, buscar la opción con ese valor
+            const option = Array.from(field.options).find(opt => opt.value === value);
+            if(option) field.value = value;
+          } else {
+            field.value = value;
+          }
+        }
+      }
+
+      updateAutoSaveBanner();
+      showToast('✅ Datos recuperados automáticamente del ' + formatDate(timestamp), 'success', 4000);
+      
+    } catch(e) {
+      console.error('Error al cargar autoguardado:', e);
+      showToast('⚠️ Error al recuperar datos guardados', 'error');
+    }
+  }
+}
+
+function updateAutoSaveBanner(){
+  const saved = localStorage.getItem(AUTOSAVE_KEY);
+  const banner = document.getElementById('autosaveBanner');
+  const timeDisplay = document.getElementById('autosaveTime');
+  
+  if(saved && banner && timeDisplay){
+    try {
+      const { timestamp } = JSON.parse(saved);
+      const date = new Date(timestamp);
+      
+      timeDisplay.textContent = `Última actualización: ${formatDate(timestamp)}`;
+      banner.classList.add('show');
+      
+    } catch(e) {
+      console.error('Error al actualizar banner:', e);
+    }
+  }
+}
+
+function clearAutoSave(){
+  if(confirm('¿Estás seguro de eliminar los datos guardados automáticamente?\n\nEsta acción no se puede deshacer.')){
+    localStorage.removeItem(AUTOSAVE_KEY);
+    
+    const banner = document.getElementById('autosaveBanner');
+    if(banner) banner.classList.remove('show');
+    
+    showToast('🗑️ Autoguardado eliminado correctamente', 'info');
+  }
+}
+
+function formatDate(isoString){
+  const date = new Date(isoString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 /********** Init fecha/hora y eventos **********/
 document.addEventListener('DOMContentLoaded', () => {
   const now = new Date();
+  const form = document.getElementById('techcomForm');
+  
+  // Establecer fecha y hora actual
   document.getElementById('fechaGestion').value = now.toISOString().split('T')[0];
   document.getElementById('horaGestion').value = now.toTimeString().split(' ')[0].substring(0,5);
 
+  // Cargar autoguardado si existe
+  loadAutoSave();
+
+  // Configurar eventos de autoguardado
+  if(form){
+    // Escuchar cambios en todos los inputs
+    form.addEventListener('input', autoSaveForm);
+    form.addEventListener('change', autoSaveForm);
+  }
+
+  // Eventos para copiar texto
   document.querySelectorAll('.copy-text').forEach(el => {
     el.addEventListener('click', ()=> copyToClipboard(el.textContent.trim()));
   });
 
+  // Eventos para insertar separadores en preguntas
   const preguntas = document.getElementById('preguntas');
   document.querySelectorAll('.text-inserter').forEach(btn => {
     btn.addEventListener('click', (ev)=>{
@@ -1086,18 +1297,17 @@ const orderedKeys = [
   { separator: true },
 
   { key: 'anillamadorID', label: 'Anillamador / ID' },
-  { key: 'nombre', label: 'NOMBRE del titular' },
-  { key: 'nombredelapersona', label: 'Nombre 3era persona' },
+  { key: 'nombre', label: 'Nombre del titular' },
+  { key: 'nombredelapersona', label: 'Nombre de la 3era persona' },
   { key: 'parentesco', label: 'Parentesco' },
-  { key: 'cedula', label: 'CÉDULA' },
-  { key: 'servicio', label: 'SERVICIO' },
+  { key: 'cedula', label: 'cédula' },
+  { key: 'servicio', label: 'servicio' },
 
   { separator: true },
 
   { key: 'actualizacionDatos', label: 'Actualización de datos' },
-  { key: 'numerosContacto', label: 'Números de contacto' },
-  { key: 'peticionSCQU', label: 'PETICIÓN DE SCQU' },
-  { key: 'ticketSolicitud', label: 'TICKET DE SOLICITUD' },
+  
+  { key: 'ticketSolicitud', label: 'ticket de solicitud' },
 
   { separator: true },
 
@@ -1140,9 +1350,9 @@ function guardarGestion(){
     obj[item.key] = val ? val.toString().trim() : '';
   });
 
-  const lista = JSON.parse(localStorage.getItem('gestionesGuardadas') || '[]');
+  const lista = JSON.parse(localStorage.getItem(GESTIONES_KEY) || '[]');
   lista.push({ id: Date.now(), createdAt: new Date().toISOString(), data: obj });
-  localStorage.setItem('gestionesGuardadas', JSON.stringify(lista));
+  localStorage.setItem(GESTIONES_KEY, JSON.stringify(lista));
 
   let pretty = `--- REGISTRO DE GESTIÓN (${obj.campana || 'SIN CAMPAÑA'}) ---\n\n`;
 
@@ -1164,6 +1374,16 @@ function guardarGestion(){
 
 /********** LIMPIAR FORMULARIO **********/
 function limpiarFormulario(){
+  // Preguntar si quiere eliminar también el autoguardado
+  const hasAutoSave = localStorage.getItem(AUTOSAVE_KEY);
+  
+  let confirmMessage = '¿Limpiar todos los campos del formulario?';
+  if(hasAutoSave){
+    confirmMessage += '\n\n¿También deseas eliminar los datos guardados automáticamente?';
+  }
+  
+  if(!confirm(confirmMessage)) return;
+
   const form = document.getElementById('techcomForm');
   form.reset();
 
@@ -1172,6 +1392,14 @@ function limpiarFormulario(){
   document.getElementById('horaGestion').value = now.toTimeString().split(' ')[0].substring(0,5);
 
   document.getElementById('output').style.display = 'none';
+
+  // Limpiar autoguardado si confirmó
+  if(hasAutoSave){
+    localStorage.removeItem(AUTOSAVE_KEY);
+    const banner = document.getElementById('autosaveBanner');
+    if(banner) banner.classList.remove('show');
+  }
+
   showToast('🧹 Formulario limpiado', 'info');
 }
 
@@ -1226,9 +1454,24 @@ function descargarGestionTxt(){
   showToast(`⬇️ Archivo "${filename}" descargado.`, 'success');
 }
 
+// Guardar antes de cerrar/recargar página
+window.addEventListener('beforeunload', (e) => {
+  const form = document.getElementById('techcomForm');
+  if(form){
+    // Forzar un último guardado
+    const formData = new FormData(form);
+    const saveData = {};
+    for (let [key, value] of formData.entries()) {
+      saveData[key] = value;
+    }
+    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify({
+      data: saveData,
+      timestamp: new Date().toISOString()
+    }));
+  }
+});
+
 </script>
 
 </body>
 </html>
-
-
