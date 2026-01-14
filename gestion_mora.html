@@ -275,13 +275,14 @@ textarea{
 <div class="row">
   <div><label>Cédula</label><input name="cedula"></div>
   <div><label>Servicios</label><input name="servicio"></div>
+  <div><label>Tipo de Servicio</label><input name="tiposervicio"></div>
 </div>
 
 <div class="section-title">Resultado</div>
 
 <div class="row">
-  <div><label>Resultado <span class="req">*</span></label><input name="resultadoGestion" value="Procesos coactivos se direcciona a cis" readonly></div>
-  <div><label>Observación</label><textarea name="observacion"></textarea></div>
+  <div><label>Resultado <span class="req">*</span></label><input name="resultadoGestion" value="No procede / No aplica procesos de retención" readonly></div>
+  <div><label>Observación</label><textarea name="observacion">procesos coactivos se direcciona a cis </textarea></div>
 </div>
 
 
@@ -357,16 +358,17 @@ const orderedKeys=[
   {key:'fechaGestion',label:'FECHA'},
   {key:'horaGestion',label:'HORA'},
   {separator:true},
-  {key:'anillamadorID',label:'ID'},
-  {key:'nombre',label:'NOMBRE'},
-  {key:'cedula',label:'CÉDULA'},
-  {key:'servicio',label:'SERVICIO'},
+  {key:'anillamadorID',label:'Anillamado / ID'},
+  {key:'nombre',label:'Nombres y apellidos'},
+  {key:'cedula',label:'Cédula'},
+  {key:'servicio',label:'Número de Servicio'},
+  {key:'tiposervicio',label:'Tipo de Servicio'},
   {separator:true},
-  {key:'resultadoGestion',label:'RESULTADO'},
+  {key:'resultadoGestion',label:'Resultado de gestión'},
   {separator:true},
-  {key:'observacion',label:'OBSERVACIÓN'},
+  {key:'observacion',label:'Observación'},
   {separator:true},
-  {key:'provincias',label:'PROVINCIAS'},
+  {key:'provincias',label:'Provincia'},
 ];
 
 function guardarGestion(){
