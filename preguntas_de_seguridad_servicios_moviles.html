@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Servicios Fijos</title>
-
-<style>
-* {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación de Servicios Fijos</title>
+    <style>
+       * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -223,9 +222,8 @@ button {
         flex-direction: column;
     }
 }
-</style>
+    </style>
 </head>
-
 <body>
 
 <header>
@@ -268,58 +266,58 @@ button {
 </nav>
 </header>
 
-<div class="container">
-<h1>Servicios Fijos</h1>
+    <div class="container">
+        <h1>Servicio Móvil</h1>
+      
+        
+        <div class="info-box">
+            <strong>Importante:</strong> El titular debe responder correctamente al menos 3 de las 5 preguntas de seguridad para completar la validación.
+        </div>
+        
+        <div class="form-section">
+            <label for="nombreTitular">Nombre del titular:</label>
+            <input type="text" id="nombreTitular" placeholder="Ingrese su nombre completo">
+        </div>
+        
+        <div class="form-section">
+            <h2>Preguntas de Seguridad</h2>
+            
+            <div class="question">
+                <div class="question-text">1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor?</div>
+                <input type="text" id="pregunta1" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.</div>
+                <input type="text" id="pregunta2" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. ¿Por favor me puede confirmar el número al cual Ud. se comunicó con más frecuencia en el último mes?</div>
+               <input type="text" id="pregunta3" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. ¿Por favor me puede confirmar la fecha en la que le acreditan el saldo de su plan?</div>
+                <input type="text" id="pregunta4" placeholder="">
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. ¿Cuál es el correo electrónico donde recibe su factura digital?</div>
+                <input type="email" id="pregunta5" placeholder="">
+            </div>
+        </div>
+        
+        <div id="validationMessage" class="validation-message"></div>
+        
+        <div class="buttons">
+            <button id="printBtn">Imprimir y Guardar en TXT</button>
+            <button id="resetBtn">Limpiar Formulario</button>
+        </div>
+    </div>
 
-<div class="info-box">
-    <strong>Importante:</strong> El titular debe responder correctamente al menos 3 de las 5 preguntas de seguridad para completar la validación.</div>
-
-<label>Nombre del titular</label>
-<input type="text" id="nombreTitular">
-
-<div class="question">
-    <div class="question-text">1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor?</div>
-    <input type="text" id="pregunta1">
-</div>
-
-<div class="question">
-    <div class="question-text">2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.
-</div>
-    <input type="text" id="pregunta2">
-</div>
-
-<div class="question">
-    <div class="question-text">3. ¿Me confirma por favor si en el último mes Ud. ha generado alguna visita técnica, Sí o No?
-</div>
-    <select id="pregunta3">
-        <option value="">Seleccione</option>
-        <option>Sí</option>
-        <option>No</option>
-    </select>
-</div>
-
-<div class="question">
-    <div class="question-text">4. ¿Me confirma el motivo por el cual Ud. generó la visita técnica por favor?
-</div>
-    <input type="text" id="pregunta4">
-</div>
-
-<div class="question">
-    <div class="question-text">4. ¿Me confirma el motivo por el cual Ud. generó la visita técnica por favor?
-</div>
-    <input type="email" id="pregunta5">
-</div>
-
-<div id="validationMessage" class="validation-message"></div>
-
-<div class="buttons">
-    <button id="printBtn">Guardar TXT</button>
-    <button id="resetBtn">Limpiar</button>
-</div>
-</div>
-
-<script>
-     document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const printBtn = document.getElementById('printBtn');
             const resetBtn = document.getElementById('resetBtn');
             const validationMessage = document.getElementById('validationMessage');
@@ -368,8 +366,8 @@ button {
                 const preguntas = [
                     "1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor?",
                     "2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.",
-                    "3. ¿Me confirma por favor si en el último mes Ud. ha generado alguna visita técnica, Sí o No?",
-                    "4. ¿Me confirma el motivo por el cual Ud. generó la visita técnica por favor?",
+                    "3. ¿Por favor me puede confirmar el número al cual Ud. se comunicó con más frecuencia en el último mes?",
+                    "4. ¿Por favor me puede confirmar la fecha en la que le acreditan el saldo de su plan?",
                     "5. ¿Cuál es el correo electrónico donde recibe su factura digital?"
                 ];
                 
@@ -381,7 +379,7 @@ button {
                     document.getElementById('pregunta5').value
                 ];
                 
-                let contenido = `VALIDACIÓN DE SERVICIOS FIJOS\n`;
+                let contenido = `VALIDACIÓN DE SERVICIO MOVIL\n`;
                 contenido += `==============================\n\n`;
                 contenido += `Fecha: ${new Date().toLocaleString()}\n`;
                 contenido += `Nombre del titular: ${nombreTitular}\n\n`;
@@ -438,7 +436,8 @@ button {
             });
         });
 
-function toggleMenu() {
+
+        function toggleMenu() {
     document.getElementById("menu").classList.toggle("active");
 }
 
@@ -450,7 +449,6 @@ document.querySelectorAll(".has-submenu > a").forEach(item => {
         }
     });
 });
-</script>
-
+    </script>
 </body>
 </html>
