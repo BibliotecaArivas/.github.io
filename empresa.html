@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Documentos Requeridos</title>
+<title>Documentos – Representante Legal</title>
 
 <style>
 /* ===== RESET ===== */
@@ -22,114 +22,94 @@ body{
     line-height:1.6;
 }
 
+/* ===== LAYOUT ===== */
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
 /* ===== MENU ===== */
-header {
-    background: linear-gradient(135deg, #2c3e50, #3498db);
-    padding: 15px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+.nav{
+    width:260px;
+    background:#ffffff;
+    border-right:1px solid #e5e7eb;
+    padding:20px 0;
 }
 
-.navbar {
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.nav h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:16px;
+    color:#1e3a8a;
 }
 
-.logo {
-    color: #fff;
-    font-size: 22px;
-    font-weight: bold;
+.list{
+    list-style:none;
 }
 
-.menu {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+.list__item{
+    width:100%;
 }
 
-.menu li {
-    position: relative;
-}
-
-.menu a {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 12px;
-    font-weight: 500;
-    border-radius: 5px;
-    display: block;
-}
-
-.menu a:hover {
-    background: rgba(255,255,255,0.15);
-}
-
-/* SUBMENUS */
-.submenu {
-    display: none;
-    position: absolute;
-    top: 45px;
-    left: 0;
-    background: #ffffff;
-    min-width: 180px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    overflow: hidden;
-}
-
-.submenu a {
-    color: #2c3e50;
-    padding: 12px;
-}
-
-.submenu a:hover {
-    background: #f0f2f5;
-}
-
-.has-submenu:hover .submenu {
-    display: block;
-}
-
-/* BOTÓN MOBILE */
-.menu-toggle {
-    display: none;
-    font-size: 26px;
-    color: white;
-    cursor: pointer;
-}
-/* Hover escritorio */
-.has-submenu:hover .submenu{
-    display:block;
-}
-
-/* ===== BOTÓN MOBILE ===== */
-.menu-toggle{
-    display:none;
-    font-size:26px;
-    color:#fff;
+.list__button{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
     cursor:pointer;
+    color:#303440;
 }
 
-/* ===== CONTENEDOR ===== */
+.list__button:hover{
+    background:#f1f5f9;
+}
+
+.list__arrow{
+    margin-left:auto;
+    transition:transform .3s;
+}
+
+.arrow .list__arrow{
+    transform:rotate(90deg);
+}
+
+.nav__link{
+    text-decoration:none;
+    color:#303440;
+    flex:1;
+}
+
+.list__show{
+    list-style:none;
+    height:0;
+    overflow:hidden;
+    transition:height .3s ease;
+}
+
+.nav__link--inside{
+    display:block;
+    padding:10px 40px;
+    color:#475569;
+}
+
+.nav__link--inside:hover{
+    background:#f8fafc;
+}
+
+/* ===== CONTENT ===== */
+.main{
+    flex:1;
+    padding:40px;
+}
+
 .container{
     max-width:820px;
-    margin:50px auto;
     background:#ffffff;
     padding:35px 40px;
     border-radius:14px;
     box-shadow:0 20px 40px rgba(0,0,0,0.08);
     border:1px solid #e5e7eb;
-}
-
-h1{
-    text-align:center;
-    font-size:22px;
-    margin-bottom:25px;
-    color:#111827;
+    margin:auto;
 }
 
 /* ===== INFO ===== */
@@ -140,14 +120,15 @@ h1{
     border-radius:8px;
     margin-bottom:25px;
     color:#1e3a8a;
+    font-weight:600;
 }
 
 /* ===== LISTA ===== */
-ul.docs{
+.docs{
     list-style:none;
 }
 
-ul.docs li{
+.docs li{
     background:#f9fafb;
     padding:14px 16px;
     margin-bottom:12px;
@@ -157,7 +138,7 @@ ul.docs li{
     border:1px solid #e5e7eb;
 }
 
-ul.docs li::before{
+.docs li::before{
     content:"✔";
     color:#2563eb;
     font-weight:bold;
@@ -186,55 +167,23 @@ ul.docs li::before{
     border:1px solid #e5e7eb;
 }
 
-/* ===== FOOTER ===== */
-.footer{
-    text-align:center;
-    margin-top:35px;
-    font-size:12px;
-    color:#6b7280;
-}
-
 /* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-    .menu{
-        position:absolute;
-        top:65px;
-        right:0;
-        background:#1e3a8a;
+@media(max-width:900px){
+    .layout{
         flex-direction:column;
-        width:260px;
-        padding:15px;
-        display:none;
-        border-radius:0 0 0 14px;
     }
 
-    .menu.active{
-        display:flex;
+    .nav{
+        width:100%;
+        border-right:none;
+        border-bottom:1px solid #e5e7eb;
     }
 
-    .submenu{
-        position:static;
-        background:#1e40af;
-        box-shadow:none;
-        margin-top:5px;
-        display:none;
-    }
-
-    .submenu a{
-        color:#fff;
-        padding-left:20px;
-    }
-
-    .has-submenu.active .submenu{
-        display:block;
-    }
-
-    .menu-toggle{
-        display:block;
+    .main{
+        padding:20px;
     }
 
     .container{
-        margin:25px;
         padding:25px 20px;
     }
 }
@@ -243,81 +192,89 @@ ul.docs li::before{
 
 <body>
 
-<header>
-<nav class="navbar">
-    <div class="logo">Servicios Fijos</div>
+<div class="layout">
 
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<!-- ===== MENU ===== -->
+<nav class="nav">
+    <h2>Menú</h2>
+    <ul class="list">
 
-    <ul class="menu" id="menu">
-        <li><a href="#">Inicio</a></li>
+        <li class="list__item">
+            <div class="list__button">
+                <a href="#" class="nav__link">Inicio</a>
+            </div>
+        </li>
 
-        <li class="has-submenu">
-            <a href="#">Preguntas de Seguridad ▾</a>
-            <ul class="submenu">
-                <li><a href="preguntas_de_seguridad_servicios_fijos.html">Servicios Fijos</a></li>
-                <li><a href="preguntas_de_seguridad_servicios_moviles.html">Servicios Móviles</a></li>
-                <li><a href="empresa.html">Empresas</a></li>
+        <li class="list__item">
+            <div class="list__button list__button--click">
+                <a href="#" class="nav__link">Preguntas de seguridad</a>
+                <span class="list__arrow">▶</span>
+            </div>
+            <ul class="list__show">
+                <li><a class="nav__link--inside" href="preguntas_de_seguridad_servicios_fijos.html">Servicios Fijos</a></li>
+                <li><a class="nav__link--inside" href="preguntas_de_seguridad_servicios_moviles.html">Servicios Móviles</a></li>
             </ul>
         </li>
 
-        <li class="has-submenu">
-            <a href="#">Gestiones ▾</a>
-            <ul class="submenu">
-                <li><a href="#"></a></li>
-                <li><a href="#"></a></li>
-                <li><a href="#"></a></li>
+        <li class="list__item">
+            <div class="list__button list__button--click">
+                <a href="#" class="nav__link">Gestiones</a>
+                <span class="list__arrow">▶</span>
+            </div>
+            <ul class="list__show">
+                <li><a class="nav__link--inside" href="#">Empresas</a></li>
+                <li><a class="nav__link--inside" href="#">Personas</a></li>
             </ul>
         </li>
 
-        <li class="has-submenu">
-            <a href="#">Info ▾</a>
-            <ul class="submenu">
-                <li><a href="Formas_de_Pago_y_Periodos_de_facturacion.html" target="_blank">Ciclo Período de facturación</a></li>
-                <li><a href="#"></a></li>
+       <li class="list__item">
+            <div class="list__button list__button--click">
+                <a href="#" class="nav__link">Info</a>
+                <span class="list__arrow">▶</span>
+            </div>
+            <ul class="list__show">
+                <li><a class="nav__link--inside" href="Formas_de_Pago_y_Periodos_de_facturacion.html">Ciclo Período de facturación</a></li>
+                <li><a class="nav__link--inside" href="empresa.html">Documentos para empresas</a></li>
             </ul>
         </li>
 
-        <li><a href="#"></a></li>
     </ul>
 </nav>
-</header>
 
-<div class="container">
-<div class="info">
-    Documentos que debe enviar el Representante Legal
-</div>
+<!-- ===== CONTENT ===== -->
+<main class="main">
+    <div class="container">
 
-<ul class="docs">
-    <li>RUC de la empresa.</li>
-    <li>Nombramiento.</li>
-    <li>Cédula del representante legal.</li>
-    <li>Fechas para el ingreso de su solicitud según su periodo de facturación.</li>
-    <li>Si es tercera persona, debe enviar carta de autorización notarizada.</li>
-</ul>
+        <div class="info">
+            Documentos que debe enviar el Representante Legal
+        </div>
 
-<div class="contact">
-<strong>Correos electonicos:</strong>
-<div class="email">documentosce25@gmail.com</div>
-<div class="email">documentosvalidacioncnt@gmail.com</div>
-</div>
+        <ul class="docs">
+            <li>RUC de la empresa.</li>
+            <li>Nombramiento.</li>
+            <li>Cédula del representante legal.</li>
+            <li>Fechas para el ingreso de su solicitud según su período de facturación.</li>
+            <li>Carta de autorización notarizada (si es tercera persona).</li>
+            <li>Cédula de la tercera persona.</li>
+        </ul>
 
-<div class="footer">
-    
-</div>
+        <div class="contact">
+            <strong>Correos electrónicos para envío de documentos:</strong>
+            <div class="email">documentosce25@gmail.com</div>
+            <div class="email">documentosvalidacioncnt@gmail.com</div>
+        </div>
+
+    </div>
+</main>
+
 </div>
 
 <script>
-function toggleMenu(){
-    document.getElementById("menu").classList.toggle("active");
-}
-
-document.querySelectorAll(".has-submenu > a").forEach(item=>{
-    item.addEventListener("click",function(e){
-        if(window.innerWidth <= 768){
-            e.preventDefault();
-            this.parentElement.classList.toggle("active");
-        }
+document.querySelectorAll(".list__button--click").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        btn.classList.toggle("arrow");
+        let menu = btn.nextElementSibling;
+        menu.style.height = menu.style.height ? null : menu.scrollHeight+"px";
     });
 });
 </script>
