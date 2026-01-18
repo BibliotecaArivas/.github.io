@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escenarios Comunes para Retiro de Servicios</title>
+
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -199,133 +201,240 @@
                 padding: 1.5rem 0;
             }
         }
+        
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            animation: fadeIn .3s;
+        }
+  h5{
+    display: inline-block;
+    color: #2980b9;
+    border-bottom: 2px solid #2980b9;
+  }
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--danger);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(.9)
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+
+        @media(max-width:768px) {
+            .scenario-container {
+                grid-template-columns: 1fr
+            }
+        }
     </style>
 </head>
+
 <body>
+<div>
+    <!-- script -->
+                <h5 class="script-link" onclick="openScriptModal(
+'Script de Gestión Outbound',
+'Buenos días mi nombre es (Nombre y apellido del asesor/a) representante de la Corporación Nacional de Telecomunicaciones con número de PBX 373-1700; por favor me puede comunicar con Sr. Sra. Srta. XXX. por su seguridad esta llamada es grabada y monitoreada, me permite continuar? El motivo de mi llamada tiene por objetivo (mencionarlo de acuerdo al requerimiento.'
+)">
+                    Script de Gestión Outbound
+                </h5>
+                      <!-- script end -->
+</div>
+  
+
+    <!-- MODAL ÚNICO -->
+    <div class="modal" id="scriptModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScriptModal()">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalText"></p>
+        </div>
+    </div>
+
     <header>
         <div class="header-content">
             <h1>Escenarios Comunes</h1>
             <p class="subtitle">Seleccione un escenario para copiar al portapapeles</p>
         </div>
     </header>
-    
     <div class="container">
         <div class="copy-notification" id="copyNotification">Texto copiado</div>
-
-
-        
         <div class="category">
             <h2>Resumen de gestión</h2>
             <div class="scenario-container">
                 <div class="scenario" onclick="copyToClipboard(this)">No procede / no aplica proceso de retención.</div>
-                
                 <div class="scenario" onclick="copyToClipboard(this)">No aplica / </div>
-                
                 <div class="scenario" onclick="copyToClipboard(this)">Retiro contactado / </div>
-                
-                <div class="scenario" onclick="copyToClipboard(this)">Retiro en proceso / entregara equipo en cis / </div>
-
+                <div class="scenario" onclick="copyToClipboard(this)">Retiro en proceso / entregara equipo en cis /
+                </div>
             </div>
         </div>
-
         <div class="category">
             <h2>TELEFONÍA FIJA</h2>
+            <div>
+                <!-- script -->
+                <h5 class="script-link" onclick="openScriptModal(
+'Script de retiro',
+'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
+)">
+                    script de retiro
+                </h5>
+                      <!-- script end -->
+            </div>
+            <div>
+                <!-- script -->
+               <h5 class="script-link" onclick="openScriptModal(
+'Script de entrega de equipo',
+'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
+)">
+                    script de entrega de equipo
+                </h5>
+                <!-- script end -->
+            </div>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija.
-                    *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía fija:
-                    *Se le indica la última pb segun su período de facturación.
-                </div>
+                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
+                    eso desea desistir de su contrato de telefonía fija. *Titular acepta la cancelación de contrato se
+                    ingresa solicitud y se realiza el retiro de su telefonía fija: *Se le indica la última pb segun su
+                    período de facturación. </div>
+                    
+                     
+
+                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
+                    eso desea desistir de su contrato de telefonía fija *Titular acepta la entrega de modem en cis .. /
+                    fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo
+                </div> 
                 
-                  <div class="scenario" onclick="copyToClipboard(this)">
-                    Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija
-                    *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo 
-                </div>
             </div>
         </div>
-        
         <div class="category">
             <h2>TELEFONÍA FIJA + INTERNET FIJO</h2>
+             <div>
+                <!-- script -->
+                <h5 class="script-link" onclick="openScriptModal(
+'Script de retiro',
+'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
+)">
+                    script de retiro
+                </h5>
+                      <!-- script end -->
+            </div>
+            <div>
+                <!-- script -->
+               <h5 class="script-link" onclick="openScriptModal(
+'Script de entrega de equipo',
+'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
+)">
+                    script de entrega de equipo
+                </h5>
+                <!-- script end -->
+            </div>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija y internet fijo.
-                    *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo 
-                    
+                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
+                    eso desea desistir de su contrato de telefonía fija y internet fijo. *Titular acepta la entrega de
+                    modem en cis .. / fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de
+                    facturacion. / periodo </div>
+                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
+                    eso desea desistir de su contrato de internet fijo. *Titular acepta la entrega de modem en cis .. /
+                    fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo
                 </div>
-                
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo.
-                    *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo </div>
-                
-                <div class="scenario" onclick="copyToClipboard(this)">
-                     Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo.
-                    *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de internet fijo en axis código de solicitud:
-                    *Contrato es del año 2012 por ende el titular no entrega modem. 
-                    *Se le indica la última pb segun su período de facturación.
-                </div>
+                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
+                    eso desea desistir de su contrato de internet fijo. *Titular acepta la cancelación de contrato se
+                    ingresa solicitud y se realiza el retiro de internet fijo en axis código de solicitud: *Contrato es
+                    del año 2012 por ende el titular no entrega modem. *Se le indica la última pb segun su período de
+                    facturación. </div>
             </div>
         </div>
-        
         <div class="category">
             <h2>DTH</h2>
+            <div>
+                <!-- script -->
+               <h5 class="script-link" onclick="openScriptModal(
+'Script de entrega de equipo',
+'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
+)">
+                    script de entrega de equipo
+                </h5>
+                <!-- script end -->
+            </div>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de DTH.
-                    *Titular acepta la entrega del decodificador en cis .. / fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo 
-                
-                <div class="scenario" onclick="copyToClipboard(this)">
+                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
+                    eso desea desistir de su contrato de DTH. *Titular acepta la entrega del decodificador en cis .. /
+                    fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo
+                    <div class="scenario" onclick="copyToClipboard(this)"> </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="category">
-            <h2>MÓVIL</h2>
-            <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    Titular no desea más su plan móvil, no requiere el plan / / no tiene a quién ceder dicho contrato / no desea un plan más económico / no retenido / *Titular acepta la cancelación de su contrato se ingresa solicitud y se deja programado el cambio a prepago, se acredita el  / se le indica la última pb según su periodo de ciclo de facturación. 
-                </div>
-                
-                <div class="scenario" onclick="copyToClipboard(this)">                </div>
+            <div class="category">
+                <h2>MÓVIL</h2>
+                 <div>
+                <!-- script -->
+                <h5 class="script-link" onclick="openScriptModal(
+'Script de retiro',
+'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
+)">
+                    script de retiro
+                </h5>
+                      <!-- script end -->
             </div>
-        </div>
-
-        <div class="category">
-            <h2>ADICIONAL</h2>
-            <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    sra./sr taltal /hij@ del titular desea realizar los procesos de cancelacion por la sra/sr... se le indica enviar documentos carta de autorizacion notarizada a los correos: documentosce25@gmail.com / documentosvalidacioncnt@gmail.com.
+                <div class="scenario-container">
+                    <div class="scenario" onclick="copyToClipboard(this)"> Titular no desea más su plan móvil, no
+                        requiere el plan / / no tiene a quién ceder dicho contrato / no desea un plan más económico / no
+                        retenido / *Titular acepta la cancelación de su contrato se ingresa solicitud y se deja
+                        programado el cambio a prepago, se acredita el / se le indica la última pb según su periodo de
+                        ciclo de facturación. </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> </div>
                 </div>
-
-                 <div class="scenario" onclick="copyToClipboard(this)">
-                    Representante legal de la empresa ..... sra / sr proceso de cancelacion de.... se le indica enviar documentos a los correos: documentosce25@gmail.com / documentosvalidacioncnt@gmail.com.
-                </div>
-                
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    *No se pudo validar el contrato ya que el cliente colgó la llamada.
-                </div>
-
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    No es titular del servicio se le indica comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el titular y realizar los procesos.
-                </div>
-
-                 <div class="scenario" onclick="copyToClipboard(this)">
-                    *Esta fuera de fecha para el ingreso de su solicitud se le indica volver a llamar a partir del .. maximo ...
-                </div>
-
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    *No se ingresa solicitud / No se brinda Beneficios ya que el cliente colgó la llamada.
-                </div>
-
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    procesos coactivos se direcciona a cis.
-                </div>
-
-                <div class="scenario" onclick="copyToClipboard(this)">
-                    *No se le indica los codigos de su solicitud ya que el cliente colgo la llamada.
-                </div>
-
-
-                <pre class="scenario" onclick="copyToClipboard(this)">
+            </div>
+            <div class="category">
+                <h2>ADICIONAL</h2>
+                <div class="scenario-container">
+                    <div class="scenario" onclick="copyToClipboard(this)"> sra./sr taltal /hij@ del titular desea
+                        realizar los procesos de cancelacion por la sra/sr... se le indica enviar documentos carta de
+                        autorizacion notarizada a los correos: documentosce25@gmail.com /
+                        documentosvalidacioncnt@gmail.com. </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> Representante legal de la empresa ..... sra /
+                        sr proceso de cancelacion de.... se le indica enviar documentos a los correos:
+                        documentosce25@gmail.com / documentosvalidacioncnt@gmail.com. </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> *No se pudo validar el contrato ya que el
+                        cliente colgó la llamada. </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> No es titular del servicio se le indica
+                        comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el
+                        titular y realizar los procesos. </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> *Esta fuera de fecha para el ingreso de su
+                        solicitud se le indica volver a llamar a partir del .. maximo ... </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> *No se ingresa solicitud / No se brinda
+                        Beneficios ya que el cliente colgó la llamada. </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> procesos coactivos se direcciona a cis.
+                    </div>
+                    <div class="scenario" onclick="copyToClipboard(this)"> *No se le indica los codigos de su solicitud
+                        ya que el cliente colgo la llamada. </div>
+                    <pre class="scenario"
+                        onclick="copyToClipboard(this)"> 
 Asesoria comercial:
 *Se brinda facturas vencidas.
 *Se indica fecha máxima de pagos. 
@@ -338,31 +447,39 @@ pay phone
 agencia de cnt
 transferencia
 
-                </pre>
-
+                
+                    </pre>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <footer>
-        <p>&copy; 2025 Sistema de Gestión de Retiros. Todos los derechos reservados.</p>
-    </footer>
+        <footer>
+            <p></p>
+        </footer>
+        <script>
+            function copyToClipboard(el) {
+                navigator.clipboard.writeText(el.innerText).then(() => {
+                    const n = document.getElementById("copyNotification");
+                    n.classList.add("show");
+                    setTimeout(() => n.classList.remove("show"), 2000);
+                });
+            }
 
-    <script>
-        function copyToClipboard(element) {
-            const textToCopy = element.innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                // Mostrar notificación
-                const notification = document.getElementById('copyNotification');
-                notification.classList.add('show');
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 2000);
-            }).catch(err => {
-                console.error('Error al copiar texto: ', err);
-                alert('No se pudo copiar el texto. Por favor intente manualmente.');
-            });
-        }
-    </script>
+            function openScriptModal(title, text) {
+                document.getElementById("modalTitle").innerText = title;
+                document.getElementById("modalText").innerText = text;
+                document.getElementById("scriptModal").style.display = "flex";
+            }
+
+            function closeScriptModal() {
+                document.getElementById("scriptModal").style.display = "none";
+            }
+
+            window.onclick = function (e) {
+                const m = document.getElementById("scriptModal");
+                if (e.target === m) closeScriptModal();
+            }
+        </script>
+
 </body>
+
 </html>
