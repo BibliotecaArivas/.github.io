@@ -1,323 +1,278 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validación de Servicios Fijos</title>
-    <style>
-       * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validación Servicio Móvil</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+    font-size:14px;
+}
+
+/* ===== LAYOUT ===== */
+.layout{
+    display:flex;
+    min-height:100vh;
 }
 
 /* ===== MENU ===== */
-header {
-    background: linear-gradient(135deg, #2c3e50, #3498db);
-    padding: 15px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+.nav{
+    width:260px;
+    background:#ffffff;
+    border-right:1px solid #e5e7eb;
+    padding:20px 0;
 }
 
-.navbar {
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.nav h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:16px;
+    color:#1e3a8a;
 }
 
-.logo {
-    color: #fff;
-    font-size: 22px;
-    font-weight: bold;
+.list{
+    list-style:none;
 }
 
-.menu {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+.list__button{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    cursor:pointer;
+    color:#303440;
 }
 
-.menu li {
-    position: relative;
+.list__button:hover{
+    background:#f1f5f9;
 }
 
-.menu a {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 12px;
-    font-weight: 500;
-    border-radius: 5px;
-    display: block;
+.list__arrow{
+    margin-left:auto;
+    transition:transform .3s;
 }
 
-.menu a:hover {
-    background: rgba(255,255,255,0.15);
+.arrow .list__arrow{
+    transform:rotate(90deg);
 }
 
-/* SUBMENUS */
-.submenu {
-    display: none;
-    position: absolute;
-    top: 45px;
-    left: 0;
-    background: #ffffff;
-    min-width: 180px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    overflow: hidden;
+.nav__link{
+    text-decoration:none;
+    color:#303440;
+    flex:1;
 }
 
-.submenu a {
-    color: #2c3e50;
-    padding: 12px;
+.list__show{
+    list-style:none;
+    height:0;
+    overflow:hidden;
+    transition:height .3s ease;
 }
 
-.submenu a:hover {
-    background: #f0f2f5;
+.nav__link--inside{
+    display:block;
+    padding:10px 40px;
+    color:#475569;
 }
 
-.has-submenu:hover .submenu {
-    display: block;
+.nav__link--inside:hover{
+    background:#f8fafc;
 }
 
-/* BOTÓN MOBILE */
-.menu-toggle {
-    display: none;
-    font-size: 26px;
-    color: white;
-    cursor: pointer;
+/* ===== CONTENT ===== */
+.main{
+    flex:1;
+    padding:40px;
 }
 
-/* ===== BODY ===== */
-body {
-    background: #f5f7fa;
+.container{
+    max-width:800px;
+    background:#ffffff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    margin:auto;
 }
 
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    padding: 30px;
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#2c3e50;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #2c3e50;
+.info-box{
+    background:#e8f4fd;
+    border-left:5px solid #3498db;
+    padding:15px;
+    border-radius:6px;
+    margin-bottom:20px;
 }
 
-.info-box {
-    background: #e8f4fd;
-    border-left: 5px solid #3498db;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 6px;
+label{
+    font-weight:600;
+    display:block;
+    margin-bottom:6px;
 }
 
-label {
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:6px;
+    border:1px solid #ccc;
 }
 
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.question{
+    background:#f8f9fa;
+    padding:15px;
+    border-radius:6px;
+    margin-bottom:15px;
 }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: #3498db;
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
 }
 
-.question {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 6px;
-    margin-bottom: 15px;
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+#printBtn{
+    background:#3498db;
+    color:white;
 }
 
-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
+#resetBtn{
+    background:#e74c3c;
+    color:white;
 }
 
-#printBtn {
-    background: #3498db;
-    color: white;
+.validation-message{
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
 }
 
-#resetBtn {
-    background: #e74c3c;
-    color: white;
-}
-
-.validation-message {
-    margin-top: 15px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.success { color: #155724; }
-.error { color: #721c24; }
+.success{color:#155724;}
+.error{color:#721c24;}
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .menu {
-        position: absolute;
-        top: 65px;
-        right: 0;
-        background: #2c3e50;
-        flex-direction: column;
-        width: 240px;
-        padding: 15px;
-        display: none;
-        border-radius: 0 0 0 10px;
+@media(max-width:900px){
+    .layout{
+        flex-direction:column;
     }
-
-    .menu.active {
-        display: flex;
+    .nav{
+        width:100%;
+        border-right:none;
+        border-bottom:1px solid #e5e7eb;
     }
-
-    .submenu {
-        position: static;
-        background: #34495e;
-        box-shadow: none;
-        margin-top: 5px;
-        display: none;
-    }
-
-    .submenu a {
-        color: white;
-        padding-left: 20px;
-    }
-
-    .has-submenu.active .submenu {
-        display: block;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .buttons {
-        flex-direction: column;
+    .main{
+        padding:20px;
     }
 }
-    </style>
+</style>
 </head>
+
 <body>
 
-<header>
-<nav class="navbar">
-    <div class="logo">Servicios Fijos</div>
+<div class="layout">
 
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<!-- ===== MENU ===== -->
+<nav class="nav">
+    <h2>Menú</h2>
+    <ul class="list">
 
-    <ul class="menu" id="menu">
-        <li><a href="#">Inicio</a></li>
+        <li>
+            <div class="list__button">
+                <a href="#" class="nav__link">Inicio</a>
+            </div>
+        </li>
 
-        <li class="has-submenu">
-            <a href="#">Preguntas de Seguridad ▾</a>
-            <ul class="submenu">
-                <li><a href="preguntas_de_seguridad_servicios_fijos.html">Servicios Fijos</a></li>
-                <li><a href="preguntas_de_seguridad_servicios_moviles.html">Servicios Móviles</a></li>
-                <li><a href="empresa.html">Empresas</a></li>
+        <li>
+            <div class="list__button list__button--click">
+                <a href="#" class="nav__link">Preguntas de seguridad</a>
+                <span class="list__arrow">▶</span>
+            </div>
+            <ul class="list__show">
+                <li><a class="nav__link--inside" href="preguntas_de_seguridad_servicios_fijos.html">Servicios Fijos</a></li>
+                <li><a class="nav__link--inside" href="preguntas_de_seguridad_servicios_moviles.html">Servicios Móviles</a></li>
             </ul>
         </li>
 
-        <li class="has-submenu">
-            <a href="#">Gestiones ▾</a>
-            <ul class="submenu">
-                <li><a href="#"></a></li>
-                <li><a href="#"></a></li>
-                <li><a href="#"></a></li>
+        <li>
+            <div class="list__button list__button--click">
+                <a href="#" class="nav__link">Gestiones</a>
+                <span class="list__arrow">▶</span>
+            </div>
+            <ul class="list__show">
+                <li><a class="nav__link--inside" href="escenarios_comunes_para_retiro_de_servicios.html">Escenarios comunes in</a></li>
+                <li><a class="nav__link--inside" href="#"></a></li>
             </ul>
         </li>
 
-        <li class="has-submenu">
-            <a href="#">Info ▾</a>
-            <ul class="submenu">
-                <li><a href="Formas_de_Pago_y_Periodos_de_facturacion.html" target="_blank">Ciclo Período de facturación</a></li>
-                <li><a href="#"></a></li>
+        <li>
+            <div class="list__button list__button--click">
+                <a href="#" class="nav__link">Info</a>
+                <span class="list__arrow">▶</span>
+            </div>
+            <ul class="list__show">
+                <li><a class="nav__link--inside" href="Formas_de_Pago_y_Periodos_de_facturacion.html" target="_blank">Ciclo Período de facturación</a></li>
+                <li><a class="nav__link--inside" href="empresa.html">Documentos para empresas</a></li>
             </ul>
         </li>
 
-        <li><a href="#"></a></li>
     </ul>
 </nav>
-</header>
 
-    <div class="container">
-        <h1>Servicio Móvil</h1>
-      
-        
-        <div class="info-box">
-            <strong>Importante:</strong> El titular debe responder correctamente al menos 3 de las 5 preguntas de seguridad para completar la validación.
-        </div>
-        
-        <div class="form-section">
-            <label for="nombreTitular">Nombre del titular:</label>
-            <input type="text" id="nombreTitular" placeholder="Ingrese su nombre completo">
-        </div>
-        
-        <div class="form-section">
-            <h2>Preguntas de Seguridad</h2>
-            
-            <div class="question">
-                <div class="question-text">1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor?</div>
-                <input type="text" id="pregunta1" placeholder="">
-            </div>
-            
-            <div class="question">
-                <div class="question-text">2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.</div>
-                <input type="text" id="pregunta2" placeholder="">
-            </div>
-            
-            <div class="question">
-                <div class="question-text">3. ¿Por favor me puede confirmar el número al cual Ud. se comunicó con más frecuencia en el último mes?</div>
-               <input type="text" id="pregunta3" placeholder="">
-            </div>
-            
-            <div class="question">
-                <div class="question-text">4. ¿Por favor me puede confirmar la fecha en la que le acreditan el saldo de su plan?</div>
-                <input type="text" id="pregunta4" placeholder="">
-            </div>
-            
-            <div class="question">
-                <div class="question-text">5. ¿Cuál es el correo electrónico donde recibe su factura digital?</div>
-                <input type="email" id="pregunta5" placeholder="">
-            </div>
-        </div>
-        
-        <div id="validationMessage" class="validation-message"></div>
-        
-        <div class="buttons">
-            <button id="printBtn">Imprimir y Guardar en TXT</button>
-            <button id="resetBtn">Limpiar Formulario</button>
-        </div>
-    </div>
+<!-- ===== CONTENT ===== -->
+<main class="main">
+<div class="container">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+<h1>Servicio Móvil</h1>
+
+<div class="info-box">
+<strong>Importante:</strong> El titular debe responder correctamente al menos 3 de las 5 preguntas de seguridad para completar la validación.
+</div>
+
+<label>Nombre del titular</label>
+<input type="text" id="nombreTitular">
+
+<div class="question">1. ¿Me puede confirmar cuál es el medio de pago que mantiene registrado para su servicio por favor? <input type="text" id="pregunta1"></div>
+<div class="question">2. Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.<input type="text" id="pregunta2"></div>
+<div class="question">3. ¿Por favor me puede confirmar el número al cual Ud. se comunicó con más frecuencia en el último mes?<input type="text" id="pregunta3"></div>
+<div class="question">4. ¿Por favor me puede confirmar la fecha en la que le acreditan el saldo de su plan? <input type="text" id="pregunta4"></div>
+<div class="question">5. ¿Cuál es el correo electrónico donde recibe su factura digital? <input type="email" id="pregunta5"></div>
+
+<div id="validationMessage" class="validation-message"></div>
+
+<div class="buttons">
+<button id="printBtn">Guardar TXT</button>
+<button id="resetBtn">Limpiar</button>
+</div>
+
+</div>
+</main>
+
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
             const printBtn = document.getElementById('printBtn');
             const resetBtn = document.getElementById('resetBtn');
             const validationMessage = document.getElementById('validationMessage');
@@ -441,14 +396,15 @@ button {
     document.getElementById("menu").classList.toggle("active");
 }
 
-document.querySelectorAll(".has-submenu > a").forEach(item => {
-    item.addEventListener("click", function(e) {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            this.parentElement.classList.toggle("active");
-        }
+
+document.querySelectorAll(".list__button--click").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        btn.classList.toggle("arrow");
+        let menu = btn.nextElementSibling;
+        menu.style.height = menu.style.height ? null : menu.scrollHeight+"px";
     });
 });
-    </script>
+</script>
+
 </body>
 </html>
