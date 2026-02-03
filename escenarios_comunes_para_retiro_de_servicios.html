@@ -54,6 +54,9 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         h1 {
@@ -119,28 +122,10 @@
             overflow: hidden;
         }
         
-        .scenario::before {
-            content: 'Copiar';
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            border-bottom-left-radius: var(--border-radius);
-            opacity: 0;
-            transition: var(--transition);
-        }
-        
         .scenario:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-left-color: var(--accent-color);
-        }
-        
-        .scenario:hover::before {
-            opacity: 1;
         }
         
         .scenario:active {
@@ -184,6 +169,205 @@
             margin-top: 3rem;
         }
         
+        /* Estilos para el contador */
+        .counter-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.15rem 0.5rem;
+            border-bottom-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            min-width: 1.5rem;
+            text-align: center;
+        }
+        
+        .stats-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stats-btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .stats-btn i {
+            font-size: 1rem;
+        }
+        
+        /* Modal de estadísticas */
+        .stats-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .stats-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn .3s;
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 1rem;
+        }
+        
+        .stats-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .stats-reset-btn {
+            background-color: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .stats-reset-btn:hover {
+            background-color: #e67e22;
+        }
+        
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .stats-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .stats-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--light-color);
+        }
+        
+        .stats-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .stats-table tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        
+        .stats-table tr:nth-child(even):hover {
+            background-color: #f0f0f0;
+        }
+        
+        .stats-count {
+            font-weight: bold;
+            color: var(--danger-color);
+            text-align: center;
+        }
+        
+        .stats-text {
+            max-width: 500px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .stats-category {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .no-stats {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+            font-style: italic;
+        }
+        
+        /* Estilos existentes */
+        h5 {
+            display: inline-block;
+            color: #2980b9;
+            border-bottom: 2px solid #2980b9;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        
+        .script-link {
+            margin-right: 1rem;
+        }
+        
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            animation: fadeIn .3s;
+        }
+        
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--danger);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(.9)
+            }
+            
+            to {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -200,240 +384,166 @@
             header {
                 padding: 1.5rem 0;
             }
-        }
-        
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .6);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--shadow);
-            animation: fadeIn .3s;
-        }
-  h5{
-    display: inline-block;
-    color: #2980b9;
-    border-bottom: 2px solid #2980b9;
-  }
-        .close {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--danger);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(.9)
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
-
-            to {
-                opacity: 1;
-                transform: scale(1)
-            }
-        }
-
-        @media(max-width:768px) {
-            .scenario-container {
-                grid-template-columns: 1fr
+            
+            .stats-table {
+                display: block;
+                overflow-x: auto;
             }
         }
     </style>
 </head>
 
 <body>
-<div>
-    <!-- script -->
-                <h5 class="script-link" onclick="openScriptModal(
-'Script de Gestión Outbound',
-'Buenos días mi nombre es (Nombre y apellido del asesor/a) representante de la Corporación Nacional de Telecomunicaciones con número de PBX 373-1700; por favor me puede comunicar con Sr. Sra. Srta. XXX. por su seguridad esta llamada es grabada y monitoreada, me permite continuar? El motivo de mi llamada tiene por objetivo (mencionarlo de acuerdo al requerimiento.'
-)">
-                    Script de Gestión Outbound
-                </h5>
-                      <!-- script end -->
-</div>
-  
-
-    <!-- MODAL ÚNICO -->
-    <div class="modal" id="scriptModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeScriptModal()">&times;</span>
-            <h3 id="modalTitle"></h3>
-            <p id="modalText"></p>
-        </div>
-    </div>
-
     <header>
         <div class="header-content">
-            <h1>Escenarios Comunes</h1>
-            <p class="subtitle">Seleccione un escenario para copiar al portapapeles</p>
+            <div>
+                <h1>Escenarios Comunes</h1>
+                <p class="subtitle">Seleccione un escenario para copiar al portapapeles</p>
+            </div>
+            <button class="stats-btn" id="statsBtn">
+                <span>📊</span> Ver Estadísticas
+            </button>
         </div>
     </header>
+    
     <div class="container">
         <div class="copy-notification" id="copyNotification">Texto copiado</div>
+        
+        <!-- Modal de Estadísticas -->
+        <div class="stats-modal" id="statsModal">
+            <div class="stats-content">
+                <div class="stats-header">
+                    <h3 class="stats-title">📈 Estadísticas de Uso</h3>
+                    <button class="stats-reset-btn" id="resetStatsBtn">Reiniciar Contadores</button>
+                </div>
+                <div id="statsContainer">
+                    <p class="no-stats">No hay datos de uso aún. Copia algunos textos para ver estadísticas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script de gestión outbound -->
+        <div style="margin-bottom: 2rem;">
+            <h5 class="script-link" onclick="openScriptModal(
+                'Script de Gestión Outbound',
+                'Buenos días mi nombre es (Nombre y apellido del asesor/a) representante de la Corporación Nacional de Telecomunicaciones con número de PBX 373-1700; por favor me puede comunicar con Sr. Sra. Srta. XXX. por su seguridad esta llamada es grabada y monitoreada, me permite continuar? El motivo de mi llamada tiene por objetivo (mencionarlo de acuerdo al requerimiento.'
+            )">
+                Script de Gestión Outbound
+            </h5>
+        </div>
+
+        <!-- MODAL ÚNICO -->
+        <div class="modal" id="scriptModal">
+            <div class="modal-content">
+                <span class="close" onclick="closeScriptModal()">&times;</span>
+                <h3 id="modalTitle"></h3>
+                <p id="modalText"></p>
+            </div>
+        </div>
+
         <div class="category">
             <h2>Motivo de la llamada:</h2>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente nos comenta que desea retirar su telefonía fija / interenet fijo / DTH / que desea dar de baja su servicio móvil</div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente desea conocer de valores que estan en procesos extrajudicial / coactivos</div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente nos comenta que no tiene tono / sin internet / si señal DTH [Telefonía fija, Internet fijo o DTH Se transfiere a sac]</div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente desea conocer información de su servicio retirado ...</div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Motivo de la llamada')">Cliente nos comenta que desea retirar su telefonía fija / internet fijo / DTH / que desea dar de baja su servicio móvil</div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Motivo de la llamada')">Cliente desea conocer de valores que estan en procesos extrajudicial / coactivos</div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Motivo de la llamada')">Cliente nos comenta que no tiene tono / sin internet / si señal DTH [Telefonía fija, Internet fijo o DTH Se transfiere a sac]</div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Motivo de la llamada')">Cliente desea conocer información de su servicio retirado ...</div>
             </div>
         </div>
+        
         <div class="category">
             <h2>TELEFONÍA FIJA</h2>
             <div>
-                <!-- script -->
                 <h5 class="script-link" onclick="openScriptModal(
-'Script de retiro',
-'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
-)">
+                    'Script de retiro',
+                    'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
+                )">
                     script de retiro
                 </h5>
-                      <!-- script end -->
-            </div>
-            <div>
-                <!-- script -->
-               <h5 class="script-link" onclick="openScriptModal(
-'Script de entrega de equipo',
-'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
-)">
+                <h5 class="script-link" onclick="openScriptModal(
+                    'Script de entrega de equipo',
+                    'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
+                )">
                     script de entrega de equipo
                 </h5>
-                <!-- script end -->
             </div>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de telefonía fija. *Titular acepta la cancelación de contrato se
-                    ingresa solicitud y se realiza el retiro de su telefonía fija: *Se le indica la última pb según su
-                    período de facturación. </div>
-                    
-                     
-
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de telefonía fija *Titular acepta la entrega de modem en cis .. /
-                    fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo
-                </div> 
-                
+                <div class="scenario" onclick="copyToClipboard(this, 'Telefonía Fija')"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija. *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía fija: *Se le indica la última pb según su período de facturación. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Telefonía Fija')"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo </div> 
             </div>
         </div>
+        
         <div class="category">
             <h2>TELEFONÍA FIJA + INTERNET FIJO</h2>
-             <div>
-                <!-- script -->
+            <div>
                 <h5 class="script-link" onclick="openScriptModal(
-'Script de retiro',
-'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
-)">
+                    'Script de retiro',
+                    'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
+                )">
                     script de retiro
                 </h5>
-                      <!-- script end -->
-            </div>
-            <div>
-                <!-- script -->
-               <h5 class="script-link" onclick="openScriptModal(
-'Script de entrega de equipo',
-'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
-)">
+                <h5 class="script-link" onclick="openScriptModal(
+                    'Script de entrega de equipo',
+                    'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
+                )">
                     script de entrega de equipo
                 </h5>
-                <!-- script end -->
             </div>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de telefonía fija e internet fijos. *Titular acepta la entrega de
-                    modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb según su periodo de
-                    facturación. / periodo </div>
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de internet fijo. *Titular acepta la entrega de modem en cis .. /
-                    fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo
-                </div>
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de internet fijo. *Titular acepta la cancelación de contrato se
-                    ingresa solicitud y se realiza el retiro de internet fijo en axis código de solicitud: *Contrato es
-                    del año 2012 por ende el titular no entrega modem. *Se le indica la última pb segun su período de
-                    facturación. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Telefonía Fija + Internet Fijo')"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija e internet fijos. *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Telefonía Fija + Internet Fijo')"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo. *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Telefonía Fija + Internet Fijo')"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo. *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de internet fijo en axis código de solicitud: *Contrato es del año 2012 por ende el titular no entrega modem. *Se le indica la última pb segun su período de facturación. </div>
             </div>
         </div>
+        
         <div class="category">
             <h2>DTH</h2>
             <div>
-                <!-- script -->
-               <h5 class="script-link" onclick="openScriptModal(
-'Script de entrega de equipo',
-'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
-)">
+                <h5 class="script-link" onclick="openScriptModal(
+                    'Script de entrega de equipo',
+                    'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
+                )">
                     script de entrega de equipo
                 </h5>
-                <!-- script end -->
             </div>
             <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de DTH. *Titular acepta la entrega del decodificador en cis .. /
-                    fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo
-                    <div class="scenario" onclick="copyToClipboard(this)"> </div>
-                </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'DTH')"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de DTH. *Titular acepta la entrega del decodificador en cis .. / fecha de entrega de equipo: / *Se le inidica la ultima pb segun su periodo de facturacion. / periodo </div>
             </div>
-            <div class="category">
-                <h2>MÓVIL</h2>
-                 <div>
-                <!-- script -->
+        </div>
+        
+        <div class="category">
+            <h2>MÓVIL</h2>
+            <div>
                 <h5 class="script-link" onclick="openScriptModal(
-'Script de retiro',
-'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
-)">
+                    'Script de retiro',
+                    'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
+                )">
                     script de retiro
                 </h5>
-                      <!-- script end -->
             </div>
-                <div class="scenario-container">
-                    <div class="scenario" onclick="copyToClipboard(this)"> Titular no desea más su plan móvil, no
-                        requiere el plan / / no tiene a quién ceder dicho contrato / no desea un plan más económico / no
-                        retenido / *Titular acepta la cancelación de su contrato se ingresa solicitud y se deja
-                        programado el cambio a prepago, se acredita el / se le indica la última pb según su periodo de
-                        ciclo de facturación. </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> </div>
-                </div>
+            <div class="scenario-container">
+                <div class="scenario" onclick="copyToClipboard(this, 'Móvil')"> Titular no desea más su plan móvil, no requiere el plan / / no tiene a quién ceder dicho contrato / no desea un plan más económico / no retenido / *Titular acepta la cancelación de su contrato se ingresa solicitud y se deja programado el cambio a prepago, se acredita el / se le indica la última pb según su periodo de ciclo de facturación. </div>
             </div>
-            <div class="category">
-                <h2>ADICIONAL</h2>
-                <div class="scenario-container">
-                    <div class="scenario" onclick="copyToClipboard(this)"> sra./sr taltal /hij@ del titular desea
-                        realizar los procesos de cancelacion por la sra/sr... se le indica enviar documentos carta de
-                        autorizacion notarizada a los correos: documentosce25@gmail.com /
-                        documentosvalidacioncnt@gmail.com. </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> Representante legal de la empresa ..... sra /
-                        sr proceso de cancelacion de.... se le indica enviar documentos a los correos:
-                        documentosce25@gmail.com / documentosvalidacioncnt@gmail.com. </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> *No se pudo validar el contrato ya que el
-                        cliente colgó la llamada. </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> No es titular del servicio se le indica
-                        comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el
-                        titular y realizar los procesos. </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> *Esta fuera de fecha para el ingreso de su
-                        solicitud se le indica volver a llamar a partir del .. maximo ... </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> *No se ingresa solicitud / No se brinda
-                        Beneficios ya que el cliente colgó la llamada. </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> procesos coactivos se direcciona a cis.
-                    </div>
-                    <div class="scenario" onclick="copyToClipboard(this)"> *No se le indica los codigos de su solicitud
-                        ya que el cliente colgo la llamada. </div>
-                    <pre class="scenario"
-                        onclick="copyToClipboard(this)"> 
+        </div>
+        
+        <div class="category">
+            <h2>ADICIONAL</h2>
+            <div class="scenario-container">
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> sra./sr taltal /hij@ del titular desea realizar los procesos de cancelacion por la sra/sr... se le indica enviar documentos carta de autorizacion notarizada a los correos: documentosce25@gmail.com / documentosvalidacioncnt@gmail.com. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> Representante legal de la empresa ..... sra / sr proceso de cancelacion de.... se le indica enviar documentos a los correos: documentosce25@gmail.com / documentosvalidacioncnt@gmail.com. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> *No se pudo validar el contrato ya que el cliente colgó la llamada. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> No es titular del servicio se le indica comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el titular y realizar los procesos. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> *Esta fuera de fecha para el ingreso de su solicitud se le indica volver a llamar a partir del .. maximo ... </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> *No se ingresa solicitud / No se brinda Beneficios ya que el cliente colgó la llamada. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> procesos coactivos se direcciona a cis. </div>
+                <div class="scenario" onclick="copyToClipboard(this, 'Adicional')"> *No se le indica los codigos de su solicitud ya que el cliente colgo la llamada. </div>
+                <pre class="scenario" onclick="copyToClipboard(this, 'Adicional')"> 
 Asesoria comercial:
 *Se brinda facturas vencidas.
 *Se indica fecha máxima de pagos. 
@@ -445,41 +555,209 @@ banco del barrio
 pay phone
 agencia de cnt
 transferencia
-
-                
-                    </pre>
-                </div>
+                </pre>
             </div>
         </div>
-        <footer>
-            <p></p>
-        </footer>
-        <script>
-            function copyToClipboard(el) {
-                navigator.clipboard.writeText(el.innerText).then(() => {
-                    const n = document.getElementById("copyNotification");
-                    n.classList.add("show");
-                    setTimeout(() => n.classList.remove("show"), 2000);
-                });
-            }
+    </div>
+    
+    <footer>
+        <p>Contador de uso de escenarios - Todos los derechos reservados</p>
+    </footer>
 
-            function openScriptModal(title, text) {
-                document.getElementById("modalTitle").innerText = title;
-                document.getElementById("modalText").innerText = text;
-                document.getElementById("scriptModal").style.display = "flex";
+    <script>
+        // Sistema de almacenamiento de contadores
+        let copyStats = JSON.parse(localStorage.getItem('copyStats')) || {};
+        let totalCopies = parseInt(localStorage.getItem('totalCopies')) || 0;
+        
+        // Inicializar badges en los elementos
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBadges();
+        });
+        
+        function initializeBadges() {
+            const scenarios = document.querySelectorAll('.scenario');
+            scenarios.forEach(scenario => {
+                const text = scenario.innerText.trim();
+                const count = copyStats[text] || 0;
+                
+                // Crear badge si tiene conteo
+                if (count > 0) {
+                    createBadge(scenario, count);
+                }
+            });
+            
+            updateStatsDisplay();
+        }
+        
+        function createBadge(element, count) {
+            // Eliminar badge existente
+            const existingBadge = element.querySelector('.counter-badge');
+            if (existingBadge) {
+                existingBadge.remove();
             }
-
-            function closeScriptModal() {
-                document.getElementById("scriptModal").style.display = "none";
+            
+            // Crear nuevo badge
+            const badge = document.createElement('div');
+            badge.className = 'counter-badge';
+            badge.innerText = count;
+            element.appendChild(badge);
+        }
+        
+        function copyToClipboard(el, category) {
+            const text = el.innerText.trim();
+            
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(text).then(() => {
+                // Mostrar notificación
+                const notification = document.getElementById("copyNotification");
+                notification.classList.add("show");
+                setTimeout(() => notification.classList.remove("show"), 2000);
+                
+                // Actualizar estadísticas
+                updateStats(text, category, el);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+            });
+        }
+        
+        function updateStats(text, category, element) {
+            // Incrementar contador
+            if (!copyStats[text]) {
+                copyStats[text] = 0;
             }
-
-            window.onclick = function (e) {
-                const m = document.getElementById("scriptModal");
-                if (e.target === m) closeScriptModal();
+            copyStats[text]++;
+            totalCopies++;
+            
+            // Guardar en localStorage
+            localStorage.setItem('copyStats', JSON.stringify(copyStats));
+            localStorage.setItem('totalCopies', totalCopies);
+            
+            // Actualizar badge
+            createBadge(element, copyStats[text]);
+            
+            // Actualizar visualización de estadísticas si está abierta
+            updateStatsDisplay();
+        }
+        
+        function updateStatsDisplay() {
+            const statsContainer = document.getElementById('statsContainer');
+            if (!statsContainer) return;
+            
+            // Ordenar por cantidad de copias (más usados primero)
+            const sortedStats = Object.entries(copyStats)
+                .sort((a, b) => b[1] - a[1]);
+            
+            if (sortedStats.length === 0) {
+                statsContainer.innerHTML = '<p class="no-stats">No hay datos de uso aún. Copia algunos textos para ver estadísticas.</p>';
+                return;
             }
-        </script>
-
+            
+            let html = `
+                <div style="margin-bottom: 1rem; padding: 0.5rem; background: #f0f8ff; border-radius: var(--border-radius);">
+                    <strong>Total de copias realizadas:</strong> ${totalCopies}
+                </div>
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Texto Copiado</th>
+                            <th>Categoría</th>
+                            <th>Veces Copiado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            sortedStats.forEach(([text, count], index) => {
+                // Determinar categoría basada en el contenido
+                let category = "General";
+                if (text.includes("telefonía fija") && text.includes("internet")) {
+                    category = "Telefonía Fija + Internet Fijo";
+                } else if (text.includes("telefonía fija")) {
+                    category = "Telefonía Fija";
+                } else if (text.includes("DTH")) {
+                    category = "DTH";
+                } else if (text.includes("plan móvil") || text.includes("prepago")) {
+                    category = "Móvil";
+                } else if (text.includes("Asesoria comercial")) {
+                    category = "Asesoría Comercial";
+                } else if (text.includes("procesos coactivos") || text.includes("cancelacion")) {
+                    category = "Adicional";
+                }
+                
+                // Limitar longitud del texto para la tabla
+                const displayText = text.length > 80 ? text.substring(0, 80) + "..." : text;
+                
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td class="stats-text" title="${text}">${displayText}</td>
+                        <td class="stats-category">${category}</td>
+                        <td class="stats-count">${count}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `</tbody></table>`;
+            statsContainer.innerHTML = html;
+        }
+        
+        // Funciones para el modal de estadísticas
+        document.getElementById('statsBtn').addEventListener('click', function() {
+            openStatsModal();
+        });
+        
+        function openStatsModal() {
+            updateStatsDisplay();
+            document.getElementById('statsModal').style.display = 'flex';
+        }
+        
+        function closeStatsModal() {
+            document.getElementById('statsModal').style.display = 'none';
+        }
+        
+        // Reiniciar estadísticas
+        document.getElementById('resetStatsBtn').addEventListener('click', function() {
+            if (confirm('¿Está seguro de que desea reiniciar todas las estadísticas? Esta acción no se puede deshacer.')) {
+                copyStats = {};
+                totalCopies = 0;
+                localStorage.removeItem('copyStats');
+                localStorage.removeItem('totalCopies');
+                
+                // Eliminar todos los badges
+                document.querySelectorAll('.counter-badge').forEach(badge => badge.remove());
+                
+                // Actualizar display
+                updateStatsDisplay();
+                
+                // Mostrar mensaje de confirmación
+                alert('Estadísticas reiniciadas correctamente.');
+            }
+        });
+        
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            const statsModal = document.getElementById('statsModal');
+            if (event.target === statsModal) {
+                closeStatsModal();
+            }
+            
+            const scriptModal = document.getElementById('scriptModal');
+            if (event.target === scriptModal) {
+                closeScriptModal();
+            }
+        });
+        
+        // Funciones existentes para el modal de scripts
+        function openScriptModal(title, text) {
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalText").innerText = text;
+            document.getElementById("scriptModal").style.display = "flex";
+        }
+        
+        function closeScriptModal() {
+            document.getElementById("scriptModal").style.display = "none";
+        }
+    </script>
 </body>
-
 </html>
-
