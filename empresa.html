@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -192,55 +193,6 @@ body{
 
 <body>
 
-<div class="layout">
-
-<!-- ===== MENU ===== -->
-<nav class="nav">
-    <h2>Menú</h2>
-    <ul class="list">
-
-        <li class="list__item">
-            <div class="list__button">
-                <a href="#" class="nav__link">Inicio</a>
-            </div>
-        </li>
-
-        <li class="list__item">
-            <div class="list__button list__button--click">
-                <a href="#" class="nav__link">Preguntas de seguridad</a>
-                <span class="list__arrow">▶</span>
-            </div>
-            <ul class="list__show">
-                <li><a class="nav__link--inside" href="preguntas_de_seguridad_servicios_fijos.html">Servicios Fijos</a></li>
-                <li><a class="nav__link--inside" href="preguntas_de_seguridad_servicios_moviles.html">Servicios Móviles</a></li>
-            </ul>
-        </li>
-
-        <li class="list__item">
-            <div class="list__button list__button--click">
-                <a href="#" class="nav__link">Gestiones</a>
-                <span class="list__arrow">▶</span>
-            </div>
-            <ul class="list__show">
-                <li><a class="nav__link--inside" href="escenarios_comunes_para_retiro_de_servicios.html" target="_blank">Escenarios comunes in</a></li>
-                <li><a class="nav__link--inside" href="#"></a></li>
-            </ul>
-        </li>
-
-       <li class="list__item">
-            <div class="list__button list__button--click">
-                <a href="#" class="nav__link">Info</a>
-                <span class="list__arrow">▶</span>
-            </div>
-            <ul class="list__show">
-                <li><a class="nav__link--inside" href="Formas_de_Pago_y_Periodos_de_facturacion.html" target="_blank">Ciclo Período de facturación</a></li>
-                <li><a class="nav__link--inside" href="empresa.html">Documentos para empresas</a></li>
-            </ul>
-        </li>
-
-    </ul>
-</nav>
-
 <!-- ===== CONTENT ===== -->
 <main class="main">
     <div class="container">
@@ -268,16 +220,6 @@ body{
 </main>
 
 </div>
-
-<script>
-document.querySelectorAll(".list__button--click").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-        btn.classList.toggle("arrow");
-        let menu = btn.nextElementSibling;
-        menu.style.height = menu.style.height ? null : menu.scrollHeight+"px";
-    });
-});
-</script>
 
 </body>
 </html>
