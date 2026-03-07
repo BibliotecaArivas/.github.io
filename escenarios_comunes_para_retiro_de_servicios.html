@@ -1,493 +1,844 @@
 <!DOCTYPE html>
-<html lang="es">
-
-<head>
+<html lang="es" data-theme="light" style=""><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escenarios Comunes para Retiro de Servicios</title>
-
+    <title>Escenarios de Retiro</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #2980b9;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --border-radius: 6px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.7;
-            color: var(--dark-color);
-            background-color: #f5f7fa;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
+      :root {
+        --bg-color: #0a0e17;
+        --card-bg: #1a1d2e;
+        --primary-cyan: #00d4d8;
+        --primary-cyan-hover: #00b8bc;
+        --text-main: #e4e6eb;
+        --text-secondary: #8b8d98;
+        --border-color: #2d3748;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        --transition: all 0.2s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        min-height: 100vh;
+        padding-bottom: 2rem;
+      }
+
+      /* HEADER */
+      header {
+        background-color: rgba(10, 14, 23, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary-cyan);
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px rgba(0, 212, 216, 0.3);
+      }
+
+      .page-title {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        border-left: 1px solid var(--border-color);
+        padding-left: 1rem;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 500px;
+        position: relative;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+      }
+
+      .search-input {
+        width: 100%;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border-radius: 8px;
+        color: var(--text-main);
+        font-size: 0.95rem;
+        transition: var(--transition);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary-cyan);
+        box-shadow: 0 0 0 2px rgba(0, 212, 216, 0.1);
+      }
+
+      .stats {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .stat-badge {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .stat-number {
+        color: var(--primary-cyan);
+        font-weight: 700;
+      }
+
+      /* TABS */
+      .tabs-container {
+        background-color: var(--bg-color);
+        padding: 1rem 2rem 0;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        gap: 2rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .tab {
+        padding: 0.75rem 0;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 500;
+        position: relative;
+        white-space: nowrap;
+        transition: var(--transition);
+      }
+
+      .tab:hover {
+        color: var(--text-main);
+      }
+
+      .tab.active {
+        color: var(--primary-cyan);
+      }
+
+      .tab.active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-cyan);
+        box-shadow: 0 0 8px var(--primary-cyan);
+      }
+
+      /* CONTENT */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .section {
+        margin-bottom: 3rem;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+        color: var(--text-main);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .section-icon {
+        color: var(--primary-cyan);
+      }
+
+      .section-count {
+        background-color: rgba(0, 212, 216, 0.1);
+        color: var(--primary-cyan);
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+      }
+
+      /* SCRIPTS BUTTONS */
+      .scripts-grid {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .btn-script {
+        background-color: rgba(0, 212, 216, 0.1);
+        border: 1px solid rgba(0, 212, 216, 0.2);
+        color: var(--primary-cyan);
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+      }
+
+      .btn-script:hover {
+        background-color: var(--primary-cyan);
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 212, 216, 0.2);
+      }
+
+      /* SCENARIO CARDS */
+      .scenarios-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1rem;
+      }
+
+      .scenario-card {
+        background-color: var(--card-bg);
+        padding: 1.25rem;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .scenario-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 3px;
+        background-color: var(--primary-cyan);
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .scenario-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        border-color: rgba(0, 212, 216, 0.3);
+      }
+
+      .scenario-card:hover::before {
+        opacity: 1;
+      }
+
+      .scenario-text {
+        color: var(--text-main);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+      }
+
+      .copy-hint {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        opacity: 0.7;
+      }
+
+      /* MODAL */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal.show {
+        display: flex;
+        opacity: 1;
+      }
+
+      .modal-content {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        width: 90%;
+        max-width: 600px;
+        padding: 2rem;
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .modal.show .modal-content {
+        transform: scale(1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem;
+      }
+
+      .modal-title {
+        color: var(--primary-cyan);
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .close-modal:hover {
+        color: var(--text-main);
+      }
+
+      .modal-body {
+        color: var(--text-main);
+        line-height: 1.8;
+        font-size: 1rem;
+        white-space: pre-wrap;
+      }
+
+      /* TOAST NOTIFICATION */
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background-color: var(--primary-cyan);
+        color: #000;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transform: translateY(100px);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 2000;
+        box-shadow: 0 4px 12px rgba(0, 212, 216, 0.3);
+      }
+
+      .toast.show {
+        transform: translateY(0);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 3rem;
-            box-shadow: var(--box-shadow);
+          padding: 1rem;
         }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .search-container {
+          order: 3;
+          width: 100%;
+          max-width: none;
         }
-        
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+        .tabs-container {
+          gap: 1rem;
         }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            font-weight: 300;
+        .container {
+          padding: 1rem;
         }
-        
-        h2 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin: 2.5rem 0 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--secondary-color);
-            position: relative;
+        .scenarios-grid {
+          grid-template-columns: 1fr;
         }
-        
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100px;
-            height: 2px;
-            background-color: var(--accent-color);
-        }
-        
-        .category {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            transition: var(--transition);
-        }
-        
-        .category:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .scenario-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-            gap: 1.25rem;
-            margin-top: 1rem;
-        }
-        
-        .scenario {
-            background-color: white;
-            border-left: 4px solid var(--secondary-color);
-            padding: 1.25rem;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .scenario::before {
-            content: 'Copiar';
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            border-bottom-left-radius: var(--border-radius);
-            opacity: 0;
-            transition: var(--transition);
-        }
-        
-        .scenario:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-left-color: var(--accent-color);
-        }
-        
-        .scenario:hover::before {
-            opacity: 1;
-        }
-        
-        .scenario:active {
-            transform: translateY(0);
-        }
-        
-        .copy-notification {
-            position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            background-color: var(--success-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: var(--transition);
-            z-index: 1000;
-        }
-        
-        .copy-notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .copy-notification::before {
-            content: '✓';
-            margin-right: 0.5rem;
-            font-weight: bold;
-        }
-        
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .scenario-container {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            header {
-                padding: 1.5rem 0;
-            }
-        }
-        
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .6);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--shadow);
-            animation: fadeIn .3s;
-        }
-  h5{
-    display: inline-block;
-    color: #2980b9;
-    border-bottom: 2px solid #2980b9;
-  }
-        .close {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--danger);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(.9)
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1)
-            }
-        }
-
-        @media(max-width:768px) {
-            .scenario-container {
-                grid-template-columns: 1fr
-            }
-        }
+      }
     </style>
-</head>
+  </head>
+  <body style="">
+    <!-- HEADER -->
+    <header>
+      <div class="logo-section">
+        <div class="logo">o.o</div>
+        <div class="page-title">Escenarios de Retiro</div>
+      </div>
 
-<body>
-<div>
-    <!-- script -->
-                <h5 class="script-link" onclick="openScriptModal(
-'Script de Gestión Outbound',
-'Buenos días mi nombre es (Nombre y apellido del asesor/a) representante de la Corporación Nacional de Telecomunicaciones con número de PBX 373-1700; por favor me puede comunicar con Sr. Sra. Srta. XXX. por su seguridad esta llamada es grabada y monitoreada, me permite continuar? El motivo de mi llamada tiene por objetivo (mencionarlo de acuerdo al requerimiento.'
-)">
-                    Script de Gestión Outbound
-                </h5>
-                      <!-- script end -->
-</div>
-  
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar escenario...">
+      </div>
 
-    <!-- MODAL ÚNICO -->
-    <div class="modal" id="scriptModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeScriptModal()">&times;</span>
-            <h3 id="modalTitle"></h3>
-            <p id="modalText"></p>
+      <div class="stats">
+        <div class="stat-badge">
+          <i class="fas fa-layer-group"></i>
+          <span>Escenarios:</span>
+          <span class="stat-number">23</span>
         </div>
+        <div class="stat-badge">
+          <i class="fas fa-file-alt"></i>
+          <span>Scripts:</span>
+          <span class="stat-number">7</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs-container">
+      <div class="tab" onclick="filterCategory('all')">Todos</div>
+      <div class="tab active" onclick="filterCategory('motivo')">Motivo de la Llamada</div>
+      <div class="tab" onclick="filterCategory('telefonia')">Telefonía Fija</div>
+      <div class="tab" onclick="filterCategory('internet')">Telefonía + Internet</div>
+      <div class="tab" onclick="filterCategory('dth')">DTH</div>
+      <div class="tab" onclick="filterCategory('movil')">Móvil</div>
+      <div class="tab" onclick="filterCategory('adicional')">Adicional</div>
     </div>
 
-    <header>
-        <div class="header-content">
-            <h1>Escenarios Comunes</h1>
-            <p class="subtitle">Seleccione un escenario para copiar al portapapeles</p>
-        </div>
-    </header>
+    <!-- CONTENT -->
     <div class="container">
-        <div class="copy-notification" id="copyNotification">Texto copiado</div>
-        <div class="category">
-            <h2>Motivo de la llamada:</h2>
-            <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente nos comenta que desea retirar su telefonía fija / interenet fijo / DTH </div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente nos comenta que desea dar de baja su servicio móvil</div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente desea conocer de valores que estan en procesos extrajudicial / coactivos</div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente nos comenta que esta sin tono / sin internet / si señal DTH / sin datos</div>
-                <div class="scenario" onclick="copyToClipboard(this)">Cliente desea conocer información de su servicio retirado </div>
-            </div>
+      <!-- GLOBAL SCRIPT -->
+      <div class="scripts-grid" style="margin-bottom: 2rem">
+        <button class="btn-script" onclick="
+            openModal(
+              'Script de Gestión Outbound',
+              'Buenos días mi nombre es (Nombre y apellido del asesor/a) representante de la Corporación Nacional de Telecomunicaciones con número de PBX 373-1700; por favor me puede comunicar con Sr. Sra. Srta. XXX. por su seguridad esta llamada es grabada y monitoreada, me permite continuar? El motivo de mi llamada tiene por objetivo (mencionarlo de acuerdo al requerimiento.',
+            )
+          ">
+          <i class="fas fa-headset"></i> Script de Gestión Outbound
+        </button>
+      </div>
+
+      <!-- MOTIVO -->
+      <div class="section" id="motivo" style="display: block;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-phone section-icon"></i>
+            Motivo de la llamada
+            <span class="section-count">5</span>
+          </h2>
         </div>
-        <div class="category">
-            <h2>TELEFONÍA FIJA</h2>
-            <div>
-                <!-- script -->
-                <h5 class="script-link" onclick="openScriptModal(
-'Script de retiro',
-'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
-)">
-                    script de retiro
-                </h5>
-                      <!-- script end -->
+        <div class="scenarios-grid">
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Cliente nos comenta que desea retirar su telefonía fija / internet fijo / DTH
             </div>
-            <div>
-                <!-- script -->
-               <h5 class="script-link" onclick="openScriptModal(
-'Script de entrega de equipo',
-'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
-)">
-                    script de entrega de equipo
-                </h5>
-                <!-- script end -->
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">Cliente nos comenta que desea dar de baja su servicio móvil (Cambiar a la modalidad prepago)</div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Cliente desea conocer de valores que estan en extrajudicial o coactivos 
             </div>
-            <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de telefonía fija. *Titular acepta la cancelación de contrato se
-                    ingresa solicitud y se realiza el retiro de su telefonía fija. solicitud: *Se le indica la última pb según su
-                    período de facturación. / periodo </div>
-                    
-                     
-
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de telefonía fija *Titular acepta la entrega de modem en cis .. /
-                    fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo
-                </div> 
-                
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Cliente nos comenta que esta sin tono / sin internet / si señal DTH / sin datos
             </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">Cliente desea conocer información de su servicio retirado</div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
         </div>
-        <div class="category">
-            <h2>TELEFONÍA FIJA + INTERNET FIJO</h2>
-             <div>
-                <!-- script -->
-                <h5 class="script-link" onclick="openScriptModal(
-'Script de retiro',
-'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
-)">
-                    script de retiro
-                </h5>
-                      <!-- script end -->
-            </div>
-            <div>
-                <!-- script -->
-               <h5 class="script-link" onclick="openScriptModal(
-'Script de entrega de equipo',
-'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
-)">
-                    script de entrega de equipo
-                </h5>
-                <!-- script end -->
-            </div>
-            <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de telefonía fija e internet fijos. *Titular acepta la entrega de
-                    modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb según su periodo de
-                    facturación. / periodo </div>
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de internet fijo. *Titular acepta la entrega de modem en cis .. /
-                    fecha de entrega de equipo: / *Se le indica la última pb según su periodo de facturación. / periodo
-                </div>
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de internet fijo. *Titular acepta la cancelación de contrato se
-                    ingresa solicitud y se realiza el retiro de internet fijo en axis. solicitud: *Contrato es
-                    del año 2012 por ende el titular no entrega modem. *Se le indica la última pb segun su período de
-                    facturación. / periodo </div>
+      </div>
 
-<div class="scenario" onclick="copyToClipboard(this)">Titular nos comenta que por motivo de ..... por
-                    eso desea desistir de su contrato de internet fijo. *Titular acepta la cancelación de contrato se
-                    ingresa solicitud y se realiza el retiro de internet fijo en axis mantiene modem por telefonia fija. solicitud: *Se le indica la última pb según su
-                    período de facturación. / periodo </div>
-                   
-            </div>
+      <!-- TELEFONÍA FIJA -->
+      <div class="section" id="telefonia" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-tty section-icon"></i>
+            Telefonía Fija
+            <span class="section-count">2</span>
+          </h2>
         </div>
-        <div class="category">
-            <h2>DTH</h2>
-            <div>
-                <!-- script -->
-               <h5 class="script-link" onclick="openScriptModal(
-'Script de entrega de equipo',
-'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.'
-)">
-                    script de entrega de equipo
-                </h5>
-                <!-- script end -->
-            </div>
-            <div class="scenario-container">
-                <div class="scenario" onclick="copyToClipboard(this)"> Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de DTH. *Titular acepta la entrega del decodificador en cis .. / fecha de entrega de equipo: / *Se le indica la ultima pb según su periodo de facturación. / período<div class="scenario" onclick="copyToClipboard(this)"> </div>
-                </div>
-            </div>
-            <div class="category">
-                <h2>MÓVIL</h2>
-                 <div>
-                <!-- script -->
-                <h5 class="script-link" onclick="openScriptModal(
-'Script de retiro',
-'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.'
-)">
-                    script de retiro
-                </h5>
-                      <!-- script end -->
-            </div>
-                <div class="scenario-container">
-                    <div class="scenario" onclick="copyToClipboard(this)">Titular desea dar de baja su plan móvil (cambio a prepago) porque / no tiene a quién ceder dicho contrato / no desea un plan más económico  / *Titular acepta la cancelación de su contrato se ingresa solicitud y se deja programado el cambio a prepago, se acredita el / se le indica la última pb según su ciclo de facturación. / ciclo </div>
-                    <div class="scenario" onclick="copyToClipboard(this)">Titular tiene el plan móvil --- y desea cambiar al plan --- con el valor de .. / Titular acepta se ingresa solicitud y se deja programado el cambio del nuevo plan ... se acredita el / se le indica la ultima pb según su ciclo de facturación / ciclo </div>
-                </div>
-            </div>
-            <div class="category">
-                <h2>ADICIONAL</h2>
-                <div class="scenario-container">
-                    <div class="scenario" onclick="copyToClipboard(this)"> sra./sr taltal /hij@ del titular desea
-                        realizar los procesos de cancelacion por la sra/sr... se le indica enviar documentos carta de
-                        autorizacion notarizada a los correos: documentosce25@gmail.com /
-                        documentosvalidacioncnt@gmail.com. </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> Representante legal de la empresa ..... sra /
-                        sr proceso de cancelacion de.... se le indica enviar documentos a los correos:
-                        documentosce25@gmail.com / documentosvalidacioncnt@gmail.com. </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> *No se pudo validar el contrato ya que el
-                        cliente colgó la llamada. </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> No es titular del servicio se le indica
-                        comunicarse a partir del .... según su período de facturación, para que se pueda comunicar el
-                        titular y realizar los procesos. / periodo </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> *Esta fuera de fecha para el ingreso de su
-                        solicitud se le indica volver a llamar a partir del .. maximo ... </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> *No se ingresa solicitud / No se brinda
-                        Beneficios ya que el cliente colgó la llamada. </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> procesos coactivos se direcciona a cis.
-                    </div>
-
-                    <div class="scenario" onclick="copyToClipboard(this)"> *No se le indica los codigos de su solicitud
-                        ya que el cliente colgo la llamada. </div>
-                        
-                    <pre class="scenario"
-                        onclick="copyToClipboard(this)"> 
-Asesoria comercial:
-*Se brinda facturas vencidas.
-*Se indica fecha máxima de pagos. 
-*Nombre del plan. 
-*Puntos de pago.
-=============================
-wester union 
-banco del barrio
-pay phone
-agencia de cnt
-transferencia
-
-                
-                    </pre>
-                </div>
-            </div>
+        <div class="scripts-grid">
+          <button class="btn-script" onclick="
+              openModal(
+                'Script de Retiro',
+                'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.',
+              )
+            ">
+            <i class="far fa-file-alt"></i> Script de Retiro
+          </button>
+          <button class="btn-script" onclick="
+              openModal(
+                'Script de Entrega de Equipo',
+                'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.',
+              )
+            ">
+            <i class="far fa-file-alt"></i> Script Entrega Equipo
+          </button>
         </div>
-        <footer>
-            <p></p>
-        </footer>
-        <script>
-            function copyToClipboard(el) {
-                navigator.clipboard.writeText(el.innerText).then(() => {
-                    const n = document.getElementById("copyNotification");
-                    n.classList.add("show");
-                    setTimeout(() => n.classList.remove("show"), 2000);
-                });
-            }
+        <div class="scenarios-grid">
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija.
+              *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de su telefonía
+              fija. solicitud: *Se le indica la última pb según su período de facturación. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija
+              *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb
+              según su periodo de facturación. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+        </div>
+      </div>
 
-            function openScriptModal(title, text) {
-                document.getElementById("modalTitle").innerText = title;
-                document.getElementById("modalText").innerText = text;
-                document.getElementById("scriptModal").style.display = "flex";
-            }
+      <!-- TELEFONÍA + INTERNET -->
+      <div class="section" id="internet" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-wifi section-icon"></i>
+            Telefonía Fija + Internet Fijo
+            <span class="section-count">4</span>
+          </h2>
+        </div>
+        <div class="scripts-grid">
+          <button class="btn-script" onclick="
+              openModal(
+                'Script de Retiro',
+                'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.',
+              )
+            ">
+            <i class="far fa-file-alt"></i> Script de Retiro
+          </button>
+          <button class="btn-script" onclick="
+              openModal(
+                'Script de Entrega de Equipo',
+                'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.',
+              )
+            ">
+            <i class="far fa-file-alt"></i> Script Entrega Equipo
+          </button>
+        </div>
+        <div class="scenarios-grid">
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de telefonía fija e
+              internet fijos. *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le
+              indica la última pb según su periodo de facturación. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo.
+              *Titular acepta la entrega de modem en cis .. / fecha de entrega de equipo: / *Se le indica la última pb
+              según su periodo de facturación. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo.
+              *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de internet fijo en
+              axis. solicitud: *Contrato es del año 2012 por ende el titular no entrega modem. *Se le indica la última
+              pb segun su período de facturación. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de internet fijo.
+              *Titular acepta la cancelación de contrato se ingresa solicitud y se realiza el retiro de internet fijo en
+              axis mantiene modem por telefonia fija. solicitud: *Se le indica la última pb según su período de
+              facturación. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+        </div>
+      </div>
 
-            function closeScriptModal() {
-                document.getElementById("scriptModal").style.display = "none";
-            }
+      <!-- DTH -->
+      <div class="section" id="dth" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-satellite-dish section-icon"></i>
+            DTH
+            <span class="section-count">1</span>
+          </h2>
+        </div>
+        <div class="scripts-grid">
+          <button class="btn-script" onclick="
+              openModal(
+                'Script de Entrega de Equipo',
+                'Sr., Sra., Srta., (nombre/apellido/título profesional) con base a su confirmación de entrega de equipos, su servicio se mantiene activo, para culminar con éxito su solicitud de retiro deberá realizar la entrega de los mismos hasta el día (mencionar el día máximo de entrega); caso contrario iniciará un nuevo período de facturación.',
+              )
+            ">
+            <i class="far fa-file-alt"></i> Script Entrega Equipo
+          </button>
+        </div>
+        <div class="scenarios-grid">
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular nos comenta que por motivo de ..... por eso desea desistir de su contrato de DTH. *Titular acepta
+              la entrega del decodificador en cis .. / fecha de entrega de equipo: / *Se le indica la ultima pb según su
+              periodo de facturación. / período
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+        </div>
+      </div>
 
-            window.onclick = function (e) {
-                const m = document.getElementById("scriptModal");
-                if (e.target === m) closeScriptModal();
-            }
-        </script>
+      <!-- MÓVIL -->
+      <div class="section" id="movil" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-mobile-alt section-icon"></i>
+            Móvil
+            <span class="section-count">2</span>
+          </h2>
+        </div>
+        <div class="scripts-grid">
+          <button class="btn-script" onclick="
+              openModal(
+                'Script de Retiro',
+                'Agradecemos su confirmación de aceptación de la información expuesta, la cual se encuentran disponibles en www.cnt.com.ec, y su consentimiento para proceder con el retiro del servicio.',
+              )
+            ">
+            <i class="far fa-file-alt"></i> Script de Retiro
+          </button>
+        </div>
+        <div class="scenarios-grid">
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular desea dar de baja su plan móvil (cambio a prepago) porque / no tiene a quién ceder dicho contrato
+              / no desea un plan más económico / *Titular acepta la cancelación de su contrato se ingresa solicitud y se
+              deja programado el cambio a prepago, se acredita el / se le indica la última pb según su ciclo de
+              facturación. / ciclo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Titular tiene el plan móvil --- y desea cambiar al plan --- con el valor de .. / Titular acepta se ingresa
+              solicitud y se deja programado el cambio del nuevo plan ... se acredita el / se le indica la ultima pb
+              según su ciclo de facturación / ciclo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+        </div>
+      </div>
 
-</body>
+      <!-- ADICIONAL -->
+      <div class="section" id="adicional" style="display: none;">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-plus-circle section-icon"></i>
+            Adicional
+            <span class="section-count">9</span>
+          </h2>
+        </div>
+        <div class="scenarios-grid">
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              sra./sr taltal /hij@ del titular desea realizar los procesos de cancelacion por la sra/sr... se le indica
+              enviar documentos carta de autorizacion notarizada a los correos: documentosvalidacioncnt@gmail.com / documentosce25@gmail.com
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Representante legal de la empresa ..... sra / sr proceso de cancelacion de.... se le indica enviar
+              documentos a los correos: documentosvalidacioncnt@gmail.com / documentosce25@gmail.com</a>.
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">*No se pudo validar el contrato ya que el cliente colgó la llamada.</div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              No es titular del servicio se le indica comunicarse a partir del .... según su período de facturación,
+              para que se pueda comunicar el titular y realizar los procesos. / periodo
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              *Esta fuera de fecha para el ingreso de su solicitud se le indica volver a llamar a partir del .. maximo
+              ...
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              *No se ingresa solicitud / No se brinda Beneficios ya que el cliente colgó la llamada.
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">procesos coactivos se direcciona a cis.</div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              *No se le indica los codigos de su solicitud ya que el cliente colgo la llamada.
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+          <div class="scenario-card" onclick="copyToClipboard(this)">
+            <div class="scenario-text">
+              Asesoria comercial: *Se brinda facturas vencidas. *Se indica fecha máxima de pagos. *Nombre del plan.
+              *Puntos de pago (Wester Union, Banco del Barrio, Pay Phone, Agencia CNT, Transferencia).
+            </div>
+            <div class="copy-hint"><i class="far fa-copy"></i> Clic para copiar</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-</html>
+    <!-- MODAL -->
+    <div class="modal" id="scriptModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Script de Gestión Outbound</h3>
+          <button class="close-modal" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-body" id="modalText">Buenos días mi nombre es (Nombre y apellido del asesor/a) representante de la Corporación Nacional de Telecomunicaciones con número de PBX 373-1700; por favor me puede comunicar con Sr. Sra. Srta. XXX. por su seguridad esta llamada es grabada y monitoreada, me permite continuar? El motivo de mi llamada tiene por objetivo (mencionarlo de acuerdo al requerimiento.</div>
+      </div>
+    </div>
 
+    <!-- TOAST -->
+    <div class="toast" id="copyToast"><i class="fas fa-check-circle"></i> Texto copiado</div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+      // Modal Functionality
+      function openModal(title, text) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalText').innerText = text;
+        const modal = document.getElementById('scriptModal');
+        modal.classList.add('show');
+      }
+
+      function closeModal() {
+        const modal = document.getElementById('scriptModal');
+        modal.classList.remove('show');
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function (event) {
+        const modal = document.getElementById('scriptModal');
+        if (event.target == modal) {
+          closeModal();
+        }
+      };
+
+      // Copy to Clipboard
+      function copyToClipboard(element) {
+        // Get text from the scenario-text div inside the clicked card
+        const textToCopy = element.querySelector('.scenario-text').innerText;
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const toast = document.getElementById('copyToast');
+          toast.classList.add('show');
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 2000);
+        });
+      }
+
+      // Tab Filtering
+      function filterCategory(category) {
+        // Update active tab style
+        document.querySelectorAll('.tab').forEach((tab) => {
+          tab.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // Show/Hide sections
+        const sections = document.querySelectorAll('.section');
+        sections.forEach((section) => {
+          if (category === 'all' || section.id === category) {
+            section.style.display = 'block';
+          } else {
+            section.style.display = 'none';
+          }
+        });
+      }
+
+      // Search Functionality
+      document.getElementById('searchInput').addEventListener('keyup', function (e) {
+        const searchText = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.scenario-card');
+
+        cards.forEach((card) => {
+          const text = card.querySelector('.scenario-text').innerText.toLowerCase();
+          if (text.includes(searchText)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    </script>
+  
+
+</body></html>
