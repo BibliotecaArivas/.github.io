@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REACTIVA-CASOS QUE PASAN A SYC</title>
+  <style>
+    /* ===== RESET Y VARIABLES PROFESIONALES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f6fc;
+      background-image: radial-gradient(circle at 10% 20%, rgba(220, 240, 255, 0.4) 0%, transparent 30%);
+      min-height: 100vh;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* contenedor principal estilo dashboard */
+    .knowledge-base {
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    /* encabezado elegante */
+    .header-doc {
+      margin-bottom: 2.5rem;
+    }
+
+    .header-doc h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, #0b2b4f, #1b4a7a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header-doc h1::before {
+      content: '📋';
+      font-size: 2.5rem;
+      background-clip: unset;
+      -webkit-text-fill-color: initial;
+    }
+
+    .subhead {
+      color: #2c3e50;
+      font-weight: 400;
+      font-size: 1.1rem;
+      border-left: 4px solid #2b7fc1;
+      padding-left: 1.2rem;
+      margin-top: 0.5rem;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(2px);
+      border-radius: 0 12px 12px 0;
+      width: fit-content;
+      padding: 0.6rem 1.5rem 0.6rem 1.2rem;
+    }
+
+    /* cuadrícula de tarjetas */
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* cada bloque es una card interactiva */
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 10px 25px -8px rgba(0,32,64,0.15), 0 4px 8px rgba(0,20,40,0.05);
+      transition: all 0.25s ease;
+      border: 1px solid rgba(43, 127, 193, 0.15);
+      backdrop-filter: blur(2px);
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: 0 20px 30px -10px rgba(16, 70, 120, 0.25);
+      border-color: rgba(43, 127, 193, 0.3);
+    }
+
+    /* encabezado clickeable (título del proceso) */
+    .card-header {
+      padding: 1.2rem 1.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.7);
+      transition: background 0.2s;
+      user-select: none;
+    }
+
+    .card-header:hover {
+      background: #f0f7ff;
+    }
+
+    .card-header h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0a314b;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .card-header h2 i {
+      font-style: normal;
+      font-size: 1.8rem;
+      opacity: 0.7;
+      color: #1f5e9e;
+    }
+
+    .toggle-icon {
+      font-size: 1.9rem;
+      font-weight: 300;
+      color: #1f5e9e;
+      transition: transform 0.2s;
+      line-height: 1;
+    }
+
+    .card.active .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    /* cuerpo desplegable (contenido técnico) */
+    .card-body {
+      max-height: 0;
+      padding: 0 1.8rem;
+      background: #fbfdff;
+      border-top: 0 solid transparent;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s, border 0.2s;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+    }
+
+    .card.active .card-body {
+      max-height: 600px;   /* valor amplio para que despliegue todo */
+      padding: 1.2rem 1.8rem 1.8rem 1.8rem;
+      border-top: 1px solid #d9e8f5;
+    }
+
+    /* formateo del texto interno (parece nota técnica) */
+    .content-block {
+      color: #1c3a5c;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      white-space: pre-line;
+      word-break: break-word;
+      background: #ffffff;
+      padding: 1.2rem 1.5rem;
+      border-radius: 18px;
+      border: 1px solid #e4eef9;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+    }
+
+    .content-block p {
+      margin-bottom: 0.75rem;
+    }
+
+    .content-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* estilos para destacar números, refs, etc */
+    .highlight {
+      background: #e1effb;
+      color: #024784;
+      font-weight: 500;
+      padding: 0.1rem 0.4rem;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95em;
+      border: 1px solid #b9d6f0;
+    }
+
+    .badge {
+      background: #1b4a7a;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      display: inline-block;
+      margin-right: 0.4rem;
+    }
+
+    .note {
+      border-left: 4px solid #ffaa3a;
+      background: #fff8e7;
+      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #a0c6e9, transparent);
+      margin: 1rem 0;
+    }
+
+    /* responsivo */
+    @media (max-width: 600px) {
+      body { padding: 1.5rem 1rem; }
+      .card-header { padding: 1rem 1.2rem; }
+      .card-header h2 { font-size: 1.25rem; }
+      .card.active .card-body { padding: 0.8rem 1.2rem 1.2rem; }
+    }
+
+    /* tooltips visuales */
+    .ref {
+      font-family: monospace;
+      background: #02233b;
+      color: #b7e0ff;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="knowledge-base">
+    <div class="header-doc">
+      <h1>REACTIVA-CASOS QUE PASAN A SYC</h1>
+     
+    </div>
+
+    <div class="cards-grid" id="appCards">
+      <!-- cada tarjeta se genera dinámicamente con js, pero por robustez se construye desde html -->
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // --------------------------------------------------------------
+      // Datos estructurados (exactamente igual al enunciado)
+      // --------------------------------------------------------------
+      const procesos = [
+        {
+          titulo: "MIGRACIONES",
+          icono: "🔄",
+          contenido: `📅 01/09/2022 usuario - desborde / cliente accede a migrar servicios de TF no. <span class="highlight">xxxxx</span> e IF no. <span class="highlight">xxxxx</span> (o solo uno de los dos) a tecnología COBRE o GPON. A la dirección Av. 6 de diciembre 165 y Orellana, Edificio Multicentro, frente a la parada del eco vía. Recibirá a técnicos: nombre del titular o el nombre de la persona que indique el titular, contactos <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Número de referencia <span class="highlight">xxxxx</span>. Se informa estar pendiente de última factura.\n\nCIERRE QUEJA EN OPEN: CLIENTE RETENIDO ACEPTA MIGRACION DE SERVICIOS (ESPECIFICAR TF + IF O SOLO TF O SOLO IF)`
+        },
+        {
+          titulo: "TRASLADOS TF E IF",
+          icono: "🚚",
+          contenido: `Colocar en observación:\n📅 01/09/2022 usuario desborde/ cliente acepta trasladar su o sus servicios TF no. <span class="highlight">xxxxxxxxx</span> e IF no. <span class="highlight">xxxxxxxxx</span> a la dirección: Av. 9 de octubre E14-135 y Av. Eloy Alfaro frente a Rapi Frenos edificio color amarillo piso 3 departamento 6. Recibirá a técnicos: nombre del titular o el nombre de la persona que indique el titular, contactos <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Número de referencia <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.\nPetición ingresada en open TF no. <span class="highlight">02.23.2345</span>\nPetición ingresada en open IF no. <span class="highlight">02.23.2346</span>\nSi es a otra central en el número de petición IF poner pendiente\nPetición ingresada en open TF no. <span class="highlight">02.23.2345</span>\nPetición ingresada en open lF. Pendiente atención de traslado TF ingresar una vez atendido.`
+        },
+        {
+          titulo: "UP GRADES Y DOWN GRADES (Aumento y Baja de planes de internet)",
+          icono: "📈📉",
+          contenido: `📅 01/09/2022 usuario desborde / Cliente acepta aumentar la velocidad de 20 Mbps a la 40 Mbps. Se informa nuevo valor del plan. Petición no. <span class="highlight">12.34.45576</span>. Contacto: <span class="highlight">xxxxxxxxx</span>, <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.\n\nTIPIFICAR EN IC BAJA DE PLAN:\n📅 01/09/2022 usuario desborde / Cliente acepta bajar la velocidad de 40 Mbps a la 20 Mbps. Se informa nuevo valor del plan. Petición no. <span class="highlight">12.34.45576</span>. Contacto: <span class="highlight">xxxxxxxxx</span>, <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.\n\n<div class="note">⚠️ ES IMPORTANTE INFORMAR AL CLIENTE EL NUEVO VALOR DEL PLAN QUE VA A CANCELAR DE ACUERDO CON EL PLAN QUE ESTÁN OFRECIENDO. ESTE VALOR PUEDE SUBIR O BAJAR DEPENDIENDO LA NEGOCIACION.</div>`
+        },
+        {
+          titulo: "CREACION DE CODIGOS VIRTUALES",
+          icono: "🔢",
+          contenido: `Colocar en observación:<br>“<span class="highlight">fecha 00/00/00</span> usuario desborde/ cliente no desea servicio de TF NO. <span class="highlight">XXXXXX</span>, por motivo de <span class="highlight">xxxx</span>. Solo desea mantener servicio de Internet en Only. Favor su ayuda creando un virtual para atar el servicio de internet y posteriormente retirara la línea telefónica. Contacto <span class="highlight">xxx</span> y/o <span class="highlight">xxx</span>. Se informa valores pendientes de pago”.<br><br>📌 NOTA: una vez realizado todo el proceso por parte del equipo de SYC ellos volverán a tipificarán la queja de la TF como RETIRADO con el motivo que ustedes indiquen en la observación.`
+        },
+        {
+          titulo: "VISITAS TECNICAS",
+          icono: "🔧",
+          contenido: `Colocar en observación:\n📅 01/09/2022 usuario desborde / cliente accede a una visita técnica no. <span class="highlight">xxxxxxxxx</span>. Informa que no tiene tono, no sirve el internet etc. (todo lo que el cliente nos indique) Recibirá a técnicos: nombre del titular o el nombre de la persona que indique el titular, contactos <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.\n\nTIPIFICACION IC SI ES VT MÁS DESCUENTO:\nSi ofrecen un descuento a más de la visita técnica deberán colocar en observación:\n📅 01/09/2022 usuario desborde / cliente accede a una visita técnica no. <span class="highlight">xxxxxxxxx</span>. Informa que no tiene tono, no sirve el internet etc. (todo lo que el cliente nos indique), adicional se ofrece el 100% por 2 meses consecutivos. Recibirá a técnicos: nombre del titular o el nombre de la persona que indique el titular, contactos <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "CESION DE DERECHOS",
+          icono: "📝",
+          contenido: `Solicitar al cliente enviar los siguientes documentos para que SYC realice el cambio de nombres con respaldos. Los mismos deben ser enviados al correo: <span class="highlight">seguimientoycierre01@gmail.com</span>\n1. Anexo de aceptación de cesión de derechos\n2. Cédula del titular actual de los servicios\n3. Cédula del nuevo titular de los servicios\n4. Validar que estén al día en pagos\n\nColocar en observación:\n📅 01/09/2022 usuario desborde/ cliente accede a realizar cesión de derechos de sus servicios TF no. <span class="highlight">xxxxxxxxx</span> e IF no. <span class="highlight">XXXXXX</span> a nombre del SR. SRA. <span class="highlight">xxxxxxxxx</span>, enviará documentos de respaldo desde el correo <span class="highlight">pepitoperez@yahoo.com</span>. Contactos <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "DESCUENTOS TERCERA EDAD TF",
+          icono: "👵",
+          contenido: `Siempre y cuando el cliente cumpla los años para acceder a tercera edad pueden ofrecer este beneficio.\nEn la forma ATCOCL pueden confirmar si el cliente es tercera edad.\nEn los casos de TF si accede deben ingresar el beneficio en la forma ATMDTE.\nColocar en observación:\n📅 01/09/2022 usuario desborde / cliente accede a beneficio de tercera edad en TF no. <span class="highlight">xxxxxxxx</span>. Se ingresa petición no. <span class="highlight">xxxxxxxx</span>. Contacto: <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "DESCUENTO DISCAPACIDAD TF",
+          icono: "♿",
+          contenido: `Siempre y cuando el cliente cumpla las condiciones que implican una discapacidad ustedes pueden ofrecer este beneficio. Deberán solicitar al cliente enviar los siguientes documentos al correo: <span class="highlight">seguimientoycierre01@gmail.com</span>\n\n1. Carnet de discapacidad\n2. Cédula de la persona con discapacidad\n3. Si es un menor de edad el respaldo del adulto que está a cargo más la cédula.\n\nColocar en observación:\n📅 01/09/2022 usuario desborde / cliente accede a beneficio de discapacidad en TF no. <span class="highlight">xxxxxxxxx</span>. Enviará documentos de respaldo desde el correo <span class="highlight">pepitoperez@yahoo.com</span> Contacto: <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "DESCUENTOS DE TERCERA EDAD Y DISCAPACIDAD PARA INTERNET FIJO",
+          icono: "🌐",
+          contenido: `En ambos escenarios se deberá indicar al cliente acercarse a la agencia con los documentos mencionados para los casos de TF.\n\nColocar en observación:\n📅 01/09/2022 usuario desborde/ cliente accede a beneficio de tercera edad o discapacidad en IF no. <span class="highlight">xxxxxxxxx</span>. Se acercará a la agencia para realizar el trámite. Se indica llevar los documentos de respaldo y estar al día en pagos. Contacto: <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "CAMBIO DE NUMERO",
+          icono: "📞➡️",
+          contenido: `Este escenario se ofrece si el cliente presenta inconvenientes con las llamadas entrantes (maliciosas o por pedido de zona técnica) y desea cambiar la serie de su número telefónico, verificar disponibilidad en RPAE.\n\nColocar en observación:\n📅 01/09/2022 usuario desborde / cliente accede a beneficio de cambio de numero de la TF no. <span class="highlight">xxxxxxxxx</span> por recibir llamadas no deseadas. Se valida disponibilidad en RPAE. Contacto: <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "TELEFONIA ON DEMAND",
+          icono: "📱",
+          contenido: `Se debe ingresar la Re categorización: CATEGORIA: 29, SUBCATEGORIA: 1 CONDICIONES;\nOferta de retención para clientes de telefonía fija que quieran cancelar su servicio y que mantengan contratado el servicio de Internet fijo con planes desde $20,90.\nOferta de retención para clientes con permanencia mínima de 3 meses en COBRE y permanencia mínima para GPON de 10 meses.\nEl cliente paga de acuerdo al consumo.\nDisponible en las tecnologías cobre ADSL, VDSL y GPON. No aplica 360.\nAplica sólo para servicios integrados\nNo aplica para descuentos adicionales de tercera edad o discapacitados. La oferta no tiene minutos incluidos.\nNo aplica para Galápagos.\nLas tarifas por minuto y por tipo de llamada son las tarifas vigentes.\n\nColocar en observación:\n📅 01/09/2022 usuario desborde/ cliente accede a beneficio de On demand de la TF no. <span class="highlight">xxxxxxxxx</span>, cumple condiciones. Se ingresa petición no. <span class="highlight">xxxxxxxxx</span>. Contacto: <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        },
+        {
+          titulo: "TELEFONIA ON DEMAND ONLY COBRE",
+          icono: "📟",
+          contenido: `Se debe ingresar la Re categorización: CATEGORIA: 29, SUBCATEGORIA: 1 CONDICIONES;\nOferta de retención para clientes de telefonía fija que presenten intensión de retiro y que no hayan aceptado cualquier otra oferta (plan o beneficio de retención).\nAplica para clientes que tengan contratado solo telefonía fija (6.20 y 7.99) sin internet.\nTecnología: Solo aplica para clientes cobre (no FTTH GPON)\nEl cambio a telefonía On Demand será por 6 meses.\nNota: luego de este tiempo el cliente regresará a su categoría anterior 6.20 y 7.99. Permanencia mínima: 36 meses\nAutorización de uso del beneficio: solo Nivel 3 (Contact Center) El cliente paga de acuerdo al consumo.\nNo aplica 360.\nNo aplica para descuentos adicionales de tercera edad o discapacitados. La oferta no tiene minutos incluidos.\nNo aplica para Galápagos.\nCliente con línea + internet solicita retiro de internet. Se puede aplicar beneficio de TF ON DEMAND ONLY.\nColocar en observación:\n📅 01/09/2022 usuario desborde/ On demand only beneficio exclusivo N3 x 6 meses de la TF no. <span class="highlight">xxxxxxxxx</span>. Se ingresa petición no. <span class="highlight">xxxxxxxxx</span>. Contacto: <span class="highlight">xxxxxxxxx</span> y <span class="highlight">xxxxxxxxx</span>. Se informa estar pendiente de última factura.`
+        }
+      ];
+
+      // --------------------------------------------------------------
+      // Renderizado de las cards
+      // --------------------------------------------------------------
+      const container = document.getElementById('appCards');
+      container.innerHTML = ''; // limpia por si acaso
+
+      procesos.forEach((proc, index) => {
+        const card = document.createElement('div');
+        card.className = 'card'; // sin active por defecto
+
+        // header (título + icono desplegable)
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        header.setAttribute('aria-expanded', 'false');
+        header.innerHTML = `
+          <h2><i>${proc.icono}</i> ${proc.titulo}</h2>
+          <span class="toggle-icon">▼</span>
+        `;
+
+        // cuerpo
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        body.innerHTML = `<div class="content-block">${proc.contenido}</div>`;
+
+        card.appendChild(header);
+        card.appendChild(body);
+
+        // evento toggle al hacer clic en el header
+        header.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // cierra otros? para mejor usabilidad dejamos que múltiples estén abiertos (estilo acordeón suave)
+          // pero podemos permitir varios abiertos (más cómodo para consulta)
+          card.classList.toggle('active');
+          const expanded = card.classList.contains('active');
+          header.setAttribute('aria-expanded', expanded);
+        });
+
+        container.appendChild(card);
+      });
+
+      // Opcional: abrir el primero por defecto (para mostrar ejemplo)
+      // se puede activar si se desea, pero prefiero empezar todos cerrados.
+      // descomentar si se quiere el primer abierto:
+      // document.querySelector('.card')?.classList.add('active');
+    })();
+  </script>
+
+  <footer style="margin-top: 3rem; color: #4f6f8f; font-size: 0.85rem; text-align: center; border-top: 1px dashed #b3c9df; padding-top: 1.5rem; width: 100%; max-width: 1100px;">
+    <span>⚙️</span>
+  </footer>
+</body>
+</html>
