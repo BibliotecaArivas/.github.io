@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nemónicos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:       #0a2d6e;
+      --primary-light: #1a4db3;
+      --accent:        #e8b800;
+      --accent2:       #00b4d8;
+      --bg:            #f0f4ff;
+      --card-bg:       #ffffff;
+      --text:          #1e2a45;
+      --text-muted:    #6b7a99;
+      --border:        #dce4f5;
+      --shadow:        0 4px 24px rgba(10,45,110,0.10);
+      --shadow-hover:  0 8px 36px rgba(10,45,110,0.18);
+      --radius:        14px;
+      --radius-sm:     8px;
+
+      /* Category colours */
+      --cat-at:   #4361ee;
+      --cat-s:    #3a0ca3;
+      --cat-c:    #7209b7;
+      --cat-f:    #f72585;
+      --cat-e:    #4cc9f0;
+      --cat-o:    #fb8500;
+      --cat-m:    #2d6a4f;
+      --cat-r:    #e63946;
+      --cat-misc: #6b7a99;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, #0d3b8e 60%, #163da6 100%);
+      color: #fff;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(10,45,110,0.35);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-logo {
+      width: 52px; height: 52px;
+      background: var(--accent);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 800; color: var(--primary);
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+
+    .header-title h1 {
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .header-title span {
+      font-size: 0.78rem; font-weight: 400; opacity: 0.75;
+      letter-spacing: 0.5px;
+    }
+
+    .header-stats {
+      display: flex; gap: 20px; flex-wrap: wrap;
+    }
+    .stat-chip {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 0.8rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .stat-chip span {
+      background: var(--accent);
+      color: var(--primary);
+      border-radius: 100px;
+      padding: 2px 9px;
+      font-size: 0.75rem; font-weight: 800;
+    }
+
+    /* ===== HERO BAND ===== */
+    .hero-band {
+      background: linear-gradient(90deg, var(--accent) 0%, #ffd000 100%);
+      padding: 10px 32px;
+      text-align: center;
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.6px;
+    }
+
+    /* ===== LAYOUT ===== */
+    .layout {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 18px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-card h3 {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* Search */
+    .search-wrapper {
+      position: relative;
+    }
+    .search-wrapper svg {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .2s;
+    }
+    #searchInput:focus { border-color: var(--primary-light); }
+
+    /* Category filter */
+    .cat-list { display: flex; flex-direction: column; gap: 6px; }
+    .cat-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      border: none; background: transparent; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.86rem;
+      font-weight: 500; color: var(--text);
+      transition: background .15s, color .15s;
+      text-align: left;
+    }
+    .cat-btn:hover { background: var(--bg); }
+    .cat-btn.active { background: var(--primary); color: #fff; }
+    .cat-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+    .cat-count {
+      margin-left: auto;
+      font-size: 0.75rem; font-weight: 700;
+      background: var(--bg); color: var(--text-muted);
+      border-radius: 100px; padding: 1px 8px;
+    }
+    .cat-btn.active .cat-count { background: rgba(255,255,255,0.2); color: #fff; }
+
+    /* Jump nav */
+    .jump-list { display: flex; flex-direction: column; gap: 4px; }
+    .jump-link {
+      font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; padding: 4px 8px; border-radius: 6px;
+      transition: background .15s, color .15s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .jump-link:hover { background: var(--bg); color: var(--primary); }
+    .jump-link::before {
+      content: ''; display: block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; opacity: 0.5;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {}
+
+    /* Section header */
+    .section-header {
+      display: flex; align-items: center; gap: 14px;
+      margin: 0 0 18px;
+    }
+    .section-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px;
+    }
+    .section-header p {
+      font-size: 0.78rem; color: var(--text-muted);
+    }
+    .section-divider {
+      height: 3px; border-radius: 2px;
+      margin-bottom: 16px;
+    }
+
+    /* Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    /* Card */
+    .nemo-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .nemo-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px;
+      border-radius: 4px 0 0 4px;
+    }
+    .nemo-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: transparent;
+    }
+
+    .nemo-badge {
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-family: 'Fira Mono', monospace;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.5px;
+      min-width: 72px; text-align: center;
+    }
+    .nemo-desc {
+      font-size: 0.86rem; font-weight: 500; line-height: 1.45;
+      color: var(--text);
+    }
+
+    /* ===== CATEGORY COLOUR THEMING ===== */
+    /* AT prefix */
+    .cat-AT .nemo-card::before { background: var(--cat-at); }
+    .cat-AT .nemo-badge { background: #eef1ff; color: var(--cat-at); }
+
+    /* S prefix */
+    .cat-S .nemo-card::before { background: var(--cat-s); }
+    .cat-S .nemo-badge { background: #f0ebff; color: var(--cat-s); }
+
+    /* C prefix */
+    .cat-C .nemo-card::before { background: var(--cat-c); }
+    .cat-C .nemo-badge { background: #fdf0ff; color: var(--cat-c); }
+
+    /* F prefix */
+    .cat-F .nemo-card::before { background: var(--cat-f); }
+    .cat-F .nemo-badge { background: #fff0f8; color: var(--cat-f); }
+
+    /* E prefix */
+    .cat-E .nemo-card::before { background: #0077b6; }
+    .cat-E .nemo-badge { background: #e0f7ff; color: #0077b6; }
+
+    /* O prefix */
+    .cat-O .nemo-card::before { background: var(--cat-o); }
+    .cat-O .nemo-badge { background: #fff4e0; color: var(--cat-o); }
+
+    /* M prefix */
+    .cat-M .nemo-card::before { background: var(--cat-m); }
+    .cat-M .nemo-badge { background: #e6f7ef; color: var(--cat-m); }
+
+    /* R prefix */
+    .cat-R .nemo-card::before { background: var(--cat-r); }
+    .cat-R .nemo-badge { background: #fff0f0; color: var(--cat-r); }
+
+    /* misc */
+    .cat-MISC .nemo-card::before { background: var(--cat-misc); }
+    .cat-MISC .nemo-badge { background: #f4f4f6; color: var(--cat-misc); }
+
+    /* Hidden via search */
+    .nemo-card.hidden { display: none; }
+
+    /* Section block */
+    .section-block { margin-bottom: 48px; }
+    .section-block.hidden { display: none; }
+
+    /* No results */
+    #noResults {
+      display: none;
+      text-align: center; padding: 60px 20px;
+      color: var(--text-muted); font-size: 1rem;
+    }
+    #noResults .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      padding: 24px 32px;
+      font-size: 0.8rem;
+    }
+    footer strong { color: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { padding: 14px 16px; }
+      .layout { padding: 20px 12px 40px; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== SCROLL TO TOP ===== */
+    #scrollTop {
+      position: fixed; bottom: 30px; right: 30px;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--primary); color: #fff;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(10,45,110,0.35);
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s, transform .2s;
+      font-size: 18px;
+      z-index: 200;
+    }
+    #scrollTop.visible { opacity: 1; pointer-events: auto; }
+    #scrollTop:hover { transform: translateY(-3px); }
+
+    /* ===== COPY TOOLTIP ===== */
+    .nemo-badge { cursor: pointer; position: relative; }
+    .copy-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+      background: #1e2a45; color: #fff;
+      font-size: 0.7rem; padding: 4px 10px;
+      border-radius: 6px; white-space: nowrap;
+      pointer-events: none; opacity: 0;
+      transition: opacity .2s;
+    }
+    .nemo-badge:hover .copy-tooltip { opacity: 1; }
+
+    /* result count */
+    #resultCount {
+      font-size: 0.8rem; color: var(--text-muted);
+      margin-bottom: 16px; font-weight: 500;
+    }
+    #resultCount strong { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-logo">.</div>
+      <div class="header-title">
+        <h1>Nemónicos</h1>
+        <span></span>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-chip">Total nemónicos <span id="totalCount">0</span></div>
+      <div class="stat-chip">Módulos <span>8</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="hero-band">
+  ⚡ 
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <!-- Search -->
+    <div class="sidebar-card">
+      <h3>🔍 Búsqueda</h3>
+      <div class="search-wrapper">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Buscar nemónico o descripción…"/>
+      </div>
+      <div id="resultCount" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Categories -->
+    <div class="sidebar-card">
+      <h3>📂 Categorías</h3>
+      <div class="cat-list" id="catList">
+        <button class="cat-btn active" data-cat="ALL" onclick="filterCat(this,'ALL')">
+          <span class="cat-dot" style="background:#6b7a99"></span> Todos
+          <span class="cat-count" id="cnt-ALL">0</span>
+        </button>
+        <button class="cat-btn" data-cat="AT" onclick="filterCat(this,'AT')">
+          <span class="cat-dot" style="background:var(--cat-at)"></span> AT — Atención
+          <span class="cat-count" id="cnt-AT">0</span>
+        </button>
+        <button class="cat-btn" data-cat="S" onclick="filterCat(this,'S')">
+          <span class="cat-dot" style="background:var(--cat-s)"></span> S — Servicios
+          <span class="cat-count" id="cnt-S">0</span>
+        </button>
+        <button class="cat-btn" data-cat="C" onclick="filterCat(this,'C')">
+          <span class="cat-dot" style="background:var(--cat-c)"></span> C — Consulta
+          <span class="cat-count" id="cnt-C">0</span>
+        </button>
+        <button class="cat-btn" data-cat="F" onclick="filterCat(this,'F')">
+          <span class="cat-dot" style="background:var(--cat-f)"></span> F — Facturación
+          <span class="cat-count" id="cnt-F">0</span>
+        </button>
+        <button class="cat-btn" data-cat="E" onclick="filterCat(this,'E')">
+          <span class="cat-dot" style="background:#0077b6"></span> E — Configuración
+          <span class="cat-count" id="cnt-E">0</span>
+        </button>
+        <button class="cat-btn" data-cat="O" onclick="filterCat(this,'O')">
+          <span class="cat-dot" style="background:var(--cat-o)"></span> O — Órdenes
+          <span class="cat-count" id="cnt-O">0</span>
+        </button>
+        <button class="cat-btn" data-cat="M" onclick="filterCat(this,'M')">
+          <span class="cat-dot" style="background:var(--cat-m)"></span> M — Mantenimiento
+          <span class="cat-count" id="cnt-M">0</span>
+        </button>
+        <button class="cat-btn" data-cat="R" onclick="filterCat(this,'R')">
+          <span class="cat-dot" style="background:var(--cat-r)"></span> R — Reclamos/Red
+          <span class="cat-count" id="cnt-R">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Jump Nav -->
+    <div class="sidebar-card">
+      <h3>🔗 Ir a sección</h3>
+      <nav class="jump-list">
+        <a class="jump-link" href="#sec-AT">AT — Atención Técnica</a>
+        <a class="jump-link" href="#sec-S">S — Servicios</a>
+        <a class="jump-link" href="#sec-C">C — Consulta/Contrato</a>
+        <a class="jump-link" href="#sec-F">F — Facturación</a>
+        <a class="jump-link" href="#sec-E">E — Configuración</a>
+        <a class="jump-link" href="#sec-O">O — Órdenes</a>
+        <a class="jump-link" href="#sec-M">M — Mantenimiento</a>
+        <a class="jump-link" href="#sec-R">R — Reclamos / Red</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div id="noResults">
+      <span class="emoji">🔎</span>
+      No se encontraron nemónicos con ese criterio.
+    </div>
+
+    <!-- ====== SECTION AT ====== -->
+    <div class="section-block cat-AT" id="sec-AT">
+      <div class="section-header">
+        <div class="section-icon" style="background:#eef1ff">🖥️</div>
+        <div>
+          <h2>AT — Atención Técnica y Comercial</h2>
+          <p>Módulos de atención, consulta y gestión de abonados</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-at)"></div>
+      <div class="cards-grid" id="grid-AT"></div>
+    </div>
+
+    <!-- ====== SECTION S ====== -->
+    <div class="section-block cat-S" id="sec-S">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0ebff">⚙️</div>
+        <div>
+          <h2>S — Gestión de Servicios</h2>
+          <p>Peticiones, activaciones, suspensiones y cambios de servicio</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-s)"></div>
+      <div class="cards-grid" id="grid-S"></div>
+    </div>
+
+    <!-- ====== SECTION C ====== -->
+    <div class="section-block cat-C" id="sec-C">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fdf0ff">📋</div>
+        <div>
+          <h2>C — Consulta y Contratos</h2>
+          <p>Consultas de estado, contratos y categorías</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-c)"></div>
+      <div class="cards-grid" id="grid-C"></div>
+    </div>
+
+    <!-- ====== SECTION F ====== -->
+    <div class="section-block cat-F" id="sec-F">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fff0f8">💳</div>
+        <div>
+          <h2>F — Facturación y Cobros</h2>
+          <p>Gestión de cobros, diferidos, suscripciones y facturas</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-f)"></div>
+      <div class="cards-grid" id="grid-F"></div>
+    </div>
+
+    <!-- ====== SECTION E ====== -->
+    <div class="section-block cat-E" id="sec-E">
+      <div class="section-header">
+        <div class="section-icon" style="background:#e0f7ff">🔑</div>
+        <div>
+          <h2>E — Configuración y Usuarios</h2>
+          <p>Cambio de contraseñas, registros y configuración de acceso</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:#0077b6"></div>
+      <div class="cards-grid" id="grid-E"></div>
+    </div>
+
+    <!-- ====== SECTION O ====== -->
+    <div class="section-block cat-O" id="sec-O">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fff4e0">📦</div>
+        <div>
+          <h2>O — Órdenes y Peticiones</h2>
+          <p>Gestión de órdenes de servicio y estados de petición</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-o)"></div>
+      <div class="cards-grid" id="grid-O"></div>
+    </div>
+
+    <!-- ====== SECTION M ====== -->
+    <div class="section-block cat-M" id="sec-M">
+      <div class="section-header">
+        <div class="section-icon" style="background:#e6f7ef">🛠️</div>
+        <div>
+          <h2>M — Mantenimiento</h2>
+          <p>Registro y consulta de daños, mantenimiento de red</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-m)"></div>
+      <div class="cards-grid" id="grid-M"></div>
+    </div>
+
+    <!-- ====== SECTION R ====== -->
+    <div class="section-block cat-R" id="sec-R">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fff0f0">🚨</div>
+        <div>
+          <h2>R — Reclamos, Red y Verificación</h2>
+          <p>Quejas, reclamos generales, verificación de puertos y migración</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background:var(--cat-r)"></div>
+      <div class="cards-grid" id="grid-R"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>.</strong> . &nbsp;|&nbsp;
+   &nbsp;|&nbsp; v26
+</footer>
+
+<!-- SCROLL TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ====================================================
+// DATA
+// ====================================================
+const nemonicos = [
+  // ===== AT =====
+  {code:"ATCNSR", desc:"Información abonado SRI CNT",           cat:"AT"},
+  {code:"ATCOSR", desc:"Consulta sanción usuario CNT EP",        cat:"AT"},
+  {code:"ATCOCL", desc:"Validación de datos abonado",            cat:"AT"},
+  {code:"ATMDTE", desc:"Módulo descuento tercera edad",          cat:"AT"},
+  {code:"ATSONE", desc:"Ingreso de demanda individual",          cat:"AT"},
+  {code:"ATFAST", desc:"Comercialización fonocontrol",           cat:"AT"},
+  {code:"ATCDTH", desc:"Consulta maestra DTH",                   cat:"AT"},
+  {code:"ACMT",   desc:"Consulta maestra telefonía",             cat:"AT"},
+  {code:"ATDRED", desc:"Información sobre disponibilidad de líneas", cat:"AT"},
+  {code:"ATDLMA", desc:"Detalle de rastreo de llamadas",         cat:"AT"},
+  {code:"ATSLMA", desc:"Servicio de rastreo de llamadas",        cat:"AT"},
+  {code:"ATVRSC", desc:"Detalle de llamadas sin costo",          cat:"AT"},
+  {code:"ATCONL", desc:"Consulta de entrega de detalle de llamadas", cat:"AT"},
+  {code:"ATARLL", desc:"Reporte rastreo de llamadas",            cat:"AT"},
+  {code:"ATDEEN", desc:"Detalle de llamadas cliente elite",      cat:"AT"},
+  {code:"ATARCM", desc:"Consulta materiales reparación instalación", cat:"AT"},
+  {code:"AHCE",   desc:"Histórico cambios de estado",            cat:"AT"},
+  {code:"ATCAOB", desc:"Cambio de observación peticiones",       cat:"AT"},
+  {code:"ATDPLC", desc:"Disponibilidad de puerto por localidad", cat:"AT"},
+  {code:"ATCDIX", desc:"Consulta disponibilidad de puerto",      cat:"AT"},
+  {code:"ATADLF", desc:"Registro o consulta de la factura electrónica", cat:"AT"},
+  {code:"ATFPQS", desc:"Consulta de empaquetados",               cat:"AT"},
+  {code:"ATFPJC", desc:"Revisar si el cliente está en extrajudiciales o coactivas", cat:"AT"},
+
+  // ===== S =====
+  {code:"SECS",   desc:"Petición cambio código secreto",         cat:"S"},
+  {code:"SPRL",   desc:"Petición de retiro de línea",            cat:"S"},
+  {code:"SPAR",   desc:"Anulación petición de retiro de línea",  cat:"S"},
+  {code:"SARL",   desc:"Atención petición retiro de línea",      cat:"S"},
+  {code:"SPSS",   desc:"Activación, desactivación servicio suplementarios", cat:"S"},
+  {code:"SAPS",   desc:"Anular petición servicio suplementarios",cat:"S"},
+  {code:"SCPS",   desc:"Consulta petición servicio suplementarios", cat:"S"},
+  {code:"SSES",   desc:"Consulta de servicios suplementarios del servicio", cat:"S"},
+  {code:"SPPS",   desc:"Petición de paquete de servicios suplementarios", cat:"S"},
+  {code:"SPNU",   desc:"Petición de línea nueva",                cat:"S"},
+  {code:"SPCN",   desc:"Registro de petición cambio de número",  cat:"S"},
+  {code:"SPTN",   desc:"Petición traslado número de servicio",   cat:"S"},
+  {code:"SPCA",   desc:"Cambio de categoría — Recategorización", cat:"S"},
+  {code:"SPST",   desc:"Registro y actualización de petición de suspensión", cat:"S"},
+  {code:"SNST",   desc:"Anulación de suspensión temporal",       cat:"S"},
+  {code:"SCFA",   desc:"Cambio de fecha de activación de servicio", cat:"S"},
+  {code:"SPSP",   desc:"Petición servicio provisional",          cat:"S"},
+  {code:"SMCL",   desc:"Mantenimiento de clientes",              cat:"S"},
+  {code:"SMCC",   desc:"Actualización de clientes corporativos", cat:"S"},
+  {code:"SPCP",   desc:"Modificación, Cambio privacidad del servicio — número reservado", cat:"S"},
+  {code:"SRSU",   desc:"Registro datos del suscriptor — crear cliente", cat:"S"},
+  {code:"SCDS",   desc:"Cambio de datos del suscriptor",         cat:"S"},
+  {code:"SMUS",   desc:"Mantenimiento de usuario de servicio suscrito", cat:"S"},
+  {code:"SRQU",   desc:"Registro de queja general / retenciones",cat:"S"},
+  {code:"SCEQ",   desc:"Cambio estado de queja",                 cat:"S"},
+
+  // ===== C =====
+  {code:"SCCO",   desc:"Consulta petición cambio código secreto",cat:"C"},
+  {code:"SCRL",   desc:"Consulta petición de retiro de línea",   cat:"C"},
+  {code:"CCCA",   desc:"Consulta cambio de categoría",           cat:"C"},
+  {code:"SCST",   desc:"Consulta de petición suspensión temporal",cat:"C"},
+  {code:"CDPS",   desc:"Consulta de datos privados del servicio",cat:"C"},
+  {code:"CPSS",   desc:"Consulta de cambio de privacidad del servicio", cat:"C"},
+  {code:"SECC",   desc:"Petición cambio — Modificación de contrato del servicio", cat:"C"},
+  {code:"SSUS",   desc:"Consulta datos del suscriptor — cliente",cat:"C"},
+  {code:"CCDS",   desc:"Consulta cambio de datos del suscriptor",cat:"C"},
+  {code:"CCSS",   desc:"Consulta cambio de datos del servicio suscrito", cat:"C"},
+  {code:"SCQU",   desc:"Consulta de quejas",                     cat:"C"},
+  {code:"SCAE",   desc:"Consulta, Petición de acometida externa",cat:"C"},
+  {code:"SCOA",   desc:"Consulta condición pagos acometida",     cat:"C"},
+  {code:"SCPC",   desc:"Petición cambio de contrato del servicio",cat:"C"},
+  {code:"SCAS",   desc:"Consulta de petición de activación de servicio", cat:"C"},
+  {code:"SCDC",   desc:"Petición cambio — Modificación datos cliente", cat:"C"},
+  {code:"CCDC",   desc:"Consulta cambio — Modificación de datos de cliente", cat:"C"},
+
+  // ===== F =====
+  {code:"FCPF",   desc:"Cambio password funcionario",            cat:"F"},
+  {code:"FSUS",   desc:"Suscriptores — clientes — revisar datos de cobro", cat:"F"},
+  {code:"FOES",   desc:"Consulta de servicios suscritos",        cat:"F"},
+  {code:"FCSA",   desc:"Consulta suscripciones agrupadas",       cat:"F"},
+  {code:"FOPA",   desc:"Consulta de pago por suscriptor",        cat:"F"},
+  {code:"SSCL",   desc:"Consulta de suscripciones por cliente",  cat:"F"},
+  {code:"FOSS",   desc:"Consulta de servicios suscritos por suscriptores", cat:"F"},
+  {code:"OCSS",   desc:"Consulta servicios por suscripción",     cat:"F"},
+  {code:"FASU",   desc:"Agrupación de suscriptores",             cat:"F"},
+  {code:"FCNC",   desc:"Consulta notas de crédito",              cat:"F"},
+  {code:"FCAO",   desc:"Consulta datos de cobro",                cat:"F"},
+  {code:"FRCR",   desc:"Operación de cargos por reclamo",        cat:"F"},
+  {code:"FMDI",   desc:"Mantenimientos diferidos",               cat:"F"},
+  {code:"FFDC",   desc:"Financiación deuda por concepto",        cat:"F"},
+  {code:"FTDC",   desc:"Traslado de diferido a corriente",       cat:"F"},
+  {code:"FDIF",   desc:"Consulta de diferidos",                  cat:"F"},
+  {code:"SMDC",   desc:"Mantenimiento datos de cobro",           cat:"F"},
+  {code:"SCPF",   desc:"Cambio de plan de facturación",          cat:"F"},
+  {code:"SCCF",   desc:"Petición de cambio de ciclo de facturación", cat:"F"},
+  {code:"FCIO",   desc:"Consulta inclusiones de corte",          cat:"F"},
+  {code:"FCES",   desc:"Consulta estado actual de servicio",     cat:"F"},
+  {code:"FCDS",   desc:"Consulta conexión y desconexión de servicio", cat:"F"},
+  {code:"CCPS",   desc:"Consulta planes de liquidación por servicio", cat:"F"},
+
+  // ===== E =====
+  {code:"ECPW",   desc:"Cambio de password usuario (clave openflexis)", cat:"E"},
+  {code:"SRPJ",   desc:"Registro de personas jurídicas",         cat:"E"},
+  {code:"SRPN",   desc:"Registro de personas físicas",           cat:"E"},
+
+  // ===== O =====
+  {code:"OSER",   desc:"Petición de Servicio",                   cat:"O"},
+  {code:"OAEP",   desc:"Actualización estado de petición",       cat:"O"},
+  {code:"OHCS",   desc:"Histórico de cambios de estado",         cat:"O"},
+  {code:"SPAP",   desc:"Programación atención de la petición",   cat:"O"},
+  {code:"FCTE",   desc:"Notificación de trámites por estado",    cat:"O"},
+  {code:"OPAL",   desc:"Módulo de órdenes (OLOT, OTRA)",         cat:"O"},
+
+  // ===== M =====
+  {code:"MRRE",   desc:"Registro de daños",                      cat:"M"},
+  {code:"MCRR",   desc:"Consulta de registro de daño (visitas técnicas)", cat:"M"},
+  {code:"MCDR",   desc:"Consulta daños de red",                  cat:"M"},
+
+  // ===== R =====
+  {code:"SHEQ",   desc:"Histórico modificaciones estado reclamo general", cat:"R"},
+  {code:"ROPA",   desc:"Verificación estado de una petición, migración, traslado", cat:"R"},
+  {code:"RSRV",   desc:"Verificación del puerto y tarjeta",      cat:"R"},
+  {code:"SDVI",   desc:"Dirección de vías. Adición de direcciones", cat:"R"},
+  {code:"SDPI",   desc:"Desprogramación del período individual", cat:"R"},
+  {code:"SHCE",   desc:"Histórico de retiros",                   cat:"R"},
+
+  // ===== MISC / multiple =====
+  {code:"SCSS",   desc:"Consulta servicio suscritos",            cat:"F"},
+  {code:"SCSS",   desc:"Consulta servicio suscritos",            cat:"F"},
+];
+
+// De-duplicate
+const seen = new Set();
+const data = nemonicos.filter(n => {
+  const key = n.code + n.cat;
+  if (seen.has(key)) return false;
+  seen.add(key); return true;
+});
+
+// ====================================================
+// RENDER
+// ====================================================
+const grids = {AT:'grid-AT', S:'grid-S', C:'grid-C', F:'grid-F', E:'grid-E', O:'grid-O', M:'grid-M', R:'grid-R'};
+const counts = {ALL:0, AT:0, S:0, C:0, F:0, E:0, O:0, M:0, R:0};
+
+data.forEach(n => {
+  const gridId = grids[n.cat];
+  if (!gridId) return;
+  counts[n.cat]++;
+  counts.ALL++;
+
+  const card = document.createElement('div');
+  card.className = `nemo-card`;
+  card.dataset.code = n.code.toLowerCase();
+  card.dataset.desc = n.desc.toLowerCase();
+  card.dataset.cat  = n.cat;
+  card.innerHTML = `
+    <div class="nemo-badge" title="Clic para copiar" onclick="copyCode('${n.code}', this)">
+      ${n.code}
+      <span class="copy-tooltip">Copiar</span>
+    </div>
+    <div class="nemo-desc">${n.desc}</div>`;
+
+  document.getElementById(gridId).appendChild(card);
+});
+
+// Update counts
+Object.keys(counts).forEach(k => {
+  const el = document.getElementById('cnt-'+k);
+  if(el) el.textContent = counts[k];
+});
+document.getElementById('totalCount').textContent = counts.ALL;
+document.getElementById('resultCount').innerHTML = `Mostrando <strong>${counts.ALL}</strong> nemónicos`;
+
+// ====================================================
+// SEARCH
+// ====================================================
+let activeCat = 'ALL';
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  doFilter(this.value.trim().toLowerCase(), activeCat);
+});
+
+function filterCat(btn, cat) {
+  activeCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  doFilter(q, cat);
+}
+
+function doFilter(q, cat) {
+  let visible = 0;
+  const cards = document.querySelectorAll('.nemo-card');
+  cards.forEach(card => {
+    const matchQ   = !q || card.dataset.code.includes(q) || card.dataset.desc.includes(q);
+    const matchCat = cat === 'ALL' || card.dataset.cat === cat;
+    const show     = matchQ && matchCat;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  // Hide empty sections
+  document.querySelectorAll('.section-block').forEach(sec => {
+    const hasVisible = sec.querySelectorAll('.nemo-card:not(.hidden)').length > 0;
+    sec.classList.toggle('hidden', !hasVisible);
+  });
+
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('resultCount').innerHTML = `Mostrando <strong>${visible}</strong> de ${counts.ALL} nemónicos`;
+}
+
+// ====================================================
+// COPY CODE
+// ====================================================
+function copyCode(code, el) {
+  navigator.clipboard.writeText(code).then(() => {
+    const tip = el.querySelector('.copy-tooltip');
+    tip.textContent = '¡Copiado!';
+    setTimeout(() => { tip.textContent = 'Copiar'; }, 1500);
+  });
+}
+
+// ====================================================
+// SCROLL TO TOP
+// ====================================================
+const scrollBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+</body>
+</html>
