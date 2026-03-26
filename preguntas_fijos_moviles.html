@@ -1,687 +1,725 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batería de Preguntas para proceso de Validación de Clientes</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <!-- Fuentes profesionales -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    body {
+      background: linear-gradient(145deg, #e9eff7 0%, #dce4ef 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+      color: #1A2C3E;
+      min-height: 100vh;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    /* Contenedor principal */
+    .form-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
 
-        .form-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            animation: slideIn 0.5s ease-out;
-        }
+    /* Header corporativo */
+    .header-cnt {
+      background: #003366;
+      background-image: linear-gradient(135deg, #002244 0%, #004488 100%);
+      padding: 1.8rem 2.5rem;
+      color: white;
+    }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .header-cnt h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+    .header-cnt h1 i {
+      font-size: 2rem;
+    }
 
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
+    .header-cnt p {
+      font-weight: 400;
+      opacity: 0.85;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
 
-        .header h2 {
-            font-size: 18px;
-            font-weight: 400;
-            opacity: 0.9;
-        }
+    /* Formulario principal */
+    .form-card {
+      padding: 2rem 2.5rem;
+    }
 
-        .cnt-logo {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-        }
+    /* Cada grupo de campo */
+    .field-group {
+      margin-bottom: 1.8rem;
+    }
 
-        .cnt-logo span {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 50px;
-        }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.7rem;
+      color: #1e3a5f;
+    }
 
-        .form-body {
-            padding: 40px;
-        }
+    label i {
+      width: 22px;
+      color: #0066cc;
+      font-size: 1.1rem;
+    }
 
-        .question-item {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .required-star {
+      color: #d9534f;
+      margin-left: 4px;
+    }
 
-        .question-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
-        }
+    input, select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      font-family: 'Inter', monospace;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 1rem;
+      background-color: #fff;
+      transition: all 0.25s ease;
+      outline: none;
+      color: #1f2f3e;
+      font-weight: 500;
+    }
 
-        .question-text {
-            color: #2d3748;
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
+    select {
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23336699" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.2rem;
+    }
 
-        .question-text strong {
-            color: #667eea;
-            font-weight: 600;
-        }
+    input:focus, select:focus {
+      border-color: #0066cc;
+      box-shadow: 0 0 0 4px rgba(0,102,204,0.15);
+    }
 
-        .service-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-left: 10px;
-        }
+    /* radios personalizados */
+    .radio-group {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      background: #f8fafc;
+      padding: 0.7rem 1.2rem;
+      border-radius: 1.2rem;
+      border: 1.5px solid #e2edf7;
+    }
 
-        .service-badge-small {
-            display: inline-block;
-            background: #9f7aea;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 50px;
-            font-size: 10px;
-            font-weight: 500;
-            margin-left: 5px;
-        }
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
 
-        .service-badge-fija {
-            display: inline-block;
-            background: #4299e1;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
-        }
+    .radio-option input {
+      width: 18px;
+      height: 18px;
+      accent-color: #0066cc;
+      margin: 0;
+    }
 
-        .service-badge-movil {
-            display: inline-block;
-            background: #ed64a6;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 5px;
-        }
+    /* chips para selección múltiple */
+    .multi-select-box {
+      padding: 0.7rem 1rem;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 1rem;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-        .form-group label {
-            display: block;
-            color: #4a5568;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
+    .service-chip {
+      background: #f1f5f9;
+      border-radius: 40px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.2s ease;
+    }
 
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-        }
+    .service-chip i {
+      font-size: 0.9rem;
+      color: #4b6b8f;
+    }
 
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+    .service-chip.selected {
+      background: #0066cc;
+      color: white;
+      border-color: #004c99;
+      box-shadow: 0 6px 12px -8px rgba(0,102,204,0.4);
+    }
 
-        .radio-group {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+    .service-chip.selected i {
+      color: white;
+    }
 
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
+    .inline-note {
+      font-size: 0.7rem;
+      color: #6c86a3;
+      margin-top: 8px;
+      margin-left: 6px;
+    }
 
-        .radio-option input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
+    .empty-field-info {
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: #9aaebf;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
 
-        .radio-option span {
-            color: #4a5568;
-            font-size: 14px;
-        }
+    /* Botones de acción duales */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
 
-        .radio-group-horizontal {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 5px;
-        }
+    .btn-primary, .btn-secondary {
+      flex: 1;
+      padding: 1rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
 
-        .additional-info {
-            background: #fff3e0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid #ff9800;
-        }
+    .btn-primary {
+      background: #003366;
+      color: white;
+      box-shadow: 0 8px 20px -6px rgba(0,51,102,0.3);
+    }
 
-        .additional-info p {
-            color: #e65100;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .btn-primary:hover {
+      background: #004c99;
+      transform: translateY(-2px);
+    }
 
-        .services-list {
-            margin-top: 15px;
-            padding: 20px;
-            background: #e8f5e9;
-            border-radius: 8px;
-            border-left: 4px solid #4caf50;
-        }
+    .btn-secondary {
+      background: #2c3e50;
+      color: white;
+      box-shadow: 0 5px 12px -5px rgba(0,0,0,0.2);
+    }
 
-        .services-list p {
-            color: #2e7d32;
-            font-size: 14px;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
+    .btn-secondary:hover {
+      background: #1e2f3f;
+      transform: translateY(-2px);
+    }
 
-        .service-checkboxes {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    /* Panel de respuestas estilo profesional */
+    .answers-panel {
+      background: #f8fafc;
+      border-radius: 1.5rem;
+      border: 1px solid #e2edf2;
+      margin-top: 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
 
-        .service-checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #c6f6d5;
-        }
+    .answers-header {
+      background: #eef3fc;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 2px solid #dce5f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-        .service-checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #4caf50;
-        }
+    .answers-header h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #003366;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .service-checkbox-item label {
-            color: #2e7d32;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            flex: 1;
-        }
+    .copy-btn {
+      background: #ffffff;
+      border: 1.5px solid #cbdde9;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      color: #1e4663;
+    }
 
-        .form-footer {
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
+    .copy-btn:hover {
+      background: #e6f0fa;
+      border-color: #0066cc;
+      transform: scale(1.02);
+    }
 
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .answers-content {
+      padding: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
+    .answer-item {
+      background: white;
+      margin-bottom: 1rem;
+      padding: 1rem 1.2rem;
+      border-radius: 1rem;
+      border-left: 5px solid #0066cc;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
+    .answer-question {
+      font-weight: 700;
+      color: #00264d;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
 
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #4a5568;
-        }
+    .answer-question i {
+      color: #0066cc;
+      width: 24px;
+    }
 
-        .btn-secondary:hover {
-            background: #cbd5e0;
-            transform: translateY(-2px);
-        }
+    .answer-value {
+      color: #2c3e50;
+      padding-left: 34px;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
 
-        .btn-success {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
-        }
+    .empty-value {
+      color: #b91c1c;
+      font-style: italic;
+      opacity: 0.7;
+    }
 
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(72, 187, 120, 0.4);
-        }
+    footer {
+      background: #f8fafd;
+      border-top: 1px solid #e2edf2;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6c86a3;
+    }
 
-        .required-field::after {
-            content: "*";
-            color: #e53e3e;
-            margin-left: 4px;
-        }
+    @media (max-width: 680px) {
+      .form-card {
+        padding: 1.5rem;
+      }
+      .header-cnt {
+        padding: 1.2rem 1.5rem;
+      }
+      .action-buttons {
+        flex-direction: column;
+      }
+      .answer-value {
+        padding-left: 28px;
+      }
+    }
 
-        .field-note {
-            color: #718096;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .empty-field {
-            background: #f0f4f8;
-            border: 2px dashed #cbd5e0;
-        }
-
-        .service-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .service-tag {
-            background: white;
-            color: #2e7d32;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid #4caf50;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .service-tag:hover {
-            background: #4caf50;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
-        }
-
-        .service-tag.selected {
-            background: #4caf50;
-            color: white;
-            border-color: #2e7d32;
-        }
-
-        @media (max-width: 768px) {
-            .form-body {
-                padding: 20px;
-            }
-            
-            .question-item {
-                padding: 20px;
-            }
-            
-            .radio-group {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .form-footer {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
-    </style>
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #1f2f3e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 1100;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-card">
-            <div class="header">
-                <div class="cnt-logo">
-                   
-                </div>
-                <h2>Batería de Preguntas para proceso de Validación de Clientes</h2>
-            </div>
-            
-            <div class="form-body">
-                <form id="validationForm">
-                    <!-- Pregunta 1 -->
-                    <div class="question-item">
-                        <div class="question-text">
-                            <strong>1.</strong> El pago de sus 2 últimas facturas, ¿por qué medio lo realizó?
-                            <span class="service-badge">FIJA</span>
-                            <span class="service-badge">MÓVIL</span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="required-field">Medio de pago <span class="service-badge-small">solo dos opciones</span></label>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="medioPago" value="ventanilla" required>
-                                    <span>Ventanilla</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="medioPago" value="debito">
-                                    <span>Débito</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- Campo vacío -->
-                        <div class="form-group">
-                            <label>Observaciones / Notas</label>
-                            <input type="text" class="form-control empty-field" placeholder="Espacio para observaciones (opcional)">
-                        </div>
-                    </div>
-                    
-                    <!-- Pregunta 2 -->
-                    <div class="question-item">
-                        <div class="question-text">
-                            <strong>2.</strong> ¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago)
-                            <span class="service-badge">FIJA</span>
-                            <span class="service-badge">MÓVIL</span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="required-field">Tipo de tarjeta</label>
-                            <div class="radio-group-horizontal">
-                                <label class="radio-option">
-                                    <input type="radio" name="cardType" value="Débito" required>
-                                    <span>Débito</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="cardType" value="Crédito">
-                                    <span>Crédito</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- Campo vacío -->
-                        <div class="form-group">
-                            <label>Últimos 4 dígitos</label>
-                            <input type="text" class="form-control empty-field" maxlength="4" pattern="[0-9]{4}" placeholder="Ingrese los 4 últimos dígitos">
-                            <div class="field-note">Campo para los 4 últimos dígitos</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Pregunta 3 -->
-                    <div class="question-item">
-                        <div class="question-text">
-                            <strong>3.</strong> Verifico en el sistema que Usted se ha comunicado con nosotros, por favor confírmeme en qué mes lo realizó, sin contar esta llamada.
-                        </div>
-                        
-                        <!-- Campo vacío -->
-                        <div class="form-group">
-                            <label class="required-field">Mes de última comunicación</label>
-                            <input type="text" class="form-control empty-field" placeholder="Ej: Enero 2024" required>
-                        </div>
-                    </div>
-                    
-                    <!-- Pregunta 4 - EXACTAMENTE COMO EN LA IMAGEN -->
-                    <div class="question-item">
-                        <div class="question-text">
-                            <strong>4.</strong> ¿Usted posee otros servicios con CNT?
-                            <span class="service-badge-fija">FIJA</span>
-                            <span class="service-badge-movil">MÓVIL</span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <div class="radio-group-horizontal" style="margin-bottom: 20px;">
-                                <label class="radio-option">
-                                    <input type="radio" name="otrosServicios" value="Sí" id="serviciosSi">
-                                    <span style="font-size: 15px; font-weight: 500;">Sí</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="otrosServicios" value="No" id="serviciosNo">
-                                    <span style="font-size: 15px; font-weight: 500;">No</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- Opciones de servicios adicionales con estilo de tags (exactamente como en la imagen) -->
-                        <div id="serviciosAdicionales" style="display: none;">
-                            <div class="services-list" style="background: #f0f9f0; border-left: 4px solid #4caf50;">
-                                <p style="color: #2e7d32; font-size: 15px; font-weight: 600; margin-bottom: 20px;">Seleccione los servicios adicionales que posee:</p>
-                                <div class="service-tags">
-                                    <span class="service-tag" onclick="toggleService(this, 'Internet fijo')">Internet</span>
-                                    <span class="service-tag" onclick="toggleService(this, 'Telefonía fija')">Telefonía fija</span>
-                                    <span class="service-tag" onclick="toggleService(this, 'DTH')">DTH</span>
-                                    <span class="service-tag" onclick="toggleService(this, 'Telefonía Móvil')">Telefonía Móvil</span>
-                                </div>
-                                <input type="hidden" id="serviciosSeleccionados" value="">
-                            </div>
-                        </div>
-                        
-                        <!-- Mensaje si selecciona No -->
-                        <div id="serviciosNoMessage" style="display: none;">
-                            <div class="additional-info">
-                                <p>✅ El RAC confirmará la información mediante omnicanal.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-footer">
-                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Limpiar formulario</button>
-                        <button type="button" class="btn btn-success" onclick="guardarEnTXT()">📥 Guardar en TXT</button>
-                        
-                    </div>
-                </form>
-            </div>
+
+<div class="form-container">
+  <div class="header-cnt">
+    <h1>
+      <i class="fas fa-phone-alt"></i> 
+      .
+    </h1>
+    <p>Preguntas de seguridad</p>
+  </div>
+
+  <div class="form-card">
+    <form id="cntForm">
+      <!-- 1. MEDIO DE PAGO (2 últimas facturas) -->
+      <div class="field-group">
+        <label><i class="fas fa-credit-card"></i>El Pago de sus 2 últimas facturas, ¿por qué medio lo realizó? <span class="required-star">*</span></label>
+        <div class="radio-group" id="paymentMethodGroup">
+          <label class="radio-option">
+            <input type="radio" name="paymentMethod" value="VENTANILLA"> VENTANILLA
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="paymentMethod" value="DEBITO"> DÉBITO / TARJETA
+          </label>
         </div>
+      </div>
+
+      <!-- 2. 4 últimos dígitos de tarjeta débito/crédito -->
+      <div class="field-group">
+        <label><i class="fas fa-credit-card"></i> ¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? <span class="required-star">*</span></label>
+        <input type="text" id="lastDigits" name="lastDigits" maxlength="4" placeholder="Ej: 1234" autocomplete="off">
+        <div class="empty-field-info"><i class="fas fa-info-circle"></i> Requerido, solo 4 números</div>
+      </div>
+
+      <!-- 3. Otros servicios con CNT (selección múltiple estilo profesional) -->
+      <div class="field-group">
+        <label><i class="fas fa-network-wired"></i> ¿Usted posee otros servicios con CNT? (Multiselección)</label>
+        <div class="multi-select-box">
+          <div class="chips-container" id="servicesChips">
+            <div class="service-chip" data-value="TELEFONIA FIJA"><i class="fas fa-phone"></i> Telefonía Fija</div>
+            <div class="service-chip" data-value="INTERNET FIJO"><i class="fas fa-wifi"></i> Internet Fijo</div>
+            <div class="service-chip" data-value="DTH"><i class="fas fa-satellite-dish"></i> DTH (TV Satelital)</div>
+            <div class="service-chip" data-value="SERVICIO MOVIL"><i class="fas fa-mobile-alt"></i> Servicio Móvil</div>
+          </div>
+        </div>
+        <input type="hidden" id="otherServices" name="otherServices" value="">
+        <div class="inline-note"><i class="far fa-check-circle"></i> Seleccione uno o más servicios si aplica</div>
+      </div>
+
+      <!-- 4. Correo electrónico factura digital -->
+      <div class="field-group">
+        <label><i class="fas fa-envelope"></i> Correo electrónico donde recibe su factura digital <span class="required-star">*</span></label>
+        <input type="email" id="emailFactura" name="emailFactura" placeholder="cliente@correo.com" autocomplete="email">
+        <div class="empty-field-info"><i class="fas fa-at"></i> Formato válido requerido</div>
+      </div>
+
+      <!-- 5. Petición de retiro en últimos 3 meses -->
+      <div class="field-group">
+        <label><i class="fas fa-exchange-alt"></i>Me puede confirmar si en los últimos 3 meses realizó una petición de retiro del servicio</label>
+        <input type="text" id="retiroServicio" name="retiroServicio" placeholder="Escriba su respuesta (Sí/No o detalles)" autocomplete="off">
+        <div class="empty-field-info"><i class="fas fa-pen-alt"></i> Campo opcional</div>
+      </div>
+
+      <!-- Botones duales: mostrar respuestas y copiar (se colocan debajo de los campos pero antes del panel) -->
+      <div class="action-buttons">
+        <button type="button" id="showAnswersBtn" class="btn-primary"><i class="fas fa-eye"></i> Mostrar respuestas</button>
+        <button type="button" id="copyAnswersBtn" class="btn-secondary"><i class="fas fa-copy"></i> Copiar respuestas</button>
+      </div>
+    </form>
+
+    <!-- Panel de respuestas que se muestra debajo de los botones -->
+    <div id="answersPanel" class="answers-panel" style="display: none;">
+      <div class="answers-header">
+        <h3><i class="fas fa-clipboard-list"></i> Respuestas del formulario</h3>
+        <button id="inlineCopyBtn" class="copy-btn"><i class="fas fa-copy"></i> Copiar todo</button>
+      </div>
+      <div class="answers-content" id="answersContent">
+        <!-- Aquí se renderizan dinámicamente las preguntas y respuestas -->
+      </div>
     </div>
+  </div>
+  <footer>
+    <i class="far fa-clock"></i> Información confidencial • CNT Corporación Nacional de Telecomunicaciones
+  </footer>
+</div>
+<div id="toastMessage" class="toast-msg">✅ Copiado al portapapeles</div>
 
-    <script>
-        // Variable para almacenar servicios seleccionados
-        let serviciosArray = [];
-        
-        // Función para toggle de servicios (estilo tags)
-        function toggleService(element, servicio) {
-            element.classList.toggle('selected');
-            
-            if (element.classList.contains('selected')) {
-                if (!serviciosArray.includes(servicio)) {
-                    serviciosArray.push(servicio);
-                }
-            } else {
-                const index = serviciosArray.indexOf(servicio);
-                if (index > -1) {
-                    serviciosArray.splice(index, 1);
-                }
-            }
-            
-            document.getElementById('serviciosSeleccionados').value = serviciosArray.join(', ');
+<script>
+  // -------- Lógica de chips (servicios múltiples) ----------
+  const chips = document.querySelectorAll('.service-chip');
+  const otherServicesHidden = document.getElementById('otherServices');
+  let selectedServices = [];
+
+  function updateChipsUI() {
+    chips.forEach(chip => {
+      const value = chip.getAttribute('data-value');
+      if (selectedServices.includes(value)) {
+        chip.classList.add('selected');
+      } else {
+        chip.classList.remove('selected');
+      }
+    });
+    otherServicesHidden.value = selectedServices.join(', ');
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const serviceVal = chip.getAttribute('data-value');
+      if (selectedServices.includes(serviceVal)) {
+        selectedServices = selectedServices.filter(s => s !== serviceVal);
+      } else {
+        selectedServices.push(serviceVal);
+      }
+      updateChipsUI();
+    });
+  });
+  updateChipsUI();
+
+  // -------- Helper para obtener datos actuales del formulario (preguntas y respuestas) ----------
+  function getCurrentFormData() {
+    // medio de pago
+    const selectedPaymentRadio = document.querySelector('input[name="paymentMethod"]:checked');
+    const paymentMethod = selectedPaymentRadio ? selectedPaymentRadio.value : 'No seleccionado';
+
+    // últimos dígitos
+    const lastDigits = document.getElementById('lastDigits').value.trim();
+    const lastDigitsValue = lastDigits === '' ? '(vacío - requerido)' : lastDigits;
+
+    // otros servicios (desde hidden actualizado)
+    const otherServicesVal = otherServicesHidden.value.trim();
+    const servicesDisplay = otherServicesVal === '' ? 'Ninguno seleccionado' : otherServicesVal;
+
+    // correo
+    const email = document.getElementById('emailFactura').value.trim();
+    const emailValue = email === '' ? '(vacío - requerido)' : email;
+
+    // retiro servicio
+    const retiro = document.getElementById('retiroServicio').value.trim();
+    const retiroValue = retiro === '' ? '(sin especificar)' : retiro;
+
+    return {
+      payment: { question: "El Pago de sus 2 últimas facturas, ¿por qué medio lo realizó?", answer: paymentMethod },
+      digits: { question: "¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito?", answer: lastDigitsValue },
+      services: { question: "¿Usted posee otros servicios con CNT?", answer: servicesDisplay },
+      email: { question: "Correo electrónico donde recibe su factura digital", answer: emailValue },
+      retiro: { question: "Me puede confirmar si en los últimos 3 meses realizó una petición de retiro del servicio", answer: retiroValue }
+    };
+  }
+
+  // -------- Renderizar panel de respuestas (muestra abajo) ----------
+  function renderAnswersPanel() {
+    const data = getCurrentFormData();
+    const answersContentDiv = document.getElementById('answersContent');
+    if (!answersContentDiv) return;
+    
+    let html = '';
+    for (const key in data) {
+      const item = data[key];
+      const answerClass = (item.answer.includes('vacío') || item.answer === 'No seleccionado' || (item.answer === '(sin especificar)' && key === 'retiro')) ? 'empty-value' : '';
+      html += `
+        <div class="answer-item">
+          <div class="answer-question">
+            <i class="fas fa-question-circle"></i> ${escapeHtml(item.question)}
+          </div>
+          <div class="answer-value ${answerClass}">
+            ${escapeHtml(item.answer)}
+          </div>
+        </div>
+      `;
+    }
+    answersContentDiv.innerHTML = html;
+  }
+
+  // simple escape para evitar inyecciones
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  // -------- Mostrar panel (hacer visible y actualizar contenido) --------
+  function showAnswersPanel() {
+    const panel = document.getElementById('answersPanel');
+    if (!panel) return;
+    // Validar campos requeridos antes de mostrar? Se puede mostrar igual pero con advertencias visuales.
+    // Pero según requisito: botón para mostrar las respuestas y preguntas abajo.
+    // Actualizamos contenido
+    renderAnswersPanel();
+    panel.style.display = 'block';
+    // Scroll suave hacia el panel
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // -------- Función para copiar al portapapeles (formato texto) --------
+  async function copyAnswersToClipboard() {
+    const data = getCurrentFormData();
+    let textToCopy = "=== RESPUESTAS FORMULARIO CNT ===\n\n";
+    for (const key in data) {
+      const item = data[key];
+      textToCopy += `${item.question}\n➜ ${item.answer}\n\n`;
+    }
+    textToCopy += "--- Documento generado el: " + new Date().toLocaleString() + " ---";
+    
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      showToast("✅ Respuestas copiadas al portapapeles");
+    } catch (err) {
+      console.error('Error al copiar: ', err);
+      // fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = textToCopy;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showToast("📋 Copiado (método alternativo)");
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastMessage');
+    toast.textContent = msg || "✅ Copiado al portapapeles";
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+
+  // -------- Validación campos requeridos (opcional pero útil antes de mostrar si desea aviso, pero no obligatorio para el botón mostrar) --------
+  // Sin embargo, el botón "Mostrar respuestas" muestra el estado actual de los campos, aunque estén vacíos.
+  // También el botón de copiar toma los valores actuales.
+  // Para mejorar UX: si el usuario quiere verificar campos obligatorios podemos mostrar una advertencia ligera pero no bloqueamos.
+  
+  // -------- Eventos de los botones --------
+  const showBtn = document.getElementById('showAnswersBtn');
+  const copyBtn = document.getElementById('copyAnswersBtn');
+  const inlineCopyBtn = document.getElementById('inlineCopyBtn');
+
+  if (showBtn) {
+    showBtn.addEventListener('click', () => {
+      // Opcional: Revisar campos requeridos y mostrar un hint sutil sin bloquear.
+      const paymentOk = document.querySelector('input[name="paymentMethod"]:checked');
+      const digitsOk = /^\d{4}$/.test(document.getElementById('lastDigits').value.trim());
+      const emailOk = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(document.getElementById('emailFactura').value.trim());
+      if (!paymentOk || !digitsOk || !emailOk) {
+        // mostramos notificación no bloqueante pero avisamos que hay campos obligatorios pendientes
+        showToast("⚠️ Algunos campos requeridos están vacíos o incorrectos (medio pago, 4 dígitos, correo)");
+      }
+      showAnswersPanel();
+    });
+  }
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      // Primero actualizamos servicios hidden sincronizado
+      updateChipsUI();
+      copyAnswersToClipboard();
+    });
+  }
+
+  if (inlineCopyBtn) {
+    inlineCopyBtn.addEventListener('click', () => {
+      updateChipsUI();
+      copyAnswersToClipboard();
+    });
+  }
+
+  // También, cuando se cambien los datos dinámicamente (radio, inputs, chips) no auto actualiza el panel si está oculto, pero al darle a mostrar siempre lo actualiza.
+  // Para mejorar la experiencia, si el panel ya está visible, podríamos actualizarlo automáticamente? O al darle al botón "Mostrar respuestas" refresca.
+  // Además, para el botón copiar desde el header inline, se asegura de copiar lo último.
+  
+  // Restringir últimos dígitos a solo números y longitud 4
+  const digitsField = document.getElementById('lastDigits');
+  digitsField.addEventListener('input', (e) => {
+    let val = e.target.value.replace(/\D/g, '');
+    if (val.length > 4) val = val.slice(0,4);
+    e.target.value = val;
+  });
+
+  // Sincronizar al cambiar los chips manualmente
+  const syncHiddenAndMaybeUpdate = () => {
+    updateChipsUI();
+    // si el panel está visible se podría actualizar en tiempo real, pero mejor no sobrecargar.
+    if (document.getElementById('answersPanel').style.display === 'block') {
+      renderAnswersPanel();
+    }
+  };
+  // Añadir evento a cada chip para refrescar panel si está abierto
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      syncHiddenAndMaybeUpdate();
+    });
+  });
+  // también eventos input de los campos principales
+  const inputsToWatch = ['lastDigits', 'emailFactura', 'retiroServicio'];
+  inputsToWatch.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => {
+        if (document.getElementById('answersPanel').style.display === 'block') {
+          renderAnswersPanel();
         }
-        
-        // Mostrar/ocultar secciones según selección de servicios adicionales
-        document.addEventListener('DOMContentLoaded', function() {
-            const serviciosSi = document.getElementById('serviciosSi');
-            const serviciosNo = document.getElementById('serviciosNo');
-            const serviciosAdicionales = document.getElementById('serviciosAdicionales');
-            const serviciosNoMessage = document.getElementById('serviciosNoMessage');
-            
-            function updateServiciosVisibility() {
-                if (serviciosSi && serviciosSi.checked) {
-                    serviciosAdicionales.style.display = 'block';
-                    serviciosNoMessage.style.display = 'none';
-                } else if (serviciosNo && serviciosNo.checked) {
-                    serviciosAdicionales.style.display = 'none';
-                    serviciosNoMessage.style.display = 'block';
-                    
-                    // Limpiar servicios seleccionados
-                    serviciosArray = [];
-                    document.getElementById('serviciosSeleccionados').value = '';
-                    
-                    // Quitar selected de todos los tags
-                    document.querySelectorAll('.service-tag').forEach(tag => {
-                        tag.classList.remove('selected');
-                    });
-                } else {
-                    serviciosAdicionales.style.display = 'none';
-                    serviciosNoMessage.style.display = 'none';
-                }
-            }
-            
-            if (serviciosSi) serviciosSi.addEventListener('change', updateServiciosVisibility);
-            if (serviciosNo) serviciosNo.addEventListener('change', updateServiciosVisibility);
-            
-            // Validación del formulario
-            document.getElementById('validationForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Formulario validado correctamente');
-            });
-        });
-        
-        // Función para resetear el formulario
-        function resetForm() {
-            document.getElementById('validationForm').reset();
-            
-            const serviciosAdicionales = document.getElementById('serviciosAdicionales');
-            const serviciosNoMessage = document.getElementById('serviciosNoMessage');
-            
-            if (serviciosAdicionales) serviciosAdicionales.style.display = 'none';
-            if (serviciosNoMessage) serviciosNoMessage.style.display = 'none';
-            
-            // Limpiar servicios seleccionados
-            serviciosArray = [];
-            document.getElementById('serviciosSeleccionados').value = '';
-            
-            // Quitar selected de todos los tags
-            document.querySelectorAll('.service-tag').forEach(tag => {
-                tag.classList.remove('selected');
-            });
-        }
-        
-        // Función para guardar en TXT
-        function guardarEnTXT() {
-            // Obtener valores del formulario
-            const medioPago = document.querySelector('input[name="medioPago"]:checked')?.value || 'No especificado';
-            const observaciones1 = document.querySelector('.question-item:first-child .empty-field')?.value || 'Sin observaciones';
-            
-            const tipoTarjeta = document.querySelector('input[name="cardType"]:checked')?.value || 'No especificado';
-            const ultimosDigitos = document.querySelectorAll('.question-item')[1]?.querySelector('.empty-field')?.value || 'No ingresado';
-            
-            const mesComunicacion = document.querySelectorAll('.question-item')[2]?.querySelector('.empty-field')?.value || 'No especificado';
-            
-            const otrosServicios = document.querySelector('input[name="otrosServicios"]:checked')?.value || 'No especificado';
-            
-            // Obtener servicios adicionales seleccionados del array
-            const serviciosDetalle = otrosServicios === 'Sí' ? 
-                (serviciosArray.length > 0 ? serviciosArray.join(', ') : 'No seleccionó servicios específicos') : 
-                'No aplica';
-            
-            // Crear contenido del archivo
-            const fechaActual = new Date();
-            const fechaFormateada = fechaActual.toLocaleDateString('es-EC', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            const contenido = `Batería de Preguntas para proceso de Validación de Clientes
-=====================================
-Fecha de validación: ${fechaFormateada}
+      });
+    }
+  });
+  // radio buttons cambio
+  const radioButtons = document.querySelectorAll('input[name="paymentMethod"]');
+  radioButtons.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (document.getElementById('answersPanel').style.display === 'block') {
+        renderAnswersPanel();
+      }
+    });
+  });
 
-PREGUNTAS OBLIGATORIAS:
-------------------------
-1. PAGOS POR VENTANILLA:
-   • Medio de pago: ${medioPago}
-   • Observaciones: ${observaciones1}
-
-2. TARJETA DE DÉBITO/CRÉDITO:
-   • Tipo de tarjeta: ${tipoTarjeta}
-   • Últimos 4 dígitos: ${ultimosDigitos}
-
-PREGUNTAS ADICIONALES:
-------------------------
-3. ÚLTIMA COMUNICACIÓN:
-   • Mes/Año: ${mesComunicacion}
-
-4. OTROS SERVICIOS CNT:
-   • ¿Posee otros servicios?: ${otrosServicios}
-   • Servicios adicionales: ${serviciosDetalle}
-   ${otrosServicios === 'No' ? '   ✅ El RAC confirmará la información mediante omnicanal.' : ''}
-
-=====================================
-
-`;
-            
-            // Crear blob y descargar archivo
-            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `validacion_cliente_${fechaActual.getTime()}.txt`;
-            link.click();
-            URL.revokeObjectURL(link.href);
-            
-            // Mostrar mensaje de confirmación
-            alert('✅ Archivo guardado exitosamente');
-        }
-    </script>
+  // inicialización: panel oculto, al dar click mostrar se despliega
+  // Adicionalmente si se quiere que el botón copiar copie también cuando panel aun no visible, funciona igual
+  // Ajuste estético: toast ya definido.
+  
+  // Prevenir submit de formulario (no necesitamos enviar realmente)
+  const mainForm = document.getElementById('cntForm');
+  if (mainForm) {
+    mainForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast("Utilice los botones 'Mostrar respuestas' y 'Copiar respuestas'");
+    });
+  }
+  
+  console.log("Formulario mejorado con botón mostrar respuestas y copiar funcionando");
+</script>
 </body>
 </html>
