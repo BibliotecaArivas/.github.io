@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>TextMaster Pro | Convertidor a Mayúsculas Profesional</title>
+    <meta name="description" content="Herramienta profesional para transformar texto a mayúsculas con estilo y precisión. Diseño moderno y responsive.">
+    <meta name="author" content="TextMaster Pro">
+    <!-- Preconnect para fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fuentes profesionales: Inter y Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (gratuito, CDN) para iconos profesionales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f9 100%);
+            font-family: 'Inter', sans-serif;
+            color: #1a2634;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Contenedor principal con efecto glassmorphism sutil */
+        .app-container {
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        /* Header elegante */
+        .hero {
+            background: linear-gradient(105deg, #0b2b3b 0%, #1c4e6f 100%);
+            padding: 2rem 2.5rem;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .hero h1 i {
+            font-size: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 1.2rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-top: 0.7rem;
+            opacity: 0.85;
+            font-weight: 400;
+            max-width: 85%;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 215, 120, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 215, 120, 0.4);
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 2rem 2.5rem;
+        }
+
+        /* Área de entrada */
+        .input-section {
+            margin-bottom: 2.2rem;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-label label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #2c3e4e;
+            letter-spacing: -0.2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .char-counter {
+            font-size: 0.75rem;
+            background: #e9edf2;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            color: #2c5a74;
+            font-weight: 500;
+        }
+
+        /* Textarea estilizada */
+        .text-input {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            font-family: 'Inter', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            background: white;
+            transition: all 0.25s ease;
+            resize: vertical;
+            font-weight: 450;
+            color: #0a1c2a;
+            outline: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .text-input:focus {
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 4px rgba(44, 125, 160, 0.15);
+        }
+
+        /* Panel de botones con grid elegante */
+        .action-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            background: white;
+            color: #1e4a6b;
+            border: 1px solid #cfdfed;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #1c5d7c;
+            border: none;
+            color: white;
+            box-shadow: 0 8px 18px -8px rgba(28, 93, 124, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #0f4560;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px -10px rgba(28, 93, 124, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cbdde9;
+        }
+
+        .btn-outline:hover {
+            background: #eef3fc;
+            border-color: #8fb1c6;
+            transform: translateY(-1px);
+        }
+
+        .btn-clear {
+            background: #fef3e2;
+            border-color: #f8e2b6;
+            color: #a7692a;
+        }
+
+        .btn-clear:hover {
+            background: #fbe5c2;
+            transform: scale(0.97);
+        }
+
+        /* Área de resultado premium */
+        .result-section {
+            background: #ffffffea;
+            border-radius: 1.8rem;
+            padding: 0.1rem 0;
+            margin-top: 0.8rem;
+            border: 1px solid #eef2f8;
+            box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.8rem 0 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .result-header h3 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #16445f;
+            letter-spacing: -0.2px;
+        }
+
+        .copy-success {
+            font-size: 0.75rem;
+            background: #dff0e3;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            color: #1f6e43;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .copy-success.show {
+            opacity: 1;
+        }
+
+        .result-box {
+            background: #fafdff;
+            margin: 1rem 1.8rem 1.8rem 1.8rem;
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            border: 1px solid #eef2fa;
+            font-family: 'Inter', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1c3b4f;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 160px;
+            transition: background 0.2s;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02), 0 1px 0 white;
+        }
+
+        .empty-result {
+            color: #8ca3b5;
+            font-style: italic;
+            font-weight: 400;
+            user-select: none;
+        }
+
+        /* estadísticas profesionales */
+        .stats-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 2rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e7edf4;
+        }
+
+        .stat-card {
+            background: #f8fafd;
+            border-radius: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            flex: 1;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .stat-card i {
+            font-size: 1.6rem;
+            color: #2c7da0;
+            opacity: 0.8;
+        }
+
+        .stat-info h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #5f7e97;
+        }
+
+        .stat-info .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a4a66;
+            line-height: 1.2;
+        }
+
+        /* footer */
+        .app-footer {
+            background: #f1f5f9;
+            padding: 1.2rem 2.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #5e7d99;
+            border-top: 1px solid #e2eaf1;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* efecto de animación para el resultado al convertir */
+        @keyframes softPulse {
+            0% { background-color: #fafdff; }
+            50% { background-color: #f0f7fe; }
+            100% { background-color: #fafdff; }
+        }
+        .pulse-animation {
+            animation: softPulse 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 780px) {
+            body {
+                padding: 1rem;
+            }
+            .hero, .main-content {
+                padding: 1.5rem;
+            }
+            .hero p {
+                max-width: 100%;
+            }
+            .btn-group {
+                width: 100%;
+            }
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            .action-grid {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-panel {
+                flex-direction: column;
+            }
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="hero">
+        <h1>
+            <i class="fas fa-text-height"></i> 
+            TextMaster Pro
+        </h1>
+        <p>Transformación instantánea a MAYÚSCULAS con estilo profesional. Edita, convierte y copia con un solo clic.</p>
+        <div class="badge">
+            <i class="fas fa-bolt"></i> Conversión en tiempo real · 100% sin servidor
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Sección de entrada -->
+        <div class="input-section">
+            <div class="section-label">
+                <label><i class="fas fa-pen-fancy"></i> Texto original</label>
+                <span class="char-counter" id="charCountDisplay">0 caracteres</span>
+            </div>
+            <textarea id="inputText" class="text-input" rows="5" placeholder="Escribe o pega tu texto aquí...  Ejemplo: Hola mundo, esto se convertirá a MAYÚSCULAS."></textarea>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="action-grid">
+            <div class="btn-group">
+                <button id="toUpperCaseBtn" class="btn btn-primary">
+                    <i class="fas fa-arrow-up"></i> Convertir a MAYÚSCULAS
+                </button>
+                <button id="resetBtn" class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Restablecer
+                </button>
+                <button id="clearAllBtn" class="btn btn-clear">
+                    <i class="fas fa-trash-alt"></i> Limpiar todo
+                </button>
+            </div>
+            <div class="btn-group">
+                <button id="copyResultBtn" class="btn btn-outline">
+                    <i class="fas fa-copy"></i> Copiar resultado
+                </button>
+            </div>
+        </div>
+
+        <!-- Área de resultado premium -->
+        <div class="result-section">
+            <div class="result-header">
+                <h3><i class="fas fa-font"></i> Texto en MAYÚSCULAS</h3>
+                <span id="copyToast" class="copy-success"><i class="fas fa-check-circle"></i> ¡Copiado al portapapeles!</span>
+            </div>
+            <div id="resultBox" class="result-box">
+                <span class="empty-result">✨ El texto convertido aparecerá aquí en mayúsculas...</span>
+            </div>
+            <!-- Panel de estadísticas profesionales -->
+            <div class="stats-panel">
+                <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="stat-info">
+                        <h4>Longitud original</h4>
+                        <div class="stat-value" id="originalLength">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-arrow-up"></i>
+                    <div class="stat-info">
+                        <h4>Caracteres (Mayús)</h4>
+                        <div class="stat-value" id="upperLength">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-language"></i>
+                    <div class="stat-info">
+                        <h4>Palabras aprox.</h4>
+                        <div class="stat-value" id="wordCount">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-microchip"></i>
+                    <div class="stat-info">
+                        <h4>Modo</h4>
+                        <div class="stat-value" id="modeIndicator">MAYÚS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-footer">
+        <span><i class="far fa-copyright"></i> TextMaster Pro — Herramienta profesional de transformación textual</span>
+        <span><i class="fas fa-magic"></i> Conversión instantánea | 100% local</span>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Elementos DOM
+        const inputTextarea = document.getElementById('inputText');
+        const resultBox = document.getElementById('resultBox');
+        const toUpperBtn = document.getElementById('toUpperCaseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const copyResultBtn = document.getElementById('copyResultBtn');
+        const copyToast = document.getElementById('copyToast');
+        
+        // Elementos de estadísticas
+        const originalLengthSpan = document.getElementById('originalLength');
+        const upperLengthSpan = document.getElementById('upperLength');
+        const wordCountSpan = document.getElementById('wordCount');
+        const modeIndicator = document.getElementById('modeIndicator');
+        const charCountDisplay = document.getElementById('charCountDisplay');
+        
+        // Estado actual del texto en mayúsculas (resultado)
+        let currentUpperCaseText = '';
+        
+        // Función para contar palabras (aproximado profesional, ignora espacios múltiples)
+        function countWords(str) {
+            if (!str || str.trim() === '') return 0;
+            return str.trim().split(/\s+/).filter(word => word.length > 0).length;
+        }
+        
+        // Actualizar contadores generales basado en el texto original
+        function updateStatsFromOriginal(originalText) {
+            const originalLen = originalText.length;
+            originalLengthSpan.innerText = originalLen;
+            charCountDisplay.innerText = `${originalLen} caracteres`;
+            // palabras desde el texto original
+            const words = countWords(originalText);
+            wordCountSpan.innerText = words;
+        }
+        
+        // Actualizar el campo de resultado con animación sutil
+        function displayUpperCaseText(uppercaseStr, originalTextForStats) {
+            currentUpperCaseText = uppercaseStr;
+            // Si el texto en mayúsculas está vacío, mostrar placeholder elegante
+            if (!uppercaseStr || uppercaseStr === '') {
+                resultBox.innerHTML = '<span class="empty-result">📄 El resultado aparecerá aquí después de convertir...</span>';
+                upperLengthSpan.innerText = '0';
+                modeIndicator.innerText = '—';
+                return;
+            }
+            // Mostrar texto con formato preservando espacios
+            resultBox.innerText = uppercaseStr;
+            // Actualizar longitud mayúsculas
+            upperLengthSpan.innerText = uppercaseStr.length;
+            modeIndicator.innerText = 'MAYÚS';
+            
+            // Pequeña animación para feedback profesional
+            resultBox.classList.add('pulse-animation');
+            setTimeout(() => {
+                resultBox.classList.remove('pulse-animation');
+            }, 500);
+        }
+        
+        // Función principal de conversión a mayúsculas y actualización completa
+        function convertToUpperCase() {
+            const originalText = inputTextarea.value;
+            // Actualizar estadísticas de entrada
+            updateStatsFromOriginal(originalText);
+            
+            if (originalText === '') {
+                displayUpperCaseText('', originalText);
+                return;
+            }
+            
+            const upperResult = originalText.toUpperCase();
+            displayUpperCaseText(upperResult, originalText);
+            // Actualizar también contadores de palabras desde el original (ya lo hizo updateStatsFromOriginal)
+            // pero sincronizar modo y estadísticas adicionales: ya está.
+        }
+        
+        // Función para reset: copiar el texto original (sin cambios) y convertirlo a mayúsculas? No, según experiencia: 
+        // Restablecer significa restaurar el texto original (si hubo cambios manuales) y volver a mostrar mayúsculas basado en el contenido actual.
+        // Pero para mejor UX: el botón "Restablecer" tomará el valor actual del textarea y aplicará la conversión a mayúsculas nuevamente.
+        // Ideal para cuando el usuario editó manualmente después de alguna conversión, o quiere refrescar la salida.
+        function resetTransformation() {
+            // Simplemente disparar la conversión basada en el texto actual del textarea
+            convertToUpperCase();
+            // Mostrar feedback sutil: se puede enfocar textarea
+            inputTextarea.focus();
+        }
+        
+        // Limpiar todo: borrar textarea y limpiar resultado, resetear estadísticas
+        function clearAll() {
+            inputTextarea.value = '';
+            updateStatsFromOriginal('');
+            displayUpperCaseText('', '');
+            // adicional: modo indicador neutro
+            modeIndicator.innerText = 'MAYÚS';
+            upperLengthSpan.innerText = '0';
+            // palabra contador a 0
+            wordCountSpan.innerText = '0';
+            originalLengthSpan.innerText = '0';
+            charCountDisplay.innerText = '0 caracteres';
+            // Opcional: focus
+            inputTextarea.focus();
+        }
+        
+        // Copiar el resultado actual al portapapeles con toast moderno
+        async function copyToClipboard() {
+            if (!currentUpperCaseText || currentUpperCaseText === '') {
+                // Si no hay texto, mostrar mensaje de error temporal
+                const toastMsg = copyToast;
+                toastMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Sin texto para copiar';
+                toastMsg.classList.add('show');
+                setTimeout(() => {
+                    toastMsg.classList.remove('show');
+                    toastMsg.innerHTML = '<i class="fas fa-check-circle"></i> ¡Copiado al portapapeles!';
+                }, 1500);
+                return;
+            }
+            
+            try {
+                await navigator.clipboard.writeText(currentUpperCaseText);
+                copyToast.innerHTML = '<i class="fas fa-check-circle"></i> ¡Copiado al portapapeles!';
+                copyToast.classList.add('show');
+                setTimeout(() => {
+                    copyToast.classList.remove('show');
+                }, 2000);
+            } catch (err) {
+                console.error('Error al copiar: ', err);
+                copyToast.innerHTML = '<i class="fas fa-times-circle"></i> Error al copiar';
+                copyToast.classList.add('show');
+                setTimeout(() => {
+                    copyToast.classList.remove('show');
+                    copyToast.innerHTML = '<i class="fas fa-check-circle"></i> ¡Copiado al portapapeles!';
+                }, 1500);
+            }
+        }
+        
+        // Eventos interactivos avanzados:
+        // 1. Botón principal convertir a mayúsculas
+        toUpperBtn.addEventListener('click', convertToUpperCase);
+        
+        // 2. Botón restablecer (vuelve a aplicar mayúsculas al texto actual del área)
+        resetBtn.addEventListener('click', resetTransformation);
+        
+        // 3. Botón limpiar todo
+        clearAllBtn.addEventListener('click', clearAll);
+        
+        // 4. Copiar resultado
+        copyResultBtn.addEventListener('click', copyToClipboard);
+        
+        // 5. Característica extra: Conversión en tiempo real opcional? No para no sobrecargar, pero ofrecemos atajo con tecla Enter? 
+        // De todas formas, también podemos escuchar el evento 'input' para actualizar estadísticas en vivo sin afectar la mayúscula automática (más profesional).
+        // Para dar una experiencia fluida: actualizar estadísticas mientras escribe y permitir que el usuario decida cuándo convertir.
+        inputTextarea.addEventListener('input', function() {
+            const rawText = inputTextarea.value;
+            updateStatsFromOriginal(rawText);
+            // Si el resultado actual ya existe, pero preferimos no cambiar el resultado a menos que el usuario quiera.
+            // Para evitar confusión, mantenemos la última conversión mostrada, pero el usuario puede pulsar convertir.
+            // Sin embargo, opcionalmente si el usuario quiere una "vista previa" podríamos tener un modo automático,
+            // pero para mantener el control profesional, solo actualizamos estadísticas.
+            // De todas formas, si el textarea queda vacío podemos limpiar resultado visual si está vacío y no hay conversión
+            if (rawText === '' && currentUpperCaseText !== '') {
+                // No limpiamos forzosamente, pero es mejor mantener el resultado coherente.
+                // Podríamos dejar el resultado, pero indicamos con estadística que original está vacío.
+                // Para mejor UX, si el usuario borra todo y después quiere convertir, lo hará con botón.
+                // Nada más.
+            }
+        });
+        
+        // Evento opcional: si el usuario presiona Ctrl+Enter (Cmd+Enter) en el textarea, realizar conversión
+        inputTextarea.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                convertToUpperCase();
+            }
+        });
+        
+        // Inicialización: mostrar estado limpio
+        clearAll();
+        
+        // Añadir pequeño tooltip para botones (experiencia refinada)
+        const btns = document.querySelectorAll('.btn');
+        btns.forEach(btn => {
+            btn.setAttribute('title', btn.innerText.trim());
+        });
+        
+        // Estadística adicional: si el texto copiado tiene éxito, mantener estado.
+        // También al cargar, si hay algún texto de prueba para mostrar dinamismo: dejamos un ejemplo inicial profesional
+        // con un texto de muestra para mostrar capacidad.
+        const demoText = "Bienvenido a TextMaster Pro.\nEscribe cualquier texto y conviértelo a MAYÚSCULAS al instante.\n¡Diseño profesional y responsivo!";
+        inputTextarea.value = demoText;
+        updateStatsFromOriginal(demoText);
+        // Generar la primera conversión automática para mostrar la potencia
+        const initialUpper = demoText.toUpperCase();
+        displayUpperCaseText(initialUpper, demoText);
+        currentUpperCaseText = initialUpper;
+        upperLengthSpan.innerText = initialUpper.length;
+        modeIndicator.innerText = 'MAYÚS';
+        wordCountSpan.innerText = countWords(demoText);
+    })();
+</script>
+</body>
+</html>
