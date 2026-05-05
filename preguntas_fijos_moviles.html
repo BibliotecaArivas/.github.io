@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title></title>
-  <!-- Fuentes profesionales -->
+  <title>CNT · Preguntas de seguridad</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -23,7 +21,6 @@
       min-height: 100vh;
     }
 
-    /* Contenedor principal */
     .form-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -33,7 +30,6 @@
       overflow: hidden;
     }
 
-    /* Header corporativo */
     .header-cnt {
       background: #003366;
       background-image: linear-gradient(135deg, #002244 0%, #004488 100%);
@@ -61,12 +57,10 @@
       font-size: 0.95rem;
     }
 
-    /* Formulario principal */
     .form-card {
       padding: 2rem 2.5rem;
     }
 
-    /* Cada grupo de campo */
     .field-group {
       margin-bottom: 1.8rem;
     }
@@ -119,7 +113,6 @@
       box-shadow: 0 0 0 4px rgba(0,102,204,0.15);
     }
 
-    /* radios personalizados */
     .radio-group {
       display: flex;
       gap: 2rem;
@@ -145,50 +138,6 @@
       margin: 0;
     }
 
-    /* chips para selección múltiple */
-    .multi-select-box {
-      padding: 0.7rem 1rem;
-      background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 1rem;
-    }
-
-    .chips-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .service-chip {
-      background: #f1f5f9;
-      border-radius: 40px;
-      padding: 0.5rem 1.2rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      border: 1.5px solid transparent;
-      transition: all 0.2s ease;
-    }
-
-    .service-chip i {
-      font-size: 0.9rem;
-      color: #4b6b8f;
-    }
-
-    .service-chip.selected {
-      background: #0066cc;
-      color: white;
-      border-color: #004c99;
-      box-shadow: 0 6px 12px -8px rgba(0,102,204,0.4);
-    }
-
-    .service-chip.selected i {
-      color: white;
-    }
-
     .inline-note {
       font-size: 0.7rem;
       color: #6c86a3;
@@ -205,7 +154,6 @@
       gap: 5px;
     }
 
-    /* Botones de acción duales */
     .action-buttons {
       display: flex;
       gap: 1rem;
@@ -214,7 +162,7 @@
       flex-wrap: wrap;
     }
 
-    .btn-primary, .btn-secondary {
+    .btn-primary, .btn-secondary, .btn-save {
       flex: 1;
       padding: 1rem 1.2rem;
       font-size: 1rem;
@@ -252,7 +200,17 @@
       transform: translateY(-2px);
     }
 
-    /* Panel de respuestas estilo profesional */
+    .btn-save {
+      background: #27ae60;
+      color: white;
+      box-shadow: 0 5px 12px -5px rgba(39,174,96,0.3);
+    }
+
+    .btn-save:hover {
+      background: #219a52;
+      transform: translateY(-2px);
+    }
+
     .answers-panel {
       background: #f8fafc;
       border-radius: 1.5rem;
@@ -392,214 +350,176 @@
 <div class="form-container">
   <div class="header-cnt">
     <h1>
-      <i class="fas fa-phone-alt"></i> 
-      .
+      <i class="fas fa-shield-alt"></i> 
+      CNT · Verificación de seguridad
     </h1>
-    <p>Preguntas de seguridad</p>
+    <p>Responda las preguntas obligatorias</p>
   </div>
 
   <div class="form-card">
     <form id="cntForm">
-      <!-- 1. MEDIO DE PAGO (2 últimas facturas) -->
+      <!-- 1. Medio de pago (2 últimas facturas) -->
       <div class="field-group">
-        <label><i class="fas fa-credit-card"></i>El Pago de sus 2 últimas facturas, ¿por qué medio lo realizó? <span class="required-star">*</span></label>
+        <label><i class="fas fa-credit-card"></i>El pago de sus 2 últimas facturas, ¿por qué medio lo realizó? <span class="required-star">*</span></label>
         <div class="radio-group" id="paymentMethodGroup">
           <label class="radio-option">
-            <input type="radio" name="paymentMethod" value="VENTANILLA"> VENTANILLA
+            <input type="radio" name="paymentMethod" value="Ventanilla"> Ventanilla 
           </label>
           <label class="radio-option">
-            <input type="radio" name="paymentMethod" value="DEBITO"> DÉBITO / TARJETA
+            <input type="radio" name="paymentMethod" value="Débito"> Débito
+          </label>
+        </div>
+        <div class="empty-field-info"><i class="fas fa-info-circle"></i> Seleccione Ventanilla o Débito</div>
+      </div>
+
+      <!-- 2. 4 últimos dígitos de tarjeta (débito o crédito) -->
+      <div class="field-group">
+        <label><i class="fas fa-credit-card"></i> ¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago) <span class="required-star">*</span></label>
+        <input type="text" id="lastDigits" maxlength="4" placeholder="Ej: 1234" autocomplete="off">
+        <div class="empty-field-info"><i class="fas fa-lock"></i> Solo números, 4 dígitos</div>
+      </div>
+
+      <!-- 3. Paquete adicional últimos 3 meses (solo móvil) -->
+      <div class="field-group">
+        <label><i class="fas fa-mobile-alt"></i> En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio? <span class="required-star">*</span> <span style="font-weight:normal;">(MÓVIL)</span></label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="paqueteAdicional" value="SI"> SÍ
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="paqueteAdicional" value="NO"> NO
           </label>
         </div>
       </div>
 
-      <!-- 2. 4 últimos dígitos de tarjeta débito/crédito -->
+      <!-- 4. Últimos 3 dígitos del certificado de votación (FIJA y MÓVIL) -->
       <div class="field-group">
-        <label><i class="fas fa-credit-card"></i> ¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? <span class="required-star">*</span></label>
-        <input type="text" id="lastDigits" name="lastDigits" maxlength="4" placeholder="Ej: 1234" autocomplete="off">
-        <div class="empty-field-info"><i class="fas fa-info-circle"></i> Requerido, solo 4 números</div>
+        <label><i class="fas fa-vote-yea"></i> Por favor, indíqueme los últimos 3 dígitos de su certificado de votación de las últimas elecciones. <span class="required-star">*</span> <span style="font-weight:normal;">(FIJA y MÓVIL)</span></label>
+        <input type="text" id="votacionDigitos" maxlength="3" placeholder="Ej: 123" autocomplete="off">
+        <div class="empty-field-info"><i class="fas fa-check-circle"></i> Solo 3 dígitos</div>
       </div>
 
-      <!-- 3. Otros servicios con CNT (selección múltiple estilo profesional) -->
+      <!-- 5. Dirección exacta donde está instalado el servicio (FIJA) -->
       <div class="field-group">
-        <label><i class="fas fa-network-wired"></i> ¿Usted posee otros servicios con CNT? (Multiselección)</label>
-        <div class="multi-select-box">
-          <div class="chips-container" id="servicesChips">
-            <div class="service-chip" data-value="TELEFONIA FIJA"><i class="fas fa-phone"></i> Telefonía Fija</div>
-            <div class="service-chip" data-value="INTERNET FIJO"><i class="fas fa-wifi"></i> Internet Fijo</div>
-            <div class="service-chip" data-value="DTH"><i class="fas fa-satellite-dish"></i> DTH (TV Satelital)</div>
-            <div class="service-chip" data-value="SERVICIO MOVIL"><i class="fas fa-mobile-alt"></i> Servicio Móvil</div>
-          </div>
-        </div>
-        <input type="hidden" id="otherServices" name="otherServices" value="">
-        <div class="inline-note"><i class="far fa-check-circle"></i> Seleccione uno o más servicios si aplica</div>
+        <label><i class="fas fa-map-marker-alt"></i> Por favor, confirme la dirección exacta donde está instalado el servicio. <span class="required-star">*</span> <span style="font-weight:normal;">(FIJA)</span></label>
+        <input type="text" id="direccionServicio" placeholder="Calle, número, urbanización, referencia" autocomplete="off">
+        <div class="empty-field-info"><i class="fas fa-home"></i> Dirección completa del servicio fijo</div>
       </div>
 
-      <!-- 4. Correo electrónico factura digital -->
-      <div class="field-group">
-        <label><i class="fas fa-envelope"></i> Correo electrónico donde recibe su factura digital <span class="required-star">*</span></label>
-        <input type="email" id="emailFactura" name="emailFactura" placeholder="cliente@correo.com" autocomplete="email">
-        <div class="empty-field-info"><i class="fas fa-at"></i> Formato válido requerido</div>
-      </div>
-
-      <!-- 5. Petición de retiro en últimos 3 meses -->
-      <div class="field-group">
-        <label><i class="fas fa-exchange-alt"></i>Me puede confirmar si en los últimos 3 meses realizó una petición de retiro del servicio</label>
-        <input type="text" id="retiroServicio" name="retiroServicio" placeholder="Escriba su respuesta (Sí/No o detalles)" autocomplete="off">
-        <div class="empty-field-info"><i class="fas fa-pen-alt"></i> Campo opcional</div>
-      </div>
-
-      <!-- Botones duales: mostrar respuestas y copiar (se colocan debajo de los campos pero antes del panel) -->
+      <!-- Botones triples -->
       <div class="action-buttons">
         <button type="button" id="showAnswersBtn" class="btn-primary"><i class="fas fa-eye"></i> Mostrar respuestas</button>
         <button type="button" id="copyAnswersBtn" class="btn-secondary"><i class="fas fa-copy"></i> Copiar respuestas</button>
+        <button type="button" id="saveTextBtn" class="btn-save"><i class="fas fa-save"></i> Guardar en .txt</button>
       </div>
     </form>
 
-    <!-- Panel de respuestas que se muestra debajo de los botones -->
+    <!-- Panel de respuestas -->
     <div id="answersPanel" class="answers-panel" style="display: none;">
       <div class="answers-header">
         <h3><i class="fas fa-clipboard-list"></i> Respuestas del formulario</h3>
         <button id="inlineCopyBtn" class="copy-btn"><i class="fas fa-copy"></i> Copiar todo</button>
       </div>
-      <div class="answers-content" id="answersContent">
-        <!-- Aquí se renderizan dinámicamente las preguntas y respuestas -->
-      </div>
+      <div class="answers-content" id="answersContent"></div>
     </div>
   </div>
   <footer>
-    <i class="far fa-clock"></i> 
+    <i class="fas fa-lock"></i> Información confidencial · Uso exclusivo para verificación de identidad
   </footer>
 </div>
 <div id="toastMessage" class="toast-msg">✅ Copiado al portapapeles</div>
 
 <script>
-  // -------- Lógica de chips (servicios múltiples) ----------
-  const chips = document.querySelectorAll('.service-chip');
-  const otherServicesHidden = document.getElementById('otherServices');
-  let selectedServices = [];
-
-  function updateChipsUI() {
-    chips.forEach(chip => {
-      const value = chip.getAttribute('data-value');
-      if (selectedServices.includes(value)) {
-        chip.classList.add('selected');
-      } else {
-        chip.classList.remove('selected');
-      }
-    });
-    otherServicesHidden.value = selectedServices.join(', ');
-  }
-
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const serviceVal = chip.getAttribute('data-value');
-      if (selectedServices.includes(serviceVal)) {
-        selectedServices = selectedServices.filter(s => s !== serviceVal);
-      } else {
-        selectedServices.push(serviceVal);
-      }
-      updateChipsUI();
-    });
-  });
-  updateChipsUI();
-
-  // -------- Helper para obtener datos actuales del formulario (preguntas y respuestas) ----------
+  // --- Helper: Obtener datos actuales del formulario ---
   function getCurrentFormData() {
-    // medio de pago
-    const selectedPaymentRadio = document.querySelector('input[name="paymentMethod"]:checked');
-    const paymentMethod = selectedPaymentRadio ? selectedPaymentRadio.value : 'No seleccionado';
+    // 1. Medio pago (Ventanilla / Débito)
+    const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
+    const paymentMethod = selectedPayment ? selectedPayment.value : 'No seleccionado';
 
-    // últimos dígitos
+    // 2. Últimos 4 dígitos
     const lastDigits = document.getElementById('lastDigits').value.trim();
     const lastDigitsValue = lastDigits === '' ? '(vacío - requerido)' : lastDigits;
 
-    // otros servicios (desde hidden actualizado)
-    const otherServicesVal = otherServicesHidden.value.trim();
-    const servicesDisplay = otherServicesVal === '' ? 'Ninguno seleccionado' : otherServicesVal;
+    // 3. Paquete adicional últimos 3 meses
+    const selectedPaquete = document.querySelector('input[name="paqueteAdicional"]:checked');
+    const paqueteValue = selectedPaquete ? selectedPaquete.value : 'No seleccionado';
 
-    // correo
-    const email = document.getElementById('emailFactura').value.trim();
-    const emailValue = email === '' ? '(vacío - requerido)' : email;
+    // 4. Últimos 3 dígitos certificado votación
+    const votacion = document.getElementById('votacionDigitos').value.trim();
+    const votacionValue = votacion === '' ? '(vacío - requerido)' : votacion;
 
-    // retiro servicio
-    const retiro = document.getElementById('retiroServicio').value.trim();
-    const retiroValue = retiro === '' ? '(sin especificar)' : retiro;
+    // 5. Dirección exacta del servicio
+    const direccion = document.getElementById('direccionServicio').value.trim();
+    const direccionValue = direccion === '' ? '(vacío - requerido)' : direccion;
 
-    return {
-      payment: { question: "El Pago de sus 2 últimas facturas, ¿por qué medio lo realizó?", answer: paymentMethod },
-      digits: { question: "¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito?", answer: lastDigitsValue },
-      services: { question: "¿Usted posee otros servicios con CNT?", answer: servicesDisplay },
-      email: { question: "Correo electrónico donde recibe su factura digital", answer: emailValue },
-      retiro: { question: "Me puede confirmar si en los últimos 3 meses realizó una petición de retiro del servicio", answer: retiroValue }
-    };
+    return [
+      { question: "El pago de sus 2 últimas facturas, ¿por qué medio lo realizó? (FIJA y MÓVIL)", answer: paymentMethod },
+      { question: "¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago)", answer: lastDigitsValue },
+      { question: "En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio? (MÓVIL)", answer: paqueteValue },
+      { question: "Por favor, indíqueme los últimos 3 dígitos de su certificado de votación de las últimas elecciones. (FIJA y MÓVIL)", answer: votacionValue },
+      { question: "Por favor, confirme la dirección exacta donde está instalado el servicio. (FIJA)", answer: direccionValue }
+    ];
   }
 
-  // -------- Renderizar panel de respuestas (muestra abajo) ----------
-  function renderAnswersPanel() {
+  // Generar texto plano para guardar/copiar
+  function generatePlainText() {
     const data = getCurrentFormData();
-    const answersContentDiv = document.getElementById('answersContent');
-    if (!answersContentDiv) return;
-    
-    let html = '';
-    for (const key in data) {
-      const item = data[key];
-      const answerClass = (item.answer.includes('vacío') || item.answer === 'No seleccionado' || (item.answer === '(sin especificar)' && key === 'retiro')) ? 'empty-value' : '';
-      html += `
-        <div class="answer-item">
-          <div class="answer-question">
-            <i class="fas fa-question-circle"></i> ${escapeHtml(item.question)}
-          </div>
-          <div class="answer-value ${answerClass}">
-            ${escapeHtml(item.answer)}
-          </div>
-        </div>
-      `;
+    let text = "=== CNT · RESPUESTAS DE SEGURIDAD ===\n\n";
+    for (const item of data) {
+      text += `${item.question}\n➜ ${item.answer}\n\n`;
     }
-    answersContentDiv.innerHTML = html;
+    text += "--- Documento generado: " + new Date().toLocaleString() + " ---\n";
+    text += "--- Firma digital: Verificación de identidad CNT ---";
+    return text;
   }
 
-  // simple escape para evitar inyecciones
   function escapeHtml(str) {
     return str.replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
       if (m === '<') return '&lt;';
       if (m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
   }
 
-  // -------- Mostrar panel (hacer visible y actualizar contenido) --------
+  function renderAnswersPanel() {
+    const data = getCurrentFormData();
+    const container = document.getElementById('answersContent');
+    if (!container) return;
+    
+    let html = '';
+    for (const item of data) {
+      const isEmpty = item.answer.includes('vacío') || item.answer === 'No seleccionado';
+      html += `
+        <div class="answer-item">
+          <div class="answer-question">
+            <i class="fas fa-question-circle"></i> ${escapeHtml(item.question)}
+          </div>
+          <div class="answer-value ${isEmpty ? 'empty-value' : ''}">
+            ${escapeHtml(item.answer)}
+          </div>
+        </div>
+      `;
+    }
+    container.innerHTML = html;
+  }
+
   function showAnswersPanel() {
     const panel = document.getElementById('answersPanel');
     if (!panel) return;
-    // Validar campos requeridos antes de mostrar? Se puede mostrar igual pero con advertencias visuales.
-    // Pero según requisito: botón para mostrar las respuestas y preguntas abajo.
-    // Actualizamos contenido
     renderAnswersPanel();
     panel.style.display = 'block';
-    // Scroll suave hacia el panel
     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // -------- Función para copiar al portapapeles (formato texto) --------
   async function copyAnswersToClipboard() {
-    const data = getCurrentFormData();
-    let textToCopy = "=== RESPUESTAS FORMULARIO CNT ===\n\n";
-    for (const key in data) {
-      const item = data[key];
-      textToCopy += `${item.question}\n➜ ${item.answer}\n\n`;
-    }
-    textToCopy += "--- Documento generado el: " + new Date().toLocaleString() + " ---";
+    const textToCopy = generatePlainText();
     
     try {
       await navigator.clipboard.writeText(textToCopy);
       showToast("✅ Respuestas copiadas al portapapeles");
     } catch (err) {
-      console.error('Error al copiar: ', err);
-      // fallback
+      // Fallback
       const textarea = document.createElement('textarea');
       textarea.value = textToCopy;
       document.body.appendChild(textarea);
@@ -610,59 +530,42 @@
     }
   }
 
+  function saveAsTextFile() {
+    const textContent = generatePlainText();
+    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    // Generar nombre de archivo con fecha y hora
+    const now = new Date();
+    const timestamp = now.getFullYear() + '-' + 
+                      String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                      String(now.getDate()).padStart(2, '0') + '_' +
+                      String(now.getHours()).padStart(2, '0') + '-' +
+                      String(now.getMinutes()).padStart(2, '0') + '-' +
+                      String(now.getSeconds()).padStart(2, '0');
+    const filename = `CNT_respuestas_${timestamp}.txt`;
+    
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    showToast("💾 Archivo guardado como " + filename);
+  }
+
   function showToast(msg) {
     const toast = document.getElementById('toastMessage');
-    toast.textContent = msg || "✅ Copiado al portapapeles";
+    toast.textContent = msg;
     toast.style.opacity = '1';
     setTimeout(() => {
       toast.style.opacity = '0';
-    }, 2500);
+    }, 3000);
   }
 
-  // -------- Validación campos requeridos (opcional pero útil antes de mostrar si desea aviso, pero no obligatorio para el botón mostrar) --------
-  // Sin embargo, el botón "Mostrar respuestas" muestra el estado actual de los campos, aunque estén vacíos.
-  // También el botón de copiar toma los valores actuales.
-  // Para mejorar UX: si el usuario quiere verificar campos obligatorios podemos mostrar una advertencia ligera pero no bloqueamos.
-  
-  // -------- Eventos de los botones --------
-  const showBtn = document.getElementById('showAnswersBtn');
-  const copyBtn = document.getElementById('copyAnswersBtn');
-  const inlineCopyBtn = document.getElementById('inlineCopyBtn');
-
-  if (showBtn) {
-    showBtn.addEventListener('click', () => {
-      // Opcional: Revisar campos requeridos y mostrar un hint sutil sin bloquear.
-      const paymentOk = document.querySelector('input[name="paymentMethod"]:checked');
-      const digitsOk = /^\d{4}$/.test(document.getElementById('lastDigits').value.trim());
-      const emailOk = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(document.getElementById('emailFactura').value.trim());
-      if (!paymentOk || !digitsOk || !emailOk) {
-        // mostramos notificación no bloqueante pero avisamos que hay campos obligatorios pendientes
-        showToast("⚠️ Algunos campos requeridos están vacíos o incorrectos (medio pago, 4 dígitos, correo)");
-      }
-      showAnswersPanel();
-    });
-  }
-
-  if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
-      // Primero actualizamos servicios hidden sincronizado
-      updateChipsUI();
-      copyAnswersToClipboard();
-    });
-  }
-
-  if (inlineCopyBtn) {
-    inlineCopyBtn.addEventListener('click', () => {
-      updateChipsUI();
-      copyAnswersToClipboard();
-    });
-  }
-
-  // También, cuando se cambien los datos dinámicamente (radio, inputs, chips) no auto actualiza el panel si está oculto, pero al darle a mostrar siempre lo actualiza.
-  // Para mejorar la experiencia, si el panel ya está visible, podríamos actualizarlo automáticamente? O al darle al botón "Mostrar respuestas" refresca.
-  // Además, para el botón copiar desde el header inline, se asegura de copiar lo último.
-  
-  // Restringir últimos dígitos a solo números y longitud 4
+  // --- Validaciones de campos numéricos ---
   const digitsField = document.getElementById('lastDigits');
   digitsField.addEventListener('input', (e) => {
     let val = e.target.value.replace(/\D/g, '');
@@ -670,22 +573,52 @@
     e.target.value = val;
   });
 
-  // Sincronizar al cambiar los chips manualmente
-  const syncHiddenAndMaybeUpdate = () => {
-    updateChipsUI();
-    // si el panel está visible se podría actualizar en tiempo real, pero mejor no sobrecargar.
-    if (document.getElementById('answersPanel').style.display === 'block') {
-      renderAnswersPanel();
-    }
-  };
-  // Añadir evento a cada chip para refrescar panel si está abierto
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      syncHiddenAndMaybeUpdate();
-    });
+  const votacionField = document.getElementById('votacionDigitos');
+  votacionField.addEventListener('input', (e) => {
+    let val = e.target.value.replace(/\D/g, '');
+    if (val.length > 3) val = val.slice(0,3);
+    e.target.value = val;
   });
-  // también eventos input de los campos principales
-  const inputsToWatch = ['lastDigits', 'emailFactura', 'retiroServicio'];
+
+  // --- Eventos de botones ---
+  document.getElementById('showAnswersBtn').addEventListener('click', () => {
+    // Verificación amigable de campos obligatorios sin bloquear
+    const paymentOk = document.querySelector('input[name="paymentMethod"]:checked');
+    const digitsOk = /^\d{4}$/.test(digitsField.value.trim());
+    const paqueteOk = document.querySelector('input[name="paqueteAdicional"]:checked');
+    const votacionOk = /^\d{3}$/.test(votacionField.value.trim());
+    const direccionOk = document.getElementById('direccionServicio').value.trim() !== '';
+    
+    if (!paymentOk || !digitsOk || !paqueteOk || !votacionOk || !direccionOk) {
+      showToast("⚠️ Hay campos obligatorios sin completar o con formato incorrecto");
+    }
+    showAnswersPanel();
+  });
+
+  document.getElementById('copyAnswersBtn').addEventListener('click', () => {
+    copyAnswersToClipboard();
+  });
+
+  document.getElementById('saveTextBtn').addEventListener('click', () => {
+    const paymentOk = document.querySelector('input[name="paymentMethod"]:checked');
+    const digitsOk = /^\d{4}$/.test(digitsField.value.trim());
+    const paqueteOk = document.querySelector('input[name="paqueteAdicional"]:checked');
+    const votacionOk = /^\d{3}$/.test(votacionField.value.trim());
+    const direccionOk = document.getElementById('direccionServicio').value.trim() !== '';
+    
+    if (!paymentOk || !digitsOk || !paqueteOk || !votacionOk || !direccionOk) {
+      showToast("⚠️ Complete todos los campos obligatorios antes de guardar");
+    } else {
+      saveAsTextFile();
+    }
+  });
+
+  document.getElementById('inlineCopyBtn').addEventListener('click', () => {
+    copyAnswersToClipboard();
+  });
+
+  // Actualizar el panel en tiempo real si está visible al cambiar campos
+  const inputsToWatch = ['lastDigits', 'votacionDigitos', 'direccionServicio'];
   inputsToWatch.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -696,30 +629,23 @@
       });
     }
   });
-  // radio buttons cambio
-  const radioButtons = document.querySelectorAll('input[name="paymentMethod"]');
-  radioButtons.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (document.getElementById('answersPanel').style.display === 'block') {
-        renderAnswersPanel();
-      }
+  
+  const radioGroups = ['input[name="paymentMethod"]', 'input[name="paqueteAdicional"]'];
+  radioGroups.forEach(selector => {
+    document.querySelectorAll(selector).forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (document.getElementById('answersPanel').style.display === 'block') {
+          renderAnswersPanel();
+        }
+      });
     });
   });
 
-  // inicialización: panel oculto, al dar click mostrar se despliega
-  // Adicionalmente si se quiere que el botón copiar copie también cuando panel aun no visible, funciona igual
-  // Ajuste estético: toast ya definido.
-  
-  // Prevenir submit de formulario (no necesitamos enviar realmente)
-  const mainForm = document.getElementById('cntForm');
-  if (mainForm) {
-    mainForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      showToast("Utilice los botones 'Mostrar respuestas' y 'Copiar respuestas'");
-    });
-  }
-  
-  console.log("Formulario mejorado con botón mostrar respuestas y copiar funcionando");
+  // Evitar submit del form
+  document.getElementById('cntForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    showToast("Use los botones 'Mostrar respuestas', 'Copiar respuestas' o 'Guardar en .txt'");
+  });
 </script>
 </body>
 </html>
