@@ -1,651 +1,420 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>CNT · Preguntas de seguridad</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Formulario de Validación - Servicios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: linear-gradient(145deg, #e9eff7 0%, #dce4ef 100%);
-      font-family: 'Inter', sans-serif;
-      padding: 2rem 1.5rem;
-      color: #1A2C3E;
-      min-height: 100vh;
-    }
+        body {
+            background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
 
-    .form-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 2rem;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-    }
+        /* Contenedor principal tipo tarjeta */
+        .form-container {
+            max-width: 780px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
 
-    .header-cnt {
-      background: #003366;
-      background-image: linear-gradient(135deg, #002244 0%, #004488 100%);
-      padding: 1.8rem 2.5rem;
-      color: white;
-    }
+        /* Encabezado */
+        .form-header {
+            background: #0b2b40;
+            padding: 1.8rem 2rem;
+            color: white;
+        }
 
-    .header-cnt h1 {
-      font-weight: 700;
-      font-size: 1.8rem;
-      letter-spacing: -0.3px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+        .form-header h1 {
+            font-weight: 600;
+            font-size: 1.7rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
 
-    .header-cnt h1 i {
-      font-size: 2rem;
-    }
+        .form-header p {
+            margin-top: 0.5rem;
+            opacity: 0.85;
+            font-size: 0.9rem;
+        }
 
-    .header-cnt p {
-      font-weight: 400;
-      opacity: 0.85;
-      margin-top: 0.5rem;
-      font-size: 0.95rem;
-    }
+        /* cuerpo del formulario */
+        .form-body {
+            padding: 2rem 2rem 1.8rem;
+        }
 
-    .form-card {
-      padding: 2rem 2.5rem;
-    }
+        /* cada grupo de pregunta */
+        .question-group {
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid #e9edf2;
+            padding-bottom: 1.2rem;
+        }
 
-    .field-group {
-      margin-bottom: 1.8rem;
-    }
+        .question-group label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1e2f3e;
+            display: block;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.2px;
+        }
 
-    label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 0.7rem;
-      color: #1e3a5f;
-    }
+        .question-group label .required-mock {
+            color: #c44536;
+            font-weight: normal;
+            font-size: 0.8rem;
+        }
 
-    label i {
-      width: 22px;
-      color: #0066cc;
-      font-size: 1.1rem;
-    }
+        textarea, input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1.2rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: #fefefe;
+            transition: all 0.2s;
+            resize: vertical;
+            outline: none;
+        }
 
-    .required-star {
-      color: #d9534f;
-      margin-left: 4px;
-    }
+        textarea:focus, input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background: white;
+        }
 
-    input, select {
-      width: 100%;
-      padding: 0.9rem 1rem;
-      font-size: 1rem;
-      font-family: 'Inter', monospace;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 1rem;
-      background-color: #fff;
-      transition: all 0.25s ease;
-      outline: none;
-      color: #1f2f3e;
-      font-weight: 500;
-    }
+        /* caja de texto personalizada: igual para todas */
+        .caja-texto {
+            width: 100%;
+        }
 
-    select {
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23336699" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-      background-repeat: no-repeat;
-      background-position: right 1rem center;
-      background-size: 1.2rem;
-    }
+        /* grupo de botones */
+        .actions-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0 1.2rem;
+            justify-content: center;
+        }
 
-    input:focus, select:focus {
-      border-color: #0066cc;
-      box-shadow: 0 0 0 4px rgba(0,102,204,0.15);
-    }
+        button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f1f5f9;
+            border: none;
+            padding: 0.75rem 1.6rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 2.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-family: inherit;
+        }
 
-    .radio-group {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      background: #f8fafc;
-      padding: 0.7rem 1.2rem;
-      border-radius: 1.2rem;
-      border: 1.5px solid #e2edf7;
-    }
+        button i {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
 
-    .radio-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      font-weight: 500;
-    }
+        .btn-primary {
+            background: #0f3b4d;
+            color: white;
+            box-shadow: 0 4px 8px rgba(15, 59, 77, 0.2);
+        }
 
-    .radio-option input {
-      width: 18px;
-      height: 18px;
-      accent-color: #0066cc;
-      margin: 0;
-    }
+        .btn-primary:hover {
+            background: #0a2c3a;
+            transform: translateY(-1px);
+        }
 
-    .inline-note {
-      font-size: 0.7rem;
-      color: #6c86a3;
-      margin-top: 8px;
-      margin-left: 6px;
-    }
+        .btn-secondary {
+            background: #eef2ff;
+            color: #1e40af;
+            border: 1px solid #cbd5e1;
+        }
 
-    .empty-field-info {
-      margin-top: 6px;
-      font-size: 0.7rem;
-      color: #9aaebf;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+        .btn-secondary:hover {
+            background: #e0e7ff;
+        }
 
-    .action-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
 
-    .btn-primary, .btn-secondary, .btn-save {
-      flex: 1;
-      padding: 1rem 1.2rem;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 2rem;
-      cursor: pointer;
-      transition: all 0.25s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      border: none;
-      font-family: 'Inter', sans-serif;
-    }
+        .btn-danger:hover {
+            background: #fecaca;
+        }
 
-    .btn-primary {
-      background: #003366;
-      color: white;
-      box-shadow: 0 8px 20px -6px rgba(0,51,102,0.3);
-    }
+        /* pie de formulario */
+        .form-footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2edf2;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #5b6e8c;
+        }
 
-    .btn-primary:hover {
-      background: #004c99;
-      transform: translateY(-2px);
-    }
+        /* mensaje flotante */
+        .toast-msg {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2a3e;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+            background: rgba(15, 25, 35, 0.9);
+        }
 
-    .btn-secondary {
-      background: #2c3e50;
-      color: white;
-      box-shadow: 0 5px 12px -5px rgba(0,0,0,0.2);
-    }
-
-    .btn-secondary:hover {
-      background: #1e2f3f;
-      transform: translateY(-2px);
-    }
-
-    .btn-save {
-      background: #27ae60;
-      color: white;
-      box-shadow: 0 5px 12px -5px rgba(39,174,96,0.3);
-    }
-
-    .btn-save:hover {
-      background: #219a52;
-      transform: translateY(-2px);
-    }
-
-    .answers-panel {
-      background: #f8fafc;
-      border-radius: 1.5rem;
-      border: 1px solid #e2edf2;
-      margin-top: 1.5rem;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .answers-header {
-      background: #eef3fc;
-      padding: 1.2rem 1.5rem;
-      border-bottom: 2px solid #dce5f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .answers-header h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #003366;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .copy-btn {
-      background: #ffffff;
-      border: 1.5px solid #cbdde9;
-      padding: 0.5rem 1.2rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
-      color: #1e4663;
-    }
-
-    .copy-btn:hover {
-      background: #e6f0fa;
-      border-color: #0066cc;
-      transform: scale(1.02);
-    }
-
-    .answers-content {
-      padding: 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    .answer-item {
-      background: white;
-      margin-bottom: 1rem;
-      padding: 1rem 1.2rem;
-      border-radius: 1rem;
-      border-left: 5px solid #0066cc;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-
-    .answer-question {
-      font-weight: 700;
-      color: #00264d;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .answer-question i {
-      color: #0066cc;
-      width: 24px;
-    }
-
-    .answer-value {
-      color: #2c3e50;
-      padding-left: 34px;
-      word-break: break-word;
-      white-space: pre-wrap;
-    }
-
-    .empty-value {
-      color: #b91c1c;
-      font-style: italic;
-      opacity: 0.7;
-    }
-
-    footer {
-      background: #f8fafd;
-      border-top: 1px solid #e2edf2;
-      padding: 1rem 2rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #6c86a3;
-    }
-
-    @media (max-width: 680px) {
-      .form-card {
-        padding: 1.5rem;
-      }
-      .header-cnt {
-        padding: 1.2rem 1.5rem;
-      }
-      .action-buttons {
-        flex-direction: column;
-      }
-      .answer-value {
-        padding-left: 28px;
-      }
-    }
-
-    .toast-msg {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: #1f2f3e;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      z-index: 1100;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-  </style>
+        @media (max-width: 550px) {
+            .form-body {
+                padding: 1.5rem;
+            }
+            button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div class="form-container">
-  <div class="header-cnt">
-    <h1>
-      <i class="fas fa-shield-alt"></i> 
-      CNT · Verificación de seguridad
-    </h1>
-    <p>Responda las preguntas obligatorias</p>
-  </div>
-
-  <div class="form-card">
-    <form id="cntForm">
-      <!-- 1. Medio de pago (2 últimas facturas) -->
-      <div class="field-group">
-        <label><i class="fas fa-credit-card"></i>El pago de sus 2 últimas facturas, ¿por qué medio lo realizó? <span class="required-star">*</span></label>
-        <div class="radio-group" id="paymentMethodGroup">
-          <label class="radio-option">
-            <input type="radio" name="paymentMethod" value="Ventanilla"> Ventanilla 
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="paymentMethod" value="Débito"> Débito
-          </label>
-        </div>
-        <div class="empty-field-info"><i class="fas fa-info-circle"></i> Seleccione Ventanilla o Débito</div>
-      </div>
-
-      <!-- 2. 4 últimos dígitos de tarjeta (débito o crédito) -->
-      <div class="field-group">
-        <label><i class="fas fa-credit-card"></i> ¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago) <span class="required-star">*</span></label>
-        <input type="text" id="lastDigits" maxlength="4" placeholder="Ej: 1234" autocomplete="off">
-        <div class="empty-field-info"><i class="fas fa-lock"></i> Solo números, 4 dígitos</div>
-      </div>
-
-      <!-- 3. Paquete adicional últimos 3 meses (solo móvil) -->
-      <div class="field-group">
-        <label><i class="fas fa-mobile-alt"></i> En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio? <span class="required-star">*</span> <span style="font-weight:normal;">(MÓVIL)</span></label>
-        <div class="radio-group">
-          <label class="radio-option">
-            <input type="radio" name="paqueteAdicional" value="SI"> SÍ
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="paqueteAdicional" value="NO"> NO
-          </label>
-        </div>
-      </div>
-
-      <!-- 4. Últimos 3 dígitos del certificado de votación (FIJA y MÓVIL) -->
-      <div class="field-group">
-        <label><i class="fas fa-vote-yea"></i> Por favor, indíqueme los últimos 3 dígitos de su certificado de votación de las últimas elecciones. <span class="required-star">*</span> <span style="font-weight:normal;">(FIJA y MÓVIL)</span></label>
-        <input type="text" id="votacionDigitos" maxlength="3" placeholder="Ej: 123" autocomplete="off">
-        <div class="empty-field-info"><i class="fas fa-check-circle"></i> Solo 3 dígitos</div>
-      </div>
-
-      <!-- 5. Dirección exacta donde está instalado el servicio (FIJA) -->
-      <div class="field-group">
-        <label><i class="fas fa-map-marker-alt"></i> Por favor, confirme la dirección exacta donde está instalado el servicio. <span class="required-star">*</span> <span style="font-weight:normal;">(FIJA)</span></label>
-        <input type="text" id="direccionServicio" placeholder="Calle, número, urbanización, referencia" autocomplete="off">
-        <div class="empty-field-info"><i class="fas fa-home"></i> Dirección completa del servicio fijo</div>
-      </div>
-
-      <!-- Botones triples -->
-      <div class="action-buttons">
-        <button type="button" id="showAnswersBtn" class="btn-primary"><i class="fas fa-eye"></i> Mostrar respuestas</button>
-        <button type="button" id="copyAnswersBtn" class="btn-secondary"><i class="fas fa-copy"></i> Copiar respuestas</button>
-        <button type="button" id="saveTextBtn" class="btn-save"><i class="fas fa-save"></i> Guardar en .txt</button>
-      </div>
-    </form>
-
-    <!-- Panel de respuestas -->
-    <div id="answersPanel" class="answers-panel" style="display: none;">
-      <div class="answers-header">
-        <h3><i class="fas fa-clipboard-list"></i> Respuestas del formulario</h3>
-        <button id="inlineCopyBtn" class="copy-btn"><i class="fas fa-copy"></i> Copiar todo</button>
-      </div>
-      <div class="answers-content" id="answersContent"></div>
+    <div class="form-header">
+        <h1>
+            <span>📋</span> Formulario de verificación
+        </h1>
+        <p>Complete los campos según la información solicitada.</p>
     </div>
-  </div>
-  <footer>
-    <i class="fas fa-lock"></i> Información confidencial · Uso exclusivo para verificación de identidad
-  </footer>
+
+    <div class="form-body">
+        <!-- 1. Nombre del titular -->
+        <div class="question-group">
+            <label>📝 Nombre del titular <span class="required-mock"></span></label>
+            <textarea class="caja-texto" id="campoNombre" rows="1" placeholder=" "></textarea>
+        </div>
+
+        <!-- 2. Pago de 2 últimas facturas ¿por qué medio lo realizó? -->
+        <div class="question-group">
+            <label>💳 El pago de sus 2 últimas facturas, ¿por qué medio lo realizó?</label>
+            <textarea class="caja-texto" id="campoMedioPago" rows="1" placeholder="Ej: ventanilla o débito"></textarea>
+        </div>
+
+        <!-- 3. Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito -->
+        <div class="question-group">
+            <label>💎 ¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago)</label>
+            <textarea class="caja-texto" id="campoUltimosDigitos" rows="1" placeholder="Ej: 4582"></textarea>
+        </div>
+
+        <!-- 4. En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio? -->
+        <div class="question-group">
+            <label>📦 En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio?</label>
+            <textarea class="caja-texto" id="campoPaqueteAdicional" rows="1" placeholder="Ej: Sí / NO"></textarea>
+        </div>
+
+        <!-- 5. últimos 3 dígitos certificado de votación últimas elecciones -->
+        <div class="question-group">
+            <label>🗳️ Por favor, indíqueme los últimos 3 dígitos de su certificado de votación de las últimas elecciones.</label>
+            <textarea class="caja-texto" id="campoCedulaVotacion" rows="1" placeholder="Ej: 123"></textarea>
+        </div>
+
+        <!-- 6. Dirección exacta instalación del servicio -->
+        <div class="question-group">
+            <label>📍 Por favor, confirme la dirección exacta donde está instalado el servicio.</label>
+            <textarea class="caja-texto" id="campoDireccion" rows="2" placeholder="Calle, número, colonia, ciudad, código postal..."></textarea>
+        </div>
+
+        <!-- BARRA DE BOTONES -->
+        <div class="actions-bar">
+            <button id="btnGuardarTxt" class="btn-primary">
+                <i>💾</i> Guardar en .txt
+            </button>
+            <button id="btnCopiar" class="btn-secondary">
+                <i>📋</i> Copiar respuestas
+            </button>
+            <button id="btnLimpiar" class="btn-danger">
+                <i>🧹</i> Limpiar todo
+            </button>
+        </div>
+        <div style="font-size: 0.7rem; text-align: center; margin-top: 0.5rem; color: #6c86a3;">
+            *
+        </div>
+    </div>
+    <div class="form-footer">
+        -
+    </div>
 </div>
-<div id="toastMessage" class="toast-msg">✅ Copiado al portapapeles</div>
+
+<div id="toastMsg" class="toast-msg">✅ Mensaje</div>
 
 <script>
-  // --- Helper: Obtener datos actuales del formulario ---
-  function getCurrentFormData() {
-    // 1. Medio pago (Ventanilla / Débito)
-    const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
-    const paymentMethod = selectedPayment ? selectedPayment.value : 'No seleccionado';
+    (function() {
+        // Referencias a los campos (todos textarea)
+        const campoNombre = document.getElementById('campoNombre');
+        const campoMedioPago = document.getElementById('campoMedioPago');
+        const campoUltimosDigitos = document.getElementById('campoUltimosDigitos');
+        const campoPaqueteAdicional = document.getElementById('campoPaqueteAdicional');
+        const campoCedulaVotacion = document.getElementById('campoCedulaVotacion');
+        const campoDireccion = document.getElementById('campoDireccion');
 
-    // 2. Últimos 4 dígitos
-    const lastDigits = document.getElementById('lastDigits').value.trim();
-    const lastDigitsValue = lastDigits === '' ? '(vacío - requerido)' : lastDigits;
+        // Elemento para notificaciones
+        const toast = document.getElementById('toastMsg');
 
-    // 3. Paquete adicional últimos 3 meses
-    const selectedPaquete = document.querySelector('input[name="paqueteAdicional"]:checked');
-    const paqueteValue = selectedPaquete ? selectedPaquete.value : 'No seleccionado';
-
-    // 4. Últimos 3 dígitos certificado votación
-    const votacion = document.getElementById('votacionDigitos').value.trim();
-    const votacionValue = votacion === '' ? '(vacío - requerido)' : votacion;
-
-    // 5. Dirección exacta del servicio
-    const direccion = document.getElementById('direccionServicio').value.trim();
-    const direccionValue = direccion === '' ? '(vacío - requerido)' : direccion;
-
-    return [
-      { question: "El pago de sus 2 últimas facturas, ¿por qué medio lo realizó? (FIJA y MÓVIL)", answer: paymentMethod },
-      { question: "¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago)", answer: lastDigitsValue },
-      { question: "En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio? (MÓVIL)", answer: paqueteValue },
-      { question: "Por favor, indíqueme los últimos 3 dígitos de su certificado de votación de las últimas elecciones. (FIJA y MÓVIL)", answer: votacionValue },
-      { question: "Por favor, confirme la dirección exacta donde está instalado el servicio. (FIJA)", answer: direccionValue }
-    ];
-  }
-
-  // Generar texto plano para guardar/copiar
-  function generatePlainText() {
-    const data = getCurrentFormData();
-    let text = "=== CNT · RESPUESTAS DE SEGURIDAD ===\n\n";
-    for (const item of data) {
-      text += `${item.question}\n➜ ${item.answer}\n\n`;
-    }
-    text += "--- Documento generado: " + new Date().toLocaleString() + " ---\n";
-    text += "--- Firma digital: Verificación de identidad CNT ---";
-    return text;
-  }
-
-  function escapeHtml(str) {
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  function renderAnswersPanel() {
-    const data = getCurrentFormData();
-    const container = document.getElementById('answersContent');
-    if (!container) return;
-    
-    let html = '';
-    for (const item of data) {
-      const isEmpty = item.answer.includes('vacío') || item.answer === 'No seleccionado';
-      html += `
-        <div class="answer-item">
-          <div class="answer-question">
-            <i class="fas fa-question-circle"></i> ${escapeHtml(item.question)}
-          </div>
-          <div class="answer-value ${isEmpty ? 'empty-value' : ''}">
-            ${escapeHtml(item.answer)}
-          </div>
-        </div>
-      `;
-    }
-    container.innerHTML = html;
-  }
-
-  function showAnswersPanel() {
-    const panel = document.getElementById('answersPanel');
-    if (!panel) return;
-    renderAnswersPanel();
-    panel.style.display = 'block';
-    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  async function copyAnswersToClipboard() {
-    const textToCopy = generatePlainText();
-    
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      showToast("✅ Respuestas copiadas al portapapeles");
-    } catch (err) {
-      // Fallback
-      const textarea = document.createElement('textarea');
-      textarea.value = textToCopy;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      showToast("📋 Copiado (método alternativo)");
-    }
-  }
-
-  function saveAsTextFile() {
-    const textContent = generatePlainText();
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    
-    // Generar nombre de archivo con fecha y hora
-    const now = new Date();
-    const timestamp = now.getFullYear() + '-' + 
-                      String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-                      String(now.getDate()).padStart(2, '0') + '_' +
-                      String(now.getHours()).padStart(2, '0') + '-' +
-                      String(now.getMinutes()).padStart(2, '0') + '-' +
-                      String(now.getSeconds()).padStart(2, '0');
-    const filename = `CNT_respuestas_${timestamp}.txt`;
-    
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    
-    showToast("💾 Archivo guardado como " + filename);
-  }
-
-  function showToast(msg) {
-    const toast = document.getElementById('toastMessage');
-    toast.textContent = msg;
-    toast.style.opacity = '1';
-    setTimeout(() => {
-      toast.style.opacity = '0';
-    }, 3000);
-  }
-
-  // --- Validaciones de campos numéricos ---
-  const digitsField = document.getElementById('lastDigits');
-  digitsField.addEventListener('input', (e) => {
-    let val = e.target.value.replace(/\D/g, '');
-    if (val.length > 4) val = val.slice(0,4);
-    e.target.value = val;
-  });
-
-  const votacionField = document.getElementById('votacionDigitos');
-  votacionField.addEventListener('input', (e) => {
-    let val = e.target.value.replace(/\D/g, '');
-    if (val.length > 3) val = val.slice(0,3);
-    e.target.value = val;
-  });
-
-  // --- Eventos de botones ---
-  document.getElementById('showAnswersBtn').addEventListener('click', () => {
-    // Verificación amigable de campos obligatorios sin bloquear
-    const paymentOk = document.querySelector('input[name="paymentMethod"]:checked');
-    const digitsOk = /^\d{4}$/.test(digitsField.value.trim());
-    const paqueteOk = document.querySelector('input[name="paqueteAdicional"]:checked');
-    const votacionOk = /^\d{3}$/.test(votacionField.value.trim());
-    const direccionOk = document.getElementById('direccionServicio').value.trim() !== '';
-    
-    if (!paymentOk || !digitsOk || !paqueteOk || !votacionOk || !direccionOk) {
-      showToast("⚠️ Hay campos obligatorios sin completar o con formato incorrecto");
-    }
-    showAnswersPanel();
-  });
-
-  document.getElementById('copyAnswersBtn').addEventListener('click', () => {
-    copyAnswersToClipboard();
-  });
-
-  document.getElementById('saveTextBtn').addEventListener('click', () => {
-    const paymentOk = document.querySelector('input[name="paymentMethod"]:checked');
-    const digitsOk = /^\d{4}$/.test(digitsField.value.trim());
-    const paqueteOk = document.querySelector('input[name="paqueteAdicional"]:checked');
-    const votacionOk = /^\d{3}$/.test(votacionField.value.trim());
-    const direccionOk = document.getElementById('direccionServicio').value.trim() !== '';
-    
-    if (!paymentOk || !digitsOk || !paqueteOk || !votacionOk || !direccionOk) {
-      showToast("⚠️ Complete todos los campos obligatorios antes de guardar");
-    } else {
-      saveAsTextFile();
-    }
-  });
-
-  document.getElementById('inlineCopyBtn').addEventListener('click', () => {
-    copyAnswersToClipboard();
-  });
-
-  // Actualizar el panel en tiempo real si está visible al cambiar campos
-  const inputsToWatch = ['lastDigits', 'votacionDigitos', 'direccionServicio'];
-  inputsToWatch.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', () => {
-        if (document.getElementById('answersPanel').style.display === 'block') {
-          renderAnswersPanel();
+        // Función para mostrar mensaje emergente
+        function mostrarMensaje(texto, esError = false) {
+            toast.textContent = texto;
+            toast.style.backgroundColor = esError ? 'rgba(180, 40, 40, 0.92)' : 'rgba(15, 59, 77, 0.95)';
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2400);
         }
-      });
-    }
-  });
-  
-  const radioGroups = ['input[name="paymentMethod"]', 'input[name="paqueteAdicional"]'];
-  radioGroups.forEach(selector => {
-    document.querySelectorAll(selector).forEach(radio => {
-      radio.addEventListener('change', () => {
-        if (document.getElementById('answersPanel').style.display === 'block') {
-          renderAnswersPanel();
-        }
-      });
-    });
-  });
 
-  // Evitar submit del form
-  document.getElementById('cntForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    showToast("Use los botones 'Mostrar respuestas', 'Copiar respuestas' o 'Guardar en .txt'");
-  });
+        // Obtener todas las respuestas como objeto clave/valor (para archivo y copia)
+        function obtenerDatosFormulario() {
+            return {
+                "Nombre del titular": campoNombre.value.trim() || "[No especificado]",
+                "El pago de sus 2 últimas facturas, ¿por qué medio lo realizó?": campoMedioPago.value.trim() || "[No especificado]",
+                "¿Cuáles son sus 4 últimos dígitos de su tarjeta de débito o crédito? (Dependiendo el medio de pago)": campoUltimosDigitos.value.trim() || "[No especificado]",
+                "En los últimos 3 meses, ¿usted ha activado algún paquete adicional en su servicio?": campoPaqueteAdicional.value.trim() || "[No especificado]",
+                "Por favor, indíqueme los últimos 3 dígitos de su certificado de votación de las últimas elecciones.": campoCedulaVotacion.value.trim() || "[No especificado]",
+                "Por favor, confirme la dirección exacta donde está instalado el servicio.": campoDireccion.value.trim() || "[No especificado]"
+            };
+        }
+
+        // Generar texto plano formateado para archivo .txt o copiar
+        function generarTextoFormateado() {
+            const datos = obtenerDatosFormulario();
+            let contenido = "===== PREGUNTAS DE VALIDACIÓN: =====\n";
+            contenido += `📅 Fecha de generación: ${new Date().toLocaleString()}\n`;
+            contenido += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            for (const [pregunta, respuesta] of Object.entries(datos)) {
+                contenido += `❓ ${pregunta}\n`;
+                contenido += `➡️ Respuesta: ${respuesta}\n`;
+                contenido += `---------------------------------------------\n`;
+            }
+            contenido += `\n\n`;
+            return contenido;
+        }
+
+        // 1) GUARDAR COMO ARCHIVO .TXT
+        function guardarComoTxt() {
+            const contenido = generarTextoFormateado();
+            // Verificar que haya al menos algún campo con contenido real (opcional)
+            const datos = obtenerDatosFormulario();
+            const hayAlgunaRespuesta = Object.values(datos).some(val => val !== "[No especificado]");
+            if (!hayAlgunaRespuesta) {
+                mostrarMensaje("⚠️ No hay datos para guardar. Escribe algo antes de guardar.", true);
+                return;
+            }
+
+            try {
+                // Crear blob y descargar
+                const blob = new Blob([contenido], { type: "text/plain;charset=utf-8" });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.href = url;
+                // Nombre del archivo con timestamp
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
+                link.download = `formulario_respuestas_${timestamp}.txt`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                mostrarMensaje("✅ Archivo .txt guardado correctamente");
+            } catch (error) {
+                console.error(error);
+                mostrarMensaje("❌ Error al generar el archivo", true);
+            }
+        }
+
+        // 2) COPIAR RESPUESTAS AL PORTAPAPELES (texto completo)
+        async function copiarRespuestas() {
+            const contenido = generarTextoFormateado();
+            try {
+                await navigator.clipboard.writeText(contenido);
+                mostrarMensaje("📋 Respuestas copiadas al portapapeles");
+            } catch (err) {
+                // Fallback para navegadores antiguos
+                const textareaTemp = document.createElement("textarea");
+                textareaTemp.value = contenido;
+                document.body.appendChild(textareaTemp);
+                textareaTemp.select();
+                document.execCommand("copy");
+                document.body.removeChild(textareaTemp);
+                mostrarMensaje("📋 Copiado (método alternativo)");
+            }
+        }
+
+        // 3) LIMPIAR TODOS LOS CAMPOS (textarea)
+        function limpiarFormulario() {
+            // Confirmación simple pero amigable
+            if (confirm("¿Estás seguro de limpiar todos los campos? Se perderán los datos no guardados.")) {
+                campoNombre.value = "";
+                campoMedioPago.value = "";
+                campoUltimosDigitos.value = "";
+                campoPaqueteAdicional.value = "";
+                campoCedulaVotacion.value = "";
+                campoDireccion.value = "";
+                mostrarMensaje("🧹 Todos los campos han sido limpiados");
+                // Opcional: focus en el primer campo
+                campoNombre.focus();
+            } else {
+                mostrarMensaje("Acción cancelada, los datos permanecen", false);
+            }
+        }
+
+        // También podríamos agregar atajos de teclado o autosave opcional? No necesario.
+        // Asociar eventos a los botones
+        const btnGuardar = document.getElementById('btnGuardarTxt');
+        const btnCopiar = document.getElementById('btnCopiar');
+        const btnLimpiar = document.getElementById('btnLimpiar');
+
+        if (btnGuardar) btnGuardar.addEventListener('click', guardarComoTxt);
+        if (btnCopiar) btnCopiar.addEventListener('click', copiarRespuestas);
+        if (btnLimpiar) btnLimpiar.addEventListener('click', limpiarFormulario);
+
+        // Pequeño detalle: permitir que al presionar Ctrl+Enter (opcional) en cualquier campo se pueda copiar? no necesario
+        // pero mostramos robustez
+
+        // Comprobar si el navegador soporta clipboard de manera amigable (sin errores)
+        if (!navigator.clipboard) {
+            console.warn("Clipboard API no soportada, se usará fallback");
+        }
+
+        // Inyectar un poco de estilo a los textarea para que se vean más como "cajas de texto"
+        // ya lo está. Si algún usuario requiere atributos adicionales: 
+        // Podemos añadir un placeholder visual pero todo listo.
+    })();
 </script>
 </body>
 </html>
