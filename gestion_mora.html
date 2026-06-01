@@ -246,8 +246,8 @@ textarea{
 
 <div class="row">
   <div>
-    <label>Campaña</label>
-    <input name="campana" value="MORA" readonly>
+    <label>Queja:</label>
+    <input name="Queja" value="COAC" readonly>
   </div>
   <div>
     <label>Usuario</label>
@@ -281,7 +281,7 @@ textarea{
 <div class="section-title">Resultado</div>
 
 <div class="row">
-  <div><label>Resultado <span class="req">*</span></label><input name="resultadoGestion" value="No procede / No aplica procesos de retención" readonly></div>
+  <div><label>MOTIVO LLAMADA: <span class="req">*</span></label><input name="resultadoGestion" value="Cliente desea conocer de valores que estan en extrajudicial o coactivos" readonly></div>
   <div><label>Observación</label><textarea name="observacion">procesos coactivos se direcciona a cis </textarea></div>
 </div>
 
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 const orderedKeys=[
-  {key:'campana',label:'Campaña'},
+  {key:'Queja',label:'Queja'},
   {key:'usuario',label:'Usuario'},
   {key:'das',label:'Das'},
   {key:'fechaGestion',label:'Fecha'},
