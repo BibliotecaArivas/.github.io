@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Corrector Ortográfico Profesional | Revisión de Texto Inteligente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9eef3 0%, #dce3ec 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Contenedor principal con efecto glassmorphism refinado */
+        .glass-card {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 2rem 2rem 2rem 2rem;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Encabezado elegante */
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1A2A3F, #2C4C6E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero h1::before {
+            content: "✍️";
+            font-size: 2rem;
+            background: none;
+            -webkit-background-clip: unset;
+            color: #2c5a7a;
+        }
+
+        .hero p {
+            color: #4b5e77;
+            margin-top: 0.6rem;
+            font-weight: 500;
+            font-size: 1.05rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        /* Layout de dos columnas responsivo */
+        .editor-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 1.8rem 0 2rem 0;
+        }
+
+        .input-area, .output-area {
+            flex: 1;
+            min-width: 280px;
+            background: #fefefe;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+            border: 1px solid #eef2f8;
+        }
+
+        .area-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            padding: 1.2rem 1.5rem 0.4rem 1.5rem;
+            border-bottom: 1px solid #eef2f8;
+        }
+
+        .area-header h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f3b4c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            background: #eaf4ff;
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2c6e9e;
+        }
+
+        textarea, .preview-text {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-family: 'Inter', 'SF Mono', monospace;
+            background: transparent;
+            border: none;
+            resize: vertical;
+            outline: none;
+            min-height: 380px;
+            color: #1e2a3e;
+            font-weight: 450;
+        }
+
+        textarea {
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+
+        .preview-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #ffffff;
+            border-radius: 0 0 1.5rem 1.5rem;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        /* Resaltado de errores sugeridos */
+        .error-highlight {
+            background-color: #ffebee;
+            border-bottom: 2px wavy #d32f2f;
+            cursor: pointer;
+            transition: background 0.1s ease;
+            border-radius: 4px;
+            padding: 0 2px;
+        }
+
+        .error-highlight:hover {
+            background-color: #ffcdd2;
+        }
+
+        /* Tooltip para sugerencias (estilo profesional) */
+        .suggestion-tooltip {
+            position: absolute;
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            pointer-events: none;
+            transition: opacity 0.15s;
+            backdrop-filter: blur(4px);
+            border-left: 4px solid #facc15;
+        }
+
+        /* barra de herramientas */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            margin-bottom: 1.2rem;
+            padding-top: 0.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid #cfdfed;
+            background: #f9fcff;
+            color: #1f4e6e;
+        }
+
+        button i {
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        button.primary {
+            background: #1f5e8c;
+            border-color: #1a4f75;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 55, 94, 0.15);
+        }
+
+        button.primary:hover {
+            background: #0f4970;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 55, 94, 0.2);
+        }
+
+        button:hover {
+            background: #e6f0f9;
+            transform: translateY(-1px);
+            border-color: #bdd4e4;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .stats {
+            background: #eef3fc;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #265e83;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #7c8ea0;
+            border-top: 1px solid #e2edf7;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 780px) {
+            body {
+                padding: 1rem;
+            }
+            .glass-card {
+                padding: 1.2rem;
+            }
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            button {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <div class="hero">
+        <h1>Corrector Ortográfico Profesional</h1>
+        <p>Pega tu texto, detecta y corrige errores ortográficos al instante ✨</p>
+    </div>
+
+    <div class="editor-panel">
+        <!-- Área de entrada -->
+        <div class="input-area">
+            <div class="area-header">
+                <h2>📄 Texto original</h2>
+                <span class="badge">pegar / escribir</span>
+            </div>
+            <textarea id="inputText" placeholder="Pega aquí tu texto, por ejemplo:&#10;&#10;» Esto es un ejmplo de texto con horrores ortograficos. La cuestión es demostrar la corección profesional. Tambien hay palabras como *esplicar* y *recivir*.&#10;&#10;Puedes modificar libremente y luego presionar 'Corregir texto'."></textarea>
+        </div>
+
+        <!-- Área de salida con resaltado interactivo -->
+        <div class="output-area">
+            <div class="area-header">
+                <h2>✅ Texto corregido</h2>
+                <span class="badge" id="errorCountBadge">0 errores</span>
+            </div>
+            <div id="correctedPreview" class="preview-text" contenteditable="false">
+                <!-- Aquí se mostrará el texto corregido con errores resaltados -->
+                El texto corregido aparecerá después de la revisión.
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="btn-group">
+            <button id="correctBtn" class="primary">🔍 Corregir texto</button>
+            <button id="copyBtn">📋 Copiar corregido</button>
+            <button id="swapBtn">🔄 Intercambiar</button>
+            <button id="clearBtn">🗑️ Limpiar todo</button>
+        </div>
+        <div class="stats" id="statsInfo">Caracteres: 0 | Palabras: 0</div>
+    </div>
+    <footer>
+        ⚡ Corrección inteligente · Detecta faltas comunes, tildes, mayúsculas y sugiere mejoras ortográficas profesionales.
+        <br>Haz clic sobre cualquier palabra subrayada para ver la sugerencia (solo lectura).
+    </footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // DICCIONARIO PROFESIONAL EXTENSO (ESPAÑOL - palabras correctas)
+    // y mapa de errores comunes => sugerencias
+    // --------------------------------------------------------------
+    const CORRECT_WORDS = new Set([
+        // Base de palabras correctas (español estándar)
+        "esto", "es", "un", "ejemplo", "de", "texto", "con", "horrores", "ortograficos", "la", "cuestión",
+        "demostrar", "corrección", "profesional", "tambien", "palabras", "explicar", "recibir", "como", "pero",
+        "por", "que", "el", "ella", "ellos", "nosotros", "vosotros", "ustedes", "muy", "bien", "mal", "correcto",
+        "ortografía", "corregir", "puedes", "presionar", "texto", "original", "desde", "hasta", "ahora", "luego",
+        "después", "siempre", "nunca", "quizá", "quizás", "además", "sino", "también", "tampoco", "solo", "solamente",
+        "sí", "mi", "mí", "tú", "tu", "él", "ella", "ello", "nos", "os", "los", "las", "les", "sus", "su", "conmigo",
+        "contigo", "para", "porque", "razón", "motivo", "haber", "a ver", "hecho", "echo", "ahí", "hay", "ay",
+        "haya", "allá", "halla", "vaya", "valla", "baya", "casa", "caza", "sabia", "savia", "tubo", "tuvo",
+        "etcétera", "etcétera", "sino", "si no", "tambien", "también", "explicar", "recibir", "escribir", "describir"
+    ]);
+
+    // Reglas de corrección para errores comunes (mapeo de error -> sugerencia principal)
+    const COMMON_ERRORS = new Map([
+        ["horrores", "errores"], ["ortograficos", "ortográficos"], ["ejmplo", "ejemplo"], ["corección", "corrección"],
+        ["esplicar", "explicar"], ["recivir", "recibir"], ["tildes", "tildes"], ["mayusculas", "mayúsculas"],
+        ["proposito", "propósito"], ["correjir", "corregir"], ["tambien", "también"], ["despues", "después"],
+        ["ahora", "ahora"], ["aunque", "aunque"], ["segun", "según"], ["solo", "solo"], ["sólo", "solo"],
+        ["mas", "más"], ["menos", "menos"], ["hacer", "hacer"], ["echo", "hecho"], ["hecho", "hecho"], // sencillo
+        ["valla", "vaya"], ["haya", "halla"], ["a ver", "haber"], ["as", "has"], ["az", "has"], ["ves", "vez"],
+        ["tubo", "tuvo"], ["cabo", "cabo"], ["cavo", "cabo"], ["si", "sí"], ["ti", "tí"], ["de", "dé"], ["te", "té"],
+        ["se", "sé"], ["el", "él"], ["tu", "tú"], ["mas", "más"], ["una", "una"], ["un", "un"], ["y", "e"], ["o", "u"]
+    ]);
+
+    // Función auxiliar para normalizar minúsculas sin perder contexto de mayúsculas en la visual
+    function normalizeForComparison(word) {
+        return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // Limpiar signos de puntuación para revisar la palabra base (pero preservamos en el texto final)
+    function extractWordToken(word) {
+        // separar puntuación al inicio/final
+        const match = word.match(/^([¿¡!¡'"]*)([a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+)([.,;:!?¿¡'"]*)$/);
+        if (match) {
+            return { prefix: match[1], core: match[2], suffix: match[3] };
+        }
+        return { prefix: "", core: word, suffix: "" };
+    }
+
+    // Verificar si una palabra está corregida en el diccionario / errores
+    function getCorrection(word) {
+        if (!word || word.length === 0) return null;
+        const token = extractWordToken(word);
+        const core = token.core;
+        if (!core) return null;
+        const lowerCore = core.toLowerCase();
+        // Comprobar si está ya correcta
+        if (CORRECT_WORDS.has(lowerCore)) return null;
+        // Buscar en mapa de errores comunes
+        if (COMMON_ERRORS.has(lowerCore)) {
+            return COMMON_ERRORS.get(lowerCore);
+        }
+        // Reglas extra: tildes inteligentes básicas: si palabra termina en n,s o vocal y falta tilde?
+        // pero para profesional añadimos detección de acentuación simple usando heurística
+        // palabras graves sin tilde cuando deben tenerla (ej. "arbol" -> "árbol")
+        const commonAccentMap = {
+            "arbol": "árbol", "facil": "fácil", "util": "útil", "lapiz": "lápiz", "camion": "camión",
+            "corazon": "corazón", "examen": "examen", "joven": "joven", "tambien": "también", "tambien": "también",
+            "aleman": "alemán", "ingles": "inglés", "frances": "francés", "cancion": "canción", "emocion": "emoción"
+        };
+        if (commonAccentMap[lowerCore]) {
+            return commonAccentMap[lowerCore];
+        }
+        // segunda regla: palabras que deberían llevar tilde según reglas básicas
+        // simplificada para demostración
+        if (lowerCore.endsWith("cion") && !lowerCore.includes("ó") && lowerCore !== "cion") {
+            return lowerCore.slice(0, -4) + "ción";
+        }
+        if ((lowerCore.endsWith("il") || lowerCore.endsWith("ul")) && lowerCore.length > 2 && !/[áéíóú]/.test(lowerCore)) {
+            // ejemplo: facil -> fácil
+            const lastTwo = lowerCore.slice(-2);
+            if (lastTwo === "il" && !lowerCore.includes("í")) {
+                return lowerCore.slice(0, -2) + "íl";
+            }
+        }
+        return null; // no sugerencia
+    }
+
+    // Procesar texto completo: retorna HTML con errores resaltados y texto corregido plano opcional
+    function processTextCorrection(inputText) {
+        if (!inputText.trim()) {
+            return { html: "<em style='opacity:0.6;'>👀 No hay texto para corregir. Escribe o pega algo arriba.</em>", plain: "", correctionsCount: 0 };
+        }
+
+        // Separar respetando espacios y signos
+        const wordsAndSpaces = inputText.split(/(\s+)/);
+        let correctionsApplied = 0;
+        const correctedChunks = [];
+        const plainChunks = [];
+
+        for (let chunk of wordsAndSpaces) {
+            if (/^\s+$/.test(chunk)) {
+                correctedChunks.push(chunk);
+                plainChunks.push(chunk);
+                continue;
+            }
+            // Procesar palabras individuales (puede contener puntuación)
+            const token = extractWordToken(chunk);
+            if (token.core.length === 0) {
+                correctedChunks.push(chunk);
+                plainChunks.push(chunk);
+                continue;
+            }
+            const originalCore = token.core;
+            const correctionSuggestion = getCorrection(originalCore);
+            if (correctionSuggestion) {
+                correctionsApplied++;
+                // reconstruir palabra corregida manteniendo mayúsculas relativas (primera letra)
+                let correctedCore = correctionSuggestion;
+                // mantener mayúscula inicial si la original tenía
+                if (originalCore[0] === originalCore[0].toUpperCase() && originalCore[0] !== originalCore[0].toLowerCase()) {
+                    correctedCore = correctedCore.charAt(0).toUpperCase() + correctedCore.slice(1);
+                } else if (originalCore === originalCore.toUpperCase() && originalCore.length > 1) {
+                    correctedCore = correctedCore.toUpperCase();
+                }
+                const correctedWord = token.prefix + correctedCore + token.suffix;
+                // HTML resaltado con data-sugerencia y palabra original
+                const escapedCorrect = escapeHtml(correctedWord);
+                const escapedOriginal = escapeHtml(originalCore);
+                const escapedSugg = escapeHtml(correctionSuggestion);
+                const highlightSpan = `<span class="error-highlight" data-original="${escapedOriginal}" data-suggestion="${escapedSugg}" data-fullword="${escapedCorrect}">${escapedCorrect}</span>`;
+                correctedChunks.push(highlightSpan);
+                plainChunks.push(correctedWord);
+            } else {
+                // palabra correcta, mantener igual
+                correctedChunks.push(escapeHtml(chunk));
+                plainChunks.push(chunk);
+            }
+        }
+        const finalHtml = correctedChunks.join('');
+        const finalPlain = plainChunks.join('');
+        return { html: finalHtml, plain: finalPlain, correctionsCount: correctionsApplied };
+    }
+
+    // Helper para escapar HTML
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Actualizar estadísticas de texto de entrada
+    function updateStats() {
+        const rawText = document.getElementById('inputText').value;
+        const charCount = rawText.length;
+        const words = rawText.trim() === "" ? 0 : rawText.trim().split(/\s+/).length;
+        document.getElementById('statsInfo').innerHTML = `📝 Caracteres: ${charCount} | Palabras: ${words}`;
+    }
+
+    // función principal corregir y mostrar en preview con tooltips interactivos
+    function performCorrection() {
+        const inputText = document.getElementById('inputText').value;
+        const { html, plain, correctionsCount } = processTextCorrection(inputText);
+        const previewDiv = document.getElementById('correctedPreview');
+        previewDiv.innerHTML = html;
+        // Actualizar badge errores
+        const badge = document.getElementById('errorCountBadge');
+        if (correctionsCount === 0) {
+            badge.textContent = `✅ 0 errores`;
+            badge.style.background = "#e0f2e9";
+            badge.style.color = "#1f6e43";
+        } else {
+            badge.textContent = `⚠️ ${correctionsCount} error(es) detectado(s)`;
+            badge.style.background = "#fff0e0";
+            badge.style.color = "#b45f1b";
+        }
+        // guardar el texto plano actual para copiar
+        previewDiv.setAttribute('data-plaintext', plain);
+        attachTooltipEvents();
+        updateStats();
+    }
+
+    // Tooltips interactivos profesionales: al pasar sobre errores mostrar sugerencia
+    let activeTooltip = null;
+    function attachTooltipEvents() {
+        const errors = document.querySelectorAll('.error-highlight');
+        errors.forEach(el => {
+            el.removeEventListener('mouseenter', handleMouseEnter);
+            el.removeEventListener('mouseleave', handleMouseLeave);
+            el.addEventListener('mouseenter', handleMouseEnter);
+            el.addEventListener('mouseleave', handleMouseLeave);
+        });
+    }
+
+    function handleMouseEnter(e) {
+        const target = e.currentTarget;
+        const suggestion = target.getAttribute('data-suggestion');
+        const originalWord = target.getAttribute('data-original');
+        if (!suggestion) return;
+        if (activeTooltip) activeTooltip.remove();
+        const tooltip = document.createElement('div');
+        tooltip.className = 'suggestion-tooltip';
+        tooltip.innerHTML = `✏️ ¿Quizás "<strong>${escapeHtml(suggestion)}</strong>"? <span style="font-size:0.7rem;">(original: ${escapeHtml(originalWord)})</span>`;
+        document.body.appendChild(tooltip);
+        const rect = target.getBoundingClientRect();
+        tooltip.style.left = `${rect.left + window.scrollX}px`;
+        tooltip.style.top = `${rect.bottom + window.scrollY + 6}px`;
+        activeTooltip = tooltip;
+    }
+
+    function handleMouseLeave() {
+        if (activeTooltip) {
+            activeTooltip.remove();
+            activeTooltip = null;
+        }
+    }
+
+    // copiar texto corregido plano (sin HTML)
+    function copyCorrected() {
+        const previewDiv = document.getElementById('correctedPreview');
+        let plainText = previewDiv.getAttribute('data-plaintext');
+        if (!plainText || plainText === "") {
+            const currentInput = document.getElementById('inputText').value;
+            if (currentInput.trim() === "") {
+                alert("No hay texto corregido para copiar.");
+                return;
+            }
+            const { plain } = processTextCorrection(currentInput);
+            plainText = plain;
+        }
+        navigator.clipboard.writeText(plainText).then(() => {
+            const toastMsg = document.createElement('div');
+            toastMsg.innerText = '✅ Texto corregido copiado al portapapeles';
+            toastMsg.style.position = 'fixed';
+            toastMsg.style.bottom = '20px';
+            toastMsg.style.left = '50%';
+            toastMsg.style.transform = 'translateX(-50%)';
+            toastMsg.style.backgroundColor = '#1f5e8c';
+            toastMsg.style.color = 'white';
+            toastMsg.style.padding = '10px 22px';
+            toastMsg.style.borderRadius = '50px';
+            toastMsg.style.fontWeight = '500';
+            toastMsg.style.zIndex = '1000';
+            toastMsg.style.fontSize = '0.9rem';
+            document.body.appendChild(toastMsg);
+            setTimeout(() => toastMsg.remove(), 2200);
+        }).catch(() => alert("No se pudo copiar, intenta manualmente."));
+    }
+
+    // Intercambiar contenido: corregido -> input (como base editable) y recalcular
+    function swapContent() {
+        const previewDiv = document.getElementById('correctedPreview');
+        let correctedPlain = previewDiv.getAttribute('data-plaintext');
+        if (!correctedPlain || correctedPlain === "") {
+            const inputText = document.getElementById('inputText').value;
+            if (inputText.trim() === "") return;
+            const { plain } = processTextCorrection(inputText);
+            correctedPlain = plain;
+        }
+        document.getElementById('inputText').value = correctedPlain;
+        performCorrection();
+        updateStats();
+    }
+
+    function clearAll() {
+        document.getElementById('inputText').value = "";
+        document.getElementById('correctedPreview').innerHTML = "<em style='opacity:0.6;'>✨ El texto corregido aparecerá aquí tras la revisión.</em>";
+        document.getElementById('correctedPreview').setAttribute('data-plaintext', "");
+        document.getElementById('errorCountBadge').textContent = "0 errores";
+        document.getElementById('errorCountBadge').style.background = "#eaf4ff";
+        document.getElementById('errorCountBadge').style.color = "#2c6e9e";
+        updateStats();
+        if (activeTooltip) activeTooltip.remove();
+    }
+
+    // Event listeners y cambios en tiempo real (autocorrección sutil: estadísticas)
+    document.getElementById('inputText').addEventListener('input', () => {
+        updateStats();
+        // Opcional: corrección automática? Se puede hacer pero para rendimiento manual con botón
+    });
+    document.getElementById('correctBtn').addEventListener('click', performCorrection);
+    document.getElementById('copyBtn').addEventListener('click', copyCorrected);
+    document.getElementById('swapBtn').addEventListener('click', swapContent);
+    document.getElementById('clearBtn').addEventListener('click', clearAll);
+
+    // inicializar estadísticas y ejemplo de demostración
+    window.addEventListener('DOMContentLoaded', () => {
+        const demoText = "Esto es un ejmplo de texto con horrores ortograficos. La cuestión es demostrar la corección profesional. Tambien hay palabras como *esplicar* y *recivir*.\nPuedes modificar libremente el texto y presionar el botón corregir. ¡Pruébalo con mayúsculas y tildes!";
+        document.getElementById('inputText').value = demoText;
+        updateStats();
+        performCorrection();
+    });
+</script>
+</body>
+</html>
