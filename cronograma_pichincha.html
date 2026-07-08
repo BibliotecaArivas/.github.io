@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Períodos · Líneas de Negocio</title>
+  <!-- Google Fonts: Inter + display swap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome 6 (gratuito) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f0f5fe 0%, #e9eff8 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      line-height: 1.5;
+      color: #0b1b33;
+    }
+
+    /* ===== TARJETA PRINCIPAL (glassmorphism suave) ===== */
+    .card {
+      max-width: 1320px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 36px;
+      box-shadow: 
+        0 30px 60px -20px rgba(0, 30, 60, 0.25),
+        0 8px 28px -8px rgba(0, 20, 50, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      padding: 2.5rem 2rem 1.8rem 2rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 2.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(0, 40, 80, 0.08);
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .header-title .icon-ring {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #eef4ff, #dce6ff);
+      border-radius: 18px;
+      color: #1a5cff;
+      font-size: 1.6rem;
+      box-shadow: 0 8px 16px -6px rgba(26, 92, 255, 0.20);
+      transition: transform 0.2s;
+    }
+
+    .header-title .icon-ring:hover {
+      transform: scale(1.02);
+    }
+
+    .header-title h1 {
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #0a1f44, #1a4a8a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .header-badge {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 0.45rem 1.3rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1f3a6b;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid rgba(26, 92, 255, 0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      letter-spacing: 0.01em;
+    }
+
+    .header-badge i {
+      color: #1a5cff;
+      font-size: 0.9rem;
+    }
+
+    /* ===== TABLA ===== */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 20px rgba(0, 20, 40, 0.04);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.95rem;
+      min-width: 720px;
+    }
+
+    /* ===== THEAD ===== */
+    thead th {
+      background: rgba(248, 251, 255, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #1a2f50;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 1.1rem 1.2rem;
+      text-align: left;
+      border-bottom: 2px solid rgba(0, 40, 80, 0.08);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    thead th i {
+      opacity: 0.6;
+      margin-right: 0.6rem;
+      font-size: 0.8rem;
+      color: #1a5cff;
+    }
+
+    thead th:not(:last-child) {
+      border-right: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    /* ===== TD ===== */
+    td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+      vertical-align: middle;
+      background-color: transparent;
+      color: #14273e;
+      transition: background 0.15s;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* filas alternas con microtextura */
+    tbody tr:nth-child(even) td {
+      background-color: rgba(248, 251, 255, 0.3);
+    }
+
+    tbody tr:hover td {
+      background-color: rgba(230, 241, 255, 0.5) !important;
+      transition: background 0.1s;
+    }
+
+    /* ===== COMPONENTES DE CELDA ===== */
+
+    /* Línea de negocio */
+    .business-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      color: #0b1b33;
+    }
+
+    .business-badge i {
+      font-size: 0.9rem;
+      width: 2rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 92, 255, 0.08);
+      border-radius: 12px;
+      color: #1a5cff;
+      transition: all 0.2s;
+    }
+
+    .business-badge:hover i {
+      background: rgba(26, 92, 255, 0.18);
+      transform: scale(1.04);
+    }
+
+    /* Período (pill) */
+    .period-pill {
+      background: rgba(26, 92, 255, 0.08);
+      color: #1a4c9e;
+      font-weight: 700;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: inline-block;
+      border: 1px solid rgba(26, 92, 255, 0.10);
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(2px);
+      transition: all 0.15s;
+    }
+
+    .period-pill:hover {
+      background: rgba(26, 92, 255, 0.14);
+      border-color: rgba(26, 92, 255, 0.25);
+    }
+
+    /* Rango de fechas */
+    .date-range {
+      font-weight: 500;
+      color: #14273e;
+      background: rgba(240, 246, 255, 0.7);
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      display: inline-block;
+      font-size: 0.85rem;
+      border: 1px solid rgba(0, 40, 80, 0.06);
+      backdrop-filter: blur(2px);
+      white-space: nowrap;
+      transition: all 0.1s;
+    }
+
+    .date-range i {
+      color: #4a6f9a;
+      margin-right: 0.3rem;
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    /* Retiro y recepción */
+    .retiro-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .retiro-info i {
+      color: #1a5cff;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .highlight-retiro {
+      background: rgba(26, 92, 255, 0.05);
+      border-radius: 40px;
+      padding: 0.2rem 1rem;
+      font-weight: 500;
+      color: #0f2a52;
+      border: 1px solid rgba(26, 92, 255, 0.10);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      backdrop-filter: blur(2px);
+      transition: all 0.15s;
+    }
+
+    .highlight-retiro i {
+      color: #1a5cff;
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    .highlight-retiro:hover {
+      background: rgba(26, 92, 255, 0.10);
+      border-color: rgba(26, 92, 255, 0.20);
+    }
+
+    /* separador visual entre grupos (Fijo / Móvil) */
+    .group-divider td {
+      border-top: 2px solid rgba(0, 40, 80, 0.06);
+    }
+
+    /* ===== FOOTER ===== */
+    .table-footer {
+      margin-top: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem 2rem;
+      font-size: 0.78rem;
+      color: #3d5a7a;
+      border-top: 1px solid rgba(0, 40, 80, 0.06);
+      padding-top: 1.25rem;
+    }
+
+    .table-footer .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 0.2rem 1rem 0.2rem 0.8rem;
+      border-radius: 40px;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .table-footer i {
+      color: #1a5cff;
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 800px) {
+      .card {
+        padding: 1.8rem 1rem 1.2rem;
+        border-radius: 28px;
+      }
+      .header-title h1 {
+        font-size: 1.5rem;
+      }
+      .header-title .icon-ring {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+      }
+      .header-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 1rem;
+      }
+      td, th {
+        padding: 0.8rem 0.8rem;
+        font-size: 0.85rem;
+      }
+      .date-range, .period-pill, .highlight-retiro {
+        font-size: 0.75rem;
+        padding: 0.1rem 0.6rem;
+      }
+      .business-badge i {
+        width: 1.8rem;
+        height: 1.8rem;
+        font-size: 0.8rem;
+      }
+      .table-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      .card {
+        padding: 1.2rem 0.5rem;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+      .retiro-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+      }
+      .highlight-retiro {
+        white-space: normal;
+        font-size: 0.7rem;
+      }
+      .table-footer .footer-item {
+        padding: 0.1rem 0.8rem 0.1rem 0.6rem;
+        font-size: 0.7rem;
+      }
+    }
+
+    /* ===== UTILITY ===== */
+    .text-muted {
+      color: #5b6f92;
+    }
+    .fw-600 {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-title">
+        <span class="icon-ring"><i class="fas fa-calendar-alt"></i></span>
+        <h1>Períodos · Líneas de Negocio</h1>
+      </div>
+      <div class="header-badge">
+        <i class="fas fa-sync-alt"></i>
+        <span>Actualización mensual</span>
+        <span style="opacity:0.4; margin:0 0.2rem;">|</span>
+        <i class="fas fa-chevron-right" style="font-size:0.6rem; opacity:0.5;"></i>
+      </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th><i class="fas fa-tag"></i>Línea de negocio</th>
+            <th><i class="fas fa-clock"></i>Período</th>
+            <th><i class="fas fa-calendar-week"></i>Período de consumo</th>
+            <th><i class="fas fa-inbox"></i>Nuevo período recepción</th>
+            <th><i class="fas fa-truck"></i>Fecha retiro y recepción en CAC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- FIJO -->
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-phone"></i> FIJO</span></td>
+            <td><span class="period-pill">7</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 4 AL 3</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 04 HASTA 18</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-phone"></i> FIJO</span></td>
+            <td><span class="period-pill">14</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 11 AL 10</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 11 HASTA 25</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-phone"></i> FIJO</span></td>
+            <td><span class="period-pill">21</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 18 AL 17</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 18 HASTA 02</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-phone"></i> FIJO</span></td>
+            <td><span class="period-pill">28</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 25 AL 24</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 25 HASTA 09</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+
+          <!-- MOVIL (divisor visual) -->
+          <tr class="group-divider">
+            <td><span class="business-badge"><i class="fas fa-mobile-alt"></i> MOVIL</span></td>
+            <td><span class="period-pill">3 Y 9</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 01 AL 31</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 01 HASTA 15</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-mobile-alt"></i> MOVIL</span></td>
+            <td><span class="period-pill">4</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 16 AL 15</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 16 HASTA 30</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-mobile-alt"></i> MOVIL</span></td>
+            <td><span class="period-pill">5</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 23 AL 22</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 23 HASTA 07</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="business-badge"><i class="fas fa-mobile-alt"></i> MOVIL</span></td>
+            <td><span class="period-pill">6</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-alt"></i> 8 AL 7</span></td>
+            <td><span class="date-range"><i class="far fa-calendar-check"></i> DEL 08 HASTA 22</span></td>
+            <td>
+              <div class="retiro-info">
+                <i class="fas fa-undo-alt"></i>
+                <span class="highlight-retiro"><i class="fas fa-hourglass-half"></i> PLAZO 7 DÍAS POSTERIORES</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="table-footer">
+      <span class="footer-item"><i class="fas fa-phone-alt"></i> Línea Fijo · 4 períodos</span>
+      <span class="footer-item"><i class="fas fa-mobile-alt"></i> Línea Móvil · 4 períodos</span>
+      <span class="footer-item"><i class="fas fa-archive"></i> Retiro en CAC: plazo 7 días posterior</span>
+      <span class="footer-item"><i class="fas fa-clock"></i> Ciclo mensual</span>
+    </div>
+  </div>
+</body>
+</html>
