@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATENCIÓN DE PETICIÓN · Estado 50</title>
+  <!-- Font Awesome 6 (gratuito) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f2f5fa, #e9edf4);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      max-width: 820px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+      padding: 2.5rem 2.8rem;
+      transition: 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 1.8rem 1.2rem; border-radius: 28px; }
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e8edf5;
+      padding-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .header-icon {
+      background: #8b2f3f;
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 8px 14px -6px rgba(139, 47, 63, 0.3);
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #1f2a44;
+    }
+    .header .sub {
+      font-size: 0.9rem;
+      color: #4e6080;
+      display: block;
+      font-weight: 400;
+    }
+    .badge-50 {
+      background: #8b2f3f;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      margin-left: auto;
+      background: linear-gradient(145deg, #7a2634, #9e3a4a);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      letter-spacing: 0.5px;
+    }
+    .badge-50 i { margin-right: 6px; }
+
+    /* campos */
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .row-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 600px) {
+      .row-duo { grid-template-columns: 1fr; gap: 1rem; }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #1f2a44;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .field label i {
+      color: #7a5a6e;
+      width: 18px;
+      font-size: 0.9rem;
+    }
+    .field input, .field select, .field textarea {
+      background: #f4f7fc;
+      border: 1.5px solid #dce3ed;
+      border-radius: 20px;
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #0f1a2e;
+      transition: 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: #7a5a6e;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(122, 90, 110, 0.12);
+    }
+    .field textarea {
+      resize: vertical;
+      min-height: 70px;
+      font-family: inherit;
+    }
+    .field input::placeholder, .field textarea::placeholder {
+      color: #8b9bb5;
+      font-weight: 400;
+      font-size: 0.95rem;
+    }
+
+    .info-box {
+      background: #f2eef5;
+      padding: 0.9rem 1.5rem;
+      border-radius: 30px;
+      border-left: 6px solid #7a5a6e;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .info-box i { color: #7a5a6e; font-size: 1.2rem; }
+    .info-box span { color: #1f2a44; font-weight: 500; font-size: 0.95rem; }
+    .info-box small { color: #5a4a5e; margin-left: auto; }
+
+    .accion-botones {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      padding: 0.8rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: white;
+      color: #1f2a44;
+      border: 1.5px solid #cbd8e8;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+    .btn-primary {
+      background: #1f2a44;
+      color: white;
+      border: 1.5px solid #1f2a44;
+      box-shadow: 0 8px 18px -6px rgba(31, 42, 68, 0.4);
+    }
+    .btn-primary:hover {
+      background: #2a385a;
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px -8px rgba(31, 42, 68, 0.5);
+    }
+    .btn-secondary:hover {
+      background: #e6edf8;
+      border-color: #9bb1cc;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #5d738d;
+      border-top: 1px solid #e2e9f2;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* toast */
+    .toast-message {
+      display: none;
+      background: #1d5a3b;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 18px rgba(0,40,20,0.15);
+    }
+    .toast-message i { font-size: 1.3rem; }
+    .toast-message.show { display: flex; }
+
+    .required-star { color: #b22234; margin-left: 2px; }
+
+    /* preview */
+    .preview-toggle {
+      background: none;
+      border: none;
+      color: #5a4a5e;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.4rem 0.8rem;
+      border-radius: 30px;
+      transition: 0.2s;
+    }
+    .preview-toggle:hover { background: #ede7f0; }
+    .preview-box {
+      background: #f6f4f8;
+      border: 1px solid #d6cfe0;
+      border-radius: 24px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem;
+      white-space: pre-wrap;
+      font-family: 'Segoe UI', monospace;
+      font-size: 0.9rem;
+      color: #1a1f33;
+      display: none;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .preview-box.show { display: block; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <!-- header -->
+  <div class="header">
+    <div class="header-icon"><i class="fas fa-clock"></i></div>
+    <div>
+      <h1>ATENCIÓN DE PETICIÓN <span style="font-weight:300; font-size:1.2rem; color:#5a4a5e;">· Estado 50</span></h1>
+      <span class="sub"><i class="fas fa-pen" style="margin-right:6px;"></i>Complete y envíe por correo</span>
+    </div>
+    <span class="badge-50"><i class="fas fa-hourglass-half"></i>Pendiente</span>
+  </div>
+
+  <!-- toast -->
+  <div id="toast" class="toast-message">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Formulario listo</span>
+  </div>
+
+  <!-- formulario -->
+  <form id="planForm">
+    <div class="form-grid">
+      <!-- saludo + día (campo) -->
+      <div class="row-duo">
+        <div class="field">
+          <label for="saludo"><i class="fas fa-hand-peace"></i> Saludo (día) <span class="required-star">*</span></label>
+          <select id="saludo" required>
+            <option value="días">días</option>
+            <option value="tardes" selected>tardes</option>
+            <option value="noches">noches</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="pendientePor"><i class="fas fa-hourglass-half"></i> Pendiente por <span class="required-star">*</span></label>
+          <input type="text" id="pendientePor" placeholder="Ej: revisión técnica, documento..." required>
+        </div>
+      </div>
+
+      <!-- cliente -->
+      <div class="field">
+        <label for="cliente"><i class="fas fa-user-circle"></i> Cliente <span class="required-star">*</span></label>
+        <input type="text" id="cliente" placeholder="Nombre completo del cliente" required>
+      </div>
+
+      <!-- cédula + tipo petición -->
+      <div class="row-duo">
+        <div class="field">
+          <label for="cedula"><i class="fas fa-id-card"></i> Cédula <span class="required-star">*</span></label>
+          <input type="text" id="cedula" placeholder="8-1234-5678" required>
+        </div>
+        <div class="field">
+          <label for="tipoPeticion"><i class="fas fa-tag"></i> Tipo de petición <span class="required-star">*</span></label>
+          <input type="text" id="tipoPeticion" placeholder="Ej: activación, cambio, reclamo..." required>
+        </div>
+      </div>
+
+      <!-- pendiente desde -->
+      <div class="field">
+        <label for="pendienteDesde"><i class="fas fa-calendar-alt"></i> Pendiente desde <span class="required-star">*</span></label>
+        <input type="text" id="pendienteDesde" placeholder="DD/MM/AAAA o descripción" required>
+      </div>
+
+      <!-- mensaje de colaboración (fijo) -->
+      <div class="info-box">
+        <i class="fas fa-handshake"></i>
+        <span><strong>Colaboración:</strong> Su ayuda reportando la petición pendiente es importante.</span>
+        <small><i class="far fa-clock"></i> Estado 50</small>
+      </div>
+
+      <!-- botones + preview -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 0.2rem;">
+        <button type="button" class="preview-toggle" id="previewBtn"><i class="fas fa-eye"></i> Previsualizar correo</button>
+        <div class="accion-botones">
+          <button type="reset" class="btn btn-secondary"><i class="fas fa-undo-alt"></i> Limpiar</button>
+          <button type="submit" class="btn btn-primary" id="sendBtn"><i class="fas fa-envelope"></i> Enviar por correo</button>
+        </div>
+      </div>
+
+      <!-- preview box -->
+      <div id="previewBox" class="preview-box"></div>
+    </div>
+  </form>
+
+  <div class="footer-note">
+    <span><i class="fas fa-lock" style="opacity:0.6;"></i> Datos seguros · atención prioritaria</span>
+    <span><i class="fas fa-headset"></i> Soporte: (506) 8000-5050</span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const form = document.getElementById('planForm');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const previewBox = document.getElementById('previewBox');
+    const previewBtn = document.getElementById('previewBtn');
+
+    // campos
+    const saludo = document.getElementById('saludo');
+    const pendientePor = document.getElementById('pendientePor');
+    const cliente = document.getElementById('cliente');
+    const cedula = document.getElementById('cedula');
+    const tipoPeticion = document.getElementById('tipoPeticion');
+    const pendienteDesde = document.getElementById('pendienteDesde');
+
+    // función para construir el cuerpo del correo
+    function buildEmailBody() {
+      const saludoVal = saludo.value || 'tardes';
+      const pendientePorVal = pendientePor.value.trim() || '_______';
+      const clienteVal = cliente.value.trim() || '_____________________';
+      const cedulaVal = cedula.value.trim() || '______________________';
+      const tipoVal = tipoPeticion.value.trim() || '______________________';
+      const desdeVal = pendienteDesde.value.trim() || '______________________';
+
+      return `
+
+Estimados,
+
+Buenos ${saludoVal},
+
+Su amable ayuda reportando la petición pendiente de atención por ${pendientePorVal} del cliente.
+
+Cliente: ${clienteVal}
+Cédula: ${cedulaVal}
+Tipo de petición: ${tipoVal}
+Pendiente desde: ${desdeVal}
+
+Quedo atento a sus comentarios ante alguna duda o consulta, seguro de contar con su colaboración.
+
+Saludos.`;
+    }
+
+    // actualizar preview
+    function updatePreview() {
+      previewBox.textContent = buildEmailBody();
+    }
+
+    // mostrar toast
+    function showToast(msg, isError = false) {
+      toastMsg.textContent = msg;
+      toast.style.background = isError ? '#a13d3d' : '#1d5a3b';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+
+    // validar campos requeridos
+    function validateRequired() {
+      const fields = form.querySelectorAll('[required]');
+      let valid = true;
+      fields.forEach(f => {
+        if (!f.value.trim()) {
+          f.style.borderColor = '#b22234';
+          f.style.background = '#fff5f5';
+          valid = false;
+        } else {
+          f.style.borderColor = '#dce3ed';
+          f.style.background = '#f4f7fc';
+        }
+      });
+      return valid;
+    }
+
+    // eventos input para preview en tiempo real
+    const allInputs = form.querySelectorAll('input, select, textarea');
+    allInputs.forEach(el => {
+      el.addEventListener('input', updatePreview);
+      el.addEventListener('change', updatePreview);
+    });
+
+    // toggle preview
+    previewBtn.addEventListener('click', function() {
+      const isVisible = previewBox.classList.contains('show');
+      if (isVisible) {
+        previewBox.classList.remove('show');
+        previewBtn.innerHTML = '<i class="fas fa-eye"></i> Previsualizar correo';
+      } else {
+        updatePreview();
+        previewBox.classList.add('show');
+        previewBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar previsualización';
+      }
+    });
+
+    // submit: enviar por correo
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (!validateRequired()) {
+        showToast('⚠️ Complete todos los campos obligatorios (*)', true);
+        const firstError = form.querySelector('[required]');
+        if (firstError) firstError.focus();
+        return;
+      }
+
+      const body = buildEmailBody();
+      const subject = encodeURIComponent('ATENCIÓN DE PETICIÓN EN ESTADO 50');
+      // destinatario genérico (puedes cambiarlo)
+      const mailtoLink = `mailto:supervisionce@techcomsa.com; controllerce@techcomsa.com; calidadce@techcomsa.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+
+      showToast('📨 Abriendo su cliente de correo...');
+      setTimeout(() => {
+        window.location.href = mailtoLink;
+      }, 350);
+    });
+
+    // reset: limpiar estilos y preview
+    form.addEventListener('reset', function() {
+      setTimeout(() => {
+        allInputs.forEach(f => {
+          f.style.borderColor = '#dce3ed';
+          f.style.background = '#f4f7fc';
+        });
+        updatePreview();
+        if (previewBox.classList.contains('show')) {
+          updatePreview();
+        }
+        toast.classList.remove('show');
+      }, 10);
+    });
+
+    // quitar estilo error en focus
+    allInputs.forEach(el => {
+      el.addEventListener('focus', function() {
+        this.style.borderColor = '#7a5a6e';
+        this.style.background = '#ffffff';
+      });
+      el.addEventListener('blur', function() {
+        if (!this.value.trim() && this.hasAttribute('required')) {
+          // no forzar error en blur
+        } else {
+          this.style.borderColor = '#dce3ed';
+          this.style.background = '#f4f7fc';
+        }
+      });
+    });
+
+    // inicializar preview
+    updatePreview();
+  })();
+</script>
+</body>
+</html>
