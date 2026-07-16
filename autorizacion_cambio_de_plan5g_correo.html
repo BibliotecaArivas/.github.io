@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autorización 5G · cambio de plan</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #eef2f7, #f8fafc);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      max-width: 900px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.20);
+      padding: 2.5rem 2.8rem;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 1.8rem 1.2rem; border-radius: 28px; }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 2.2rem;
+      border-bottom: 2px solid #e9edf4;
+      padding-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+
+    .header-icon {
+      background: #0b2b4b;
+      color: white;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 8px 14px -6px rgba(11,43,75,0.3);
+    }
+
+    .header h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #0b2b4b;
+    }
+    .header .sub {
+      font-size: 0.95rem;
+      color: #4a5a72;
+      display: block;
+      font-weight: 400;
+    }
+    .badge-5g {
+      background: #0f3b5c;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      margin-left: auto;
+      background: linear-gradient(145deg, #0f3b5c, #1a5276);
+      box-shadow: 0 4px 8px rgba(0,20,40,0.15);
+      white-space: nowrap;
+    }
+    .badge-5g i { margin-right: 6px; }
+
+    .form-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .row-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 600px) { .row-duo { grid-template-columns: 1fr; gap: 1rem; } }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #1f3a57;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .field label i { color: #2a6b9c; width: 18px; font-size: 0.9rem; }
+    .field input, .field select, .field textarea {
+      background: #f3f6fc;
+      border: 1.5px solid #dce3ed;
+      border-radius: 20px;
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #0b1f33;
+      transition: 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: #1f6390;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(26,115,180,0.12);
+    }
+    .field textarea {
+      resize: vertical;
+      min-height: 70px;
+      font-family: inherit;
+    }
+    .field input::placeholder, .field textarea::placeholder {
+      color: #8b9bb5;
+      font-weight: 400;
+      font-size: 0.95rem;
+    }
+
+    .info-box {
+      background: #eef5fc;
+      padding: 0.9rem 1.5rem;
+      border-radius: 30px;
+      border-left: 6px solid #1f6390;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .info-box i { color: #1f6390; font-size: 1.2rem; }
+    .info-box span { color: #1a3852; font-weight: 500; font-size: 0.95rem; }
+    .info-box small { color: #2e5377; margin-left: auto; }
+
+    .accion-botones {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      padding: 0.8rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: white;
+      color: #1f3a57;
+      border: 1.5px solid #cbd8e8;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+    .btn-primary {
+      background: #0b2b4b;
+      color: white;
+      border: 1.5px solid #0b2b4b;
+      box-shadow: 0 8px 18px -6px rgba(11,43,75,0.4);
+    }
+    .btn-primary:hover {
+      background: #123a5e;
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px -8px rgba(11,43,75,0.5);
+    }
+    .btn-secondary:hover {
+      background: #e6edf8;
+      border-color: #9bb1cc;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #5d738d;
+      border-top: 1px solid #e2e9f2;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* toast */
+    .toast-message {
+      display: none;
+      background: #1d5a3b;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 18px rgba(0,40,20,0.15);
+    }
+    .toast-message i { font-size: 1.3rem; }
+    .toast-message.show { display: flex; }
+
+    .required-star { color: #b22234; margin-left: 2px; }
+
+    /* vista previa del correo (opcional) */
+    .preview-toggle {
+      background: none;
+      border: none;
+      color: #1f6390;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.4rem 0.8rem;
+      border-radius: 30px;
+      transition: 0.2s;
+    }
+    .preview-toggle:hover { background: #e3edf7; }
+    .preview-box {
+      background: #f6f9fe;
+      border: 1px solid #d0deed;
+      border-radius: 24px;
+      padding: 1.2rem 1.5rem;
+      margin-top: 0.8rem;
+      white-space: pre-wrap;
+      font-family: 'Segoe UI', monospace;
+      font-size: 0.9rem;
+      color: #1a2c41;
+      display: none;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .preview-box.show { display: block; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <!-- header -->
+  <div class="header">
+    <div class="header-icon"><i class="fas fa-signal"></i></div>
+    <div>
+      <h1>Autorización 5G <span style="font-weight:300; font-size:1.2rem; color:#346a8f;">· cambio de plan</span></h1>
+      <span class="sub"><i class="fas fa-edit" style="margin-right:6px;"></i>Complete y envíe por correo</span>
+    </div>
+    <span class="badge-5g"><i class="fas fa-bolt"></i>5G Ready</span>
+  </div>
+
+  <!-- toast -->
+  <div id="toast" class="toast-message">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Formulario listo</span>
+  </div>
+
+  <!-- formulario -->
+  <form id="planForm">
+    <div class="form-grid">
+      <!-- datos cliente -->
+      <div class="row-duo">
+        <div class="field">
+          <label for="nombre"><i class="fas fa-user"></i> Nombre <span class="required-star">*</span></label>
+          <input type="text" id="nombre" placeholder="Ana María Rodríguez" required>
+        </div>
+        <div class="field">
+          <label for="cedula"><i class="fas fa-id-card"></i> Cédula <span class="required-star">*</span></label>
+          <input type="text" id="cedula" placeholder="8-1234-5678" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="servicio"><i class="fas fa-wifi"></i> Servicio / línea <span class="required-star">*</span></label>
+        <input type="text" id="servicio" placeholder="8888-9999 o número de cuenta" required>
+      </div>
+
+      <!-- detalle solicitud -->
+      <div class="row-duo">
+        <div class="field">
+          <label for="planActual"><i class="fas fa-layer-group"></i> Plan actual <span class="required-star">*</span></label>
+          <input type="text" id="planActual" placeholder="Plan Básico 10GB" required>
+        </div>
+        <div class="field">
+          <label for="planSolicitado"><i class="fas fa-arrow-right"></i> Plan solicitado 5G <span class="required-star">*</span></label>
+          <input type="text" id="planSolicitado" placeholder="5G Ilimitado Premium" required>
+        </div>
+      </div>
+
+      <!-- info adicional -->
+      <div class="row-duo">
+        <div class="field">
+          <label for="ciclo"><i class="fas fa-calendar-alt"></i> Ciclo de facturación</label>
+          <input type="text" id="ciclo" placeholder="15 de cada mes">
+        </div>
+        <div class="field">
+          <label for="fechaAcreditacion"><i class="fas fa-calendar-check"></i> Fecha acreditación</label>
+          <input type="text" id="fechaAcreditacion" placeholder="01/04/2026">
+        </div>
+      </div>
+
+      <!-- recordatorio -->
+      <div class="info-box">
+        <i class="fas fa-info-circle"></i>
+        <span><strong>Importante:</strong> La cliente debe mantenerse al día en sus pagos.</span>
+        <small><i class="far fa-clock"></i> verificar condiciones</small>
+      </div>
+
+      <!-- motivo -->
+      <div class="field">
+        <label for="motivo"><i class="fas fa-pen"></i> Motivo</label>
+        <textarea id="motivo" placeholder="Describa brevemente el motivo (opcional)"></textarea>
+      </div>
+
+      <!-- botones + previsualización -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 0.2rem;">
+        <button type="button" class="preview-toggle" id="previewBtn"><i class="fas fa-eye"></i> Previsualizar correo</button>
+        <div class="accion-botones">
+          <button type="reset" class="btn btn-secondary"><i class="fas fa-undo-alt"></i> Limpiar</button>
+          <button type="submit" class="btn btn-primary" id="sendBtn"><i class="fas fa-envelope"></i> Enviar por correo</button>
+        </div>
+      </div>
+
+      <!-- preview box -->
+      <div id="previewBox" class="preview-box"></div>
+    </div>
+  </form>
+
+  <div class="footer-note">
+    <span><i class="fas fa-lock" style="opacity:0.6;"></i> Datos seguros · solo autorización</span>
+    <span><i class="fas fa-headset"></i> Soporte: (506) 8000-5G</span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const form = document.getElementById('planForm');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const previewBox = document.getElementById('previewBox');
+    const previewBtn = document.getElementById('previewBtn');
+
+    // campos
+    const nombre = document.getElementById('nombre');
+    const cedula = document.getElementById('cedula');
+    const servicio = document.getElementById('servicio');
+    const planActual = document.getElementById('planActual');
+    const planSolicitado = document.getElementById('planSolicitado');
+    const ciclo = document.getElementById('ciclo');
+    const fechaAcreditacion = document.getElementById('fechaAcreditacion');
+    const motivo = document.getElementById('motivo');
+
+    // función para construir el cuerpo del correo (exactamente como en la imagen)
+    function buildEmailBody() {
+      const n = nombre.value.trim() || '______';
+      const c = cedula.value.trim() || '______';
+      const s = servicio.value.trim() || '______';
+      const pa = planActual.value.trim() || '______';
+      const ps = planSolicitado.value.trim() || '______';
+      const ci = ciclo.value.trim() || '______';
+      const fa = fechaAcreditacion.value.trim() || '______';
+      const m = motivo.value.trim() || '______________________________________________';
+
+      return `Autorización de cambio de plan a 5G
+
+Estimados:
+
+Buenas tardes.
+
+Solicito cordialmente su apoyo con la autorización del siguiente cambio de plan:
+
+Datos del cliente  
+Nombre: ${n}  
+Cédula: ${c}  
+Servicio: ${s}  
+
+Detalle de la solicitud  
+Plan actual: ${pa}  
+Plan solicitado: ${ps}  
+
+Información adicional  
+Ciclo de facturación: ${ci}  
+Fecha de acreditación del cambio: ${fa}  
+
+Se informa a la cliente la importancia de mantenerse al día en sus pagos.
+
+Motivo: ${m}
+
+Agradezco de antemano su gestión y autorización correspondiente.
+Quedo atento a sus comentarios o cualquier información adicional requerida.
+
+Saludos cordiales.`;
+    }
+
+    // actualizar preview
+    function updatePreview() {
+      previewBox.textContent = buildEmailBody();
+    }
+
+    // mostrar toast
+    function showToast(msg, isError = false) {
+      toastMsg.textContent = msg;
+      toast.style.background = isError ? '#a13d3d' : '#1d5a3b';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+
+    // validar campos requeridos
+    function validateRequired() {
+      const fields = form.querySelectorAll('[required]');
+      let valid = true;
+      fields.forEach(f => {
+        if (!f.value.trim()) {
+          f.style.borderColor = '#b22234';
+          f.style.background = '#fff5f5';
+          valid = false;
+        } else {
+          f.style.borderColor = '#dce3ed';
+          f.style.background = '#f3f6fc';
+        }
+      });
+      return valid;
+    }
+
+    // evento input para actualizar preview en tiempo real
+    const allInputs = form.querySelectorAll('input, textarea');
+    allInputs.forEach(el => {
+      el.addEventListener('input', updatePreview);
+    });
+
+    // toggle preview
+    previewBtn.addEventListener('click', function() {
+      const isVisible = previewBox.classList.contains('show');
+      if (isVisible) {
+        previewBox.classList.remove('show');
+        previewBtn.innerHTML = '<i class="fas fa-eye"></i> Previsualizar correo';
+      } else {
+        updatePreview();
+        previewBox.classList.add('show');
+        previewBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar previsualización';
+      }
+    });
+
+    // submit: enviar por correo
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (!validateRequired()) {
+        showToast('⚠️ Complete todos los campos obligatorios (*)', true);
+        const firstError = form.querySelector('[required]');
+        if (firstError) firstError.focus();
+        return;
+      }
+
+      const body = buildEmailBody();
+      const subject = encodeURIComponent('Autorización de cambio de plan a 5G');
+      // destinatario fijo (igual que en la imagen)
+      const mailtoLink = `mailto:supervisionce@techcomsa.com; controllerce@techcomsa.com; calidadce@techcomsa.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+
+      showToast('📨 Abriendo su cliente de correo...');
+      setTimeout(() => {
+        window.location.href = mailtoLink;
+      }, 350);
+    });
+
+    // reset: limpiar estilos y preview
+    form.addEventListener('reset', function() {
+      setTimeout(() => {
+        allInputs.forEach(f => {
+          f.style.borderColor = '#dce3ed';
+          f.style.background = '#f3f6fc';
+        });
+        updatePreview();
+        // si preview está abierto, se actualiza
+        if (previewBox.classList.contains('show')) {
+          updatePreview();
+        }
+        toast.classList.remove('show');
+      }, 10);
+    });
+
+    // quitar estilo error en focus
+    allInputs.forEach(el => {
+      el.addEventListener('focus', function() {
+        this.style.borderColor = '#1f6390';
+        this.style.background = '#ffffff';
+      });
+      el.addEventListener('blur', function() {
+        if (!this.value.trim() && this.hasAttribute('required')) {
+          // no forzar error en blur, solo al enviar
+        } else {
+          this.style.borderColor = '#dce3ed';
+          this.style.background = '#f3f6fc';
+        }
+      });
+    });
+
+    // inicializar preview (oculta por defecto)
+    updatePreview();
+  })();
+</script>
+</body>
+</html>
