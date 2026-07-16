@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario profesional · Cambio de plan móvil</title>
+  <!-- Font Awesome (opcional, para icono sutil) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f6f9fc 0%, #edf2f7 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      max-width: 880px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 2rem 2.5rem;
+      transition: box-shadow 0.2s;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* encabezado */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #eef2f6;
+      padding-bottom: 1.25rem;
+    }
+
+    .header i {
+      font-size: 2rem;
+      color: #2563eb;
+      background: #e6efff;
+      padding: 0.6rem;
+      border-radius: 18px;
+    }
+
+    .header h1 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #0b1e3a, #1e3a6f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header span {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #4a5b6e;
+      margin-left: auto;
+      background: #eef4fa;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+    }
+
+    /* grid campos */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .field-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field-group label i {
+      color: #3b7cff;
+      font-size: 0.8rem;
+      width: 1.1rem;
+    }
+
+    .field-group input,
+    .field-group select {
+      background: #f9fcff;
+      border: 1.5px solid #dfe7ef;
+      border-radius: 18px;
+      padding: 0.75rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 450;
+      color: #0b1e3a;
+      transition: 0.2s;
+      outline: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      width: 100%;
+    }
+
+    .field-group input:focus,
+    .field-group select:focus {
+      border-color: #2563eb;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .field-group input::placeholder {
+      color: #9aadc2;
+      font-weight: 350;
+      font-size: 0.9rem;
+    }
+
+    .field-group .hint {
+      font-size: 0.7rem;
+      color: #6b7f96;
+      margin-left: 0.3rem;
+      margin-top: 0.15rem;
+    }
+
+    /* texto generado (vista previa) */
+    .preview-section {
+      background: #f2f6fd;
+      border-radius: 24px;
+      padding: 1.5rem 1.8rem;
+      margin: 1.5rem 0 2rem 0;
+      border: 1px solid #dce6f2;
+      transition: 0.2s;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .preview-header h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1f3a5f;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .preview-header h3 i {
+      color: #2563eb;
+    }
+
+    .preview-box {
+      background: white;
+      padding: 1.25rem 1.6rem;
+      border-radius: 18px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: #0a1a2f;
+      border: 1px solid #d6e1ee;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 5.5rem;
+    }
+
+    .preview-box .highlight {
+      color: #0351c1;
+      font-weight: 500;
+    }
+
+    /* acciones */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.8rem 2.2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      background: #eef2f6;
+      color: #1e2f45;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary {
+      background: #1a3d7c;
+      color: white;
+      box-shadow: 0 8px 18px -6px #1a3d7c60;
+    }
+
+    .btn-primary:hover {
+      background: #0f2b5a;
+      transform: scale(1.02);
+      box-shadow: 0 12px 22px -8px #0f2b5a80;
+    }
+
+    .btn-primary i {
+      font-size: 1rem;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #bccddb;
+      color: #1e3f60;
+    }
+
+    .btn-outline:hover {
+      background: #e6eef9;
+      border-color: #7f99b5;
+    }
+
+    .btn-success {
+      background: #0b5e42;
+      color: white;
+      box-shadow: 0 8px 18px -6px #0b5e4280;
+    }
+
+    .btn-success:hover {
+      background: #08442f;
+      transform: scale(1.02);
+    }
+
+    .toast-message {
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      color: #0f5e3a;
+      background: #ddf3e5;
+      padding: 0.3rem 1.2rem;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      transition: 0.3s;
+      pointer-events: none;
+    }
+
+    .toast-message.show {
+      opacity: 1;
+    }
+
+    /* responsive */
+    @media (max-width: 670px) {
+      .card { padding: 1.5rem; }
+      .form-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .field-group.full-width { grid-column: 1; }
+      .header h1 { font-size: 1.4rem; }
+      .action-bar { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; justify-content: center; }
+      .preview-box { font-size: 0.9rem; padding: 1rem; }
+    }
+
+    /* estilo para select */
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233b5f8a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- encabezado -->
+  <div class="header">
+    <i class="fas fa-sim-card"></i>
+    <h1>Gestión de cambio de plan</h1>
+    <span><i class="far fa-clock" style="margin-right: 6px;"></i> hoy</span>
+  </div>
+
+  <!-- formulario campos -->
+  <div class="form-grid">
+    <!-- Plan actual -->
+    <div class="field-group">
+      <label><i class="fas fa-arrow-right"></i> Plan actual</label>
+      <input type="text" id="planActual" placeholder="" value="datos + voz 11">
+    </div>
+
+    <!-- Plan nuevo -->
+    <div class="field-group">
+      <label><i class="fas fa-arrow-left"></i> Plan nuevo</label>
+      <input type="text" id="planNuevo" placeholder="" value="eco retencion">
+    </div>
+
+    <!-- Valor $ (nuevo campo) -->
+    <div class="field-group">
+      <label><i class="fas fa-dollar-sign"></i> Valor $</label>
+      <input type="text" id="valorPesos" placeholder="" value="$">
+    </div>
+
+    <!-- Ciclo que se acredita -->
+    <div class="field-group">
+      <label><i class="fas fa-coins"></i> Ciclo que se acredita</label>
+      <input type="text" id="valorAcreditar" placeholder="" value="">
+    </div>
+
+    <!-- Ciclo de facturación -->
+    <div class="field-group">
+      <label><i class="fas fa-calendar-alt"></i> Ciclo de facturación</label>
+      <input type="text" id="cicloFacturacion" placeholder="" value="">
+    </div>
+
+    <!-- campo oculto para "programado" (se usa en texto) pero lo dejamos fijo -->
+    <div class="field-group full-width" style="margin-top: 0.2rem;">
+      <label style="opacity:0.7;"><i class="fas fa-check-circle" style="color:#2b7a4b;"></i> Estado de la solicitud</label>
+      <div style="background:#eaf3f0; padding:0.5rem 1.2rem; border-radius: 40px; font-size:0.9rem; color:#12422e;">
+        <i class="fas fa-clock" style="margin-right: 8px;"></i> Programado · se acredita al cambio
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista previa del texto completo -->
+  <div class="preview-section">
+    <div class="preview-header">
+      <h3><i class="fas fa-file-alt"></i> Texto generado</h3>
+      <span style="font-size:0.7rem; background: #dde7f5; padding:0.2rem 0.9rem; border-radius:30px; color:#1a3970;">
+        <i class="far fa-copy"></i> copiar abajo
+      </span>
+    </div>
+    <div id="textoPreview" class="preview-box">
+      <!-- se actualiza dinámicamente -->
+    </div>
+  </div>
+
+  <!-- Botón imprimir / copiar -->
+  <div class="action-bar">
+    <button class="btn btn-outline" id="btnActualizarPreview" title="Actualizar vista previa">
+      <i class="fas fa-sync-alt"></i> Actualizar
+    </button>
+    <button class="btn btn-primary" id="btnCopiarTexto">
+      <i class="fas fa-copy"></i> Copiar texto completo
+    </button>
+    <span id="toastCopiado" class="toast-message">
+      <i class="fas fa-check-circle"></i> ¡Copiado!
+    </span>
+  </div>
+
+  <div style="margin-top: 1.2rem; font-size:0.75rem; color:#59748f; text-align:right; border-top: 1px solid #dce6f0; padding-top: 1rem;">
+    <i class="fas fa-print" style="margin-right: 6px;"></i> Listo para impresión · todos los campos son editables
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Elementos del formulario
+    const planActual = document.getElementById('planActual');
+    const planNuevo = document.getElementById('planNuevo');
+    const valorPesos = document.getElementById('valorPesos');
+    const valorAcreditar = document.getElementById('valorAcreditar');
+    const cicloFacturacion = document.getElementById('cicloFacturacion');
+
+    const previewBox = document.getElementById('textoPreview');
+    const btnCopiar = document.getElementById('btnCopiarTexto');
+    const toast = document.getElementById('toastCopiado');
+    const btnActualizar = document.getElementById('btnActualizarPreview');
+
+    // Función para construir el texto completo con el formato exacto
+    function generarTextoCompleto() {
+      const planActualVal = planActual.value.trim() || '[plan actual]';
+      const planNuevoVal = planNuevo.value.trim() || '[plan nuevo]';
+      const valorPesosVal = valorPesos.value.trim() || '[valor $]';
+      const valorAcreditarVal = valorAcreditar.value.trim() || '[ciclo que se acredita]';
+      const cicloVal = cicloFacturacion.value.trim() || '[ciclo]';
+
+      // Construcción literal con los campos, respetando el formato solicitado
+      return `Titular tiene el plan ${planActualVal} y desea cambiar su plan móvil a ${planNuevoVal} con el valor de ${valorPesosVal}, Titular acepta se ingresa solicitud y se deja programado el cambio al nuevo plan, el cual se acredita el ${valorAcreditarVal}. Se informa al titular la última pb que deberá cancelar, de acuerdo con su ciclo de facturación: ciclo ${cicloVal}`;
+    }
+
+    // Actualiza la vista previa
+    function actualizarPreview() {
+      const texto = generarTextoCompleto();
+      previewBox.textContent = texto;
+    }
+
+    // Copiar al portapapeles
+    function copiarTextoCompleto() {
+      const texto = generarTextoCompleto();
+      if (!navigator.clipboard) {
+        // fallback para navegadores antiguos
+        const textarea = document.createElement('textarea');
+        textarea.value = texto;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        mostrarToast();
+        return;
+      }
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast();
+      }).catch(() => {
+        alert('No se pudo copiar el texto. Intenta seleccionarlo manualmente.');
+      });
+    }
+
+    function mostrarToast() {
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
+    // Event listeners
+    btnCopiar.addEventListener('click', copiarTextoCompleto);
+
+    btnActualizar.addEventListener('click', () => {
+      actualizarPreview();
+      // feedback sutil
+      btnActualizar.innerHTML = '<i class="fas fa-check"></i> Actualizado';
+      setTimeout(() => {
+        btnActualizar.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
+      }, 1200);
+    });
+
+    // Actualizar preview en cada cambio
+    const inputs = [planActual, planNuevo, valorPesos, valorAcreditar, cicloFacturacion];
+    inputs.forEach(input => {
+      input.addEventListener('input', actualizarPreview);
+    });
+
+    // Inicializar preview al cargar
+    actualizarPreview();
+
+    // Auto-actualizar después de 100ms
+    setTimeout(actualizarPreview, 100);
+
+    // Prevenir submit con Enter
+    document.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+        }
+      });
+    });
+
+  })();
+</script>
+
+</body>
+</html>
