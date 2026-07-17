@@ -129,6 +129,13 @@
       background: #ffffff;
       box-shadow: 0 0 0 4px rgba(26,115,180,0.12);
     }
+    .field select {
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%232a6b9c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+      background-repeat: no-repeat;
+      background-position: right 1.2rem center;
+      background-size: 1.1rem;
+    }
     .field textarea {
       resize: vertical;
       min-height: 70px;
@@ -223,7 +230,7 @@
 
     .required-star { color: #b22234; margin-left: 2px; }
 
-    /* vista previa del correo (opcional) */
+    /* vista previa del correo */
     .preview-toggle {
       background: none;
       border: none;
@@ -277,21 +284,31 @@
   <!-- formulario -->
   <form id="planForm">
     <div class="form-grid">
-      <!-- datos cliente -->
+      <!-- saludo (nuevo campo) -->
       <div class="row-duo">
+        <div class="field">
+          <label for="saludo"><i class="fas fa-hand-peace"></i> Saludo <span class="required-star">*</span></label>
+          <select id="saludo" required>
+            <option value="Buenos días">Buenos días</option>
+            <option value="Buenas tardes" selected>Buenas tardes</option>
+          </select>
+        </div>
         <div class="field">
           <label for="nombre"><i class="fas fa-user"></i> Nombre <span class="required-star">*</span></label>
           <input type="text" id="nombre" placeholder="Ana María Rodríguez" required>
         </div>
+      </div>
+
+      <!-- cédula + servicio -->
+      <div class="row-duo">
         <div class="field">
           <label for="cedula"><i class="fas fa-id-card"></i> Cédula <span class="required-star">*</span></label>
           <input type="text" id="cedula" placeholder="8-1234-5678" required>
         </div>
-      </div>
-
-      <div class="field">
-        <label for="servicio"><i class="fas fa-wifi"></i> Servicio / línea <span class="required-star">*</span></label>
-        <input type="text" id="servicio" placeholder="8888-9999 o número de cuenta" required>
+        <div class="field">
+          <label for="servicio"><i class="fas fa-wifi"></i> Servicio / línea <span class="required-star">*</span></label>
+          <input type="text" id="servicio" placeholder="8888-9999 o número de cuenta" required>
+        </div>
       </div>
 
       <!-- detalle solicitud -->
@@ -360,6 +377,7 @@
     const previewBtn = document.getElementById('previewBtn');
 
     // campos
+    const saludo = document.getElementById('saludo');
     const nombre = document.getElementById('nombre');
     const cedula = document.getElementById('cedula');
     const servicio = document.getElementById('servicio');
@@ -369,8 +387,9 @@
     const fechaAcreditacion = document.getElementById('fechaAcreditacion');
     const motivo = document.getElementById('motivo');
 
-    // función para construir el cuerpo del correo (exactamente como en la imagen)
+    // función para construir el cuerpo del correo
     function buildEmailBody() {
+      const saludoVal = saludo.value || 'Buenas tardes';
       const n = nombre.value.trim() || '______';
       const c = cedula.value.trim() || '______';
       const s = servicio.value.trim() || '______';
@@ -380,26 +399,24 @@
       const fa = fechaAcreditacion.value.trim() || '______';
       const m = motivo.value.trim() || '______________________________________________';
 
-      return `
+      return `Estimados:
 
-Estimados:
+${saludoVal},
 
-Buenas .
-
-Solicito cordialmente su apoyo con la autorización del siguiente cambio de plan:
+Su gentil ayuda con la autorización del siguiente cambio de plan por retención.
 
 Datos del cliente  
-Nombre: ${n}  
-Cédula: ${c}  
-Servicio: ${s}  
+  Nombre: ${n}  
+  Cédula: ${c}  
+  Servicio: ${s}  
 
 Detalle de la solicitud  
-Plan actual: ${pa}  
-Plan solicitado: ${ps}  
+  Plan actual: ${pa}  
+  Plan solicitado: ${ps}  
 
 Información adicional  
-Ciclo de facturación: ${ci}  
-Fecha de acreditación del cambio: ${fa}  
+  Ciclo de facturación: ${ci}  
+  Fecha de acreditación del cambio: ${fa}  
 
 Se informa a la cliente la importancia de mantenerse al día en sus pagos.
 
@@ -442,9 +459,10 @@ Saludos cordiales.`;
     }
 
     // evento input para actualizar preview en tiempo real
-    const allInputs = form.querySelectorAll('input, textarea');
+    const allInputs = form.querySelectorAll('input, select, textarea');
     allInputs.forEach(el => {
       el.addEventListener('input', updatePreview);
+      el.addEventListener('change', updatePreview);
     });
 
     // toggle preview
@@ -473,7 +491,6 @@ Saludos cordiales.`;
 
       const body = buildEmailBody();
       const subject = encodeURIComponent('Autorización de cambio de plan a 5G');
-      // destinatario fijo (igual que en la imagen)
       const mailtoLink = `mailto:supervisionce@techcomsa.com; controllerce@techcomsa.com; calidadce@techcomsa.com?subject=${subject}&body=${encodeURIComponent(body)}`;
 
       showToast('📨 Abriendo su cliente de correo...');
@@ -490,7 +507,6 @@ Saludos cordiales.`;
           f.style.background = '#f3f6fc';
         });
         updatePreview();
-        // si preview está abierto, se actualiza
         if (previewBox.classList.contains('show')) {
           updatePreview();
         }
@@ -514,7 +530,7 @@ Saludos cordiales.`;
       });
     });
 
-    // inicializar preview (oculta por defecto)
+    // inicializar preview
     updatePreview();
   })();
 </script>
