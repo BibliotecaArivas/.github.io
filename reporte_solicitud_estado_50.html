@@ -141,6 +141,13 @@
       background: #ffffff;
       box-shadow: 0 0 0 4px rgba(122, 90, 110, 0.12);
     }
+    .field select {
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%237a5a6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+      background-repeat: no-repeat;
+      background-position: right 1.2rem center;
+      background-size: 1.1rem;
+    }
     .field textarea {
       resize: vertical;
       min-height: 70px;
@@ -289,19 +296,23 @@
   <!-- formulario -->
   <form id="planForm">
     <div class="form-grid">
-      <!-- saludo + día (campo) -->
+      <!-- saludo + pendiente por (ahora con opciones) -->
       <div class="row-duo">
         <div class="field">
           <label for="saludo"><i class="fas fa-hand-peace"></i> Saludo (día) <span class="required-star">*</span></label>
           <select id="saludo" required>
-            <option value="días">días</option>
-            <option value="tardes" selected>tardes</option>
-            <option value="noches">noches</option>
+            <option value="Buenos días">Buenos días</option>
+            <option value="Buenas tardes" selected>Buenas tardes</option>
+            <option value="Buenas noches">Buenas noches</option>
           </select>
         </div>
         <div class="field">
           <label for="pendientePor"><i class="fas fa-hourglass-half"></i> Pendiente por <span class="required-star">*</span></label>
-          <input type="text" id="pendientePor" placeholder="Ej: revisión técnica, documento..." required>
+          <select id="pendientePor" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="Retiro">retiro</option>
+            <option value="Retención">retención</option>
+          </select>
         </div>
       </div>
 
@@ -375,17 +386,15 @@
     // función para construir el cuerpo del correo
     function buildEmailBody() {
       const saludoVal = saludo.value || 'tardes';
-      const pendientePorVal = pendientePor.value.trim() || '_______';
+      const pendientePorVal = pendientePor.value || '_______';
       const clienteVal = cliente.value.trim() || '_____________________';
       const cedulaVal = cedula.value.trim() || '______________________';
       const tipoVal = tipoPeticion.value.trim() || '______________________';
       const desdeVal = pendienteDesde.value.trim() || '______________________';
 
-      return `
+      return `Estimados,
 
-Estimados,
-
-Buenos ${saludoVal},
+${saludoVal},
 
 Su amable ayuda reportando la petición pendiente de atención por ${pendientePorVal} del cliente.
 
@@ -462,7 +471,7 @@ Saludos.`;
 
       const body = buildEmailBody();
       const subject = encodeURIComponent('ATENCIÓN DE PETICIÓN EN ESTADO 50');
-      // destinatario genérico (puedes cambiarlo)
+      // destinatarios fijos
       const mailtoLink = `mailto:supervisionce@techcomsa.com; controllerce@techcomsa.com; calidadce@techcomsa.com?subject=${subject}&body=${encodeURIComponent(body)}`;
 
       showToast('📨 Abriendo su cliente de correo...');
