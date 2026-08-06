@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Períodos de facturación</title>
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset y base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f2f6fd 0%, #e6edf7 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+        }
+
+        /* Tarjeta principal — estilo glassmorphism sutil */
+        .card {
+            max-width: 1340px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 42px;
+            box-shadow: 0 30px 60px -20px rgba(10, 30, 60, 0.3), 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+            padding: 2rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: padding 0.2s;
+        }
+
+        /* Encabezado flexible */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 0.8rem 1.2rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .header-left i {
+            font-size: 2rem;
+            color: #1a3e6f;
+            background: rgba(26, 62, 111, 0.08);
+            padding: 0.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.03);
+        }
+
+        .header-left h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #0b2545;
+            line-height: 1.2;
+        }
+
+        .header-left span {
+            font-weight: 400;
+            color: #3c5a7f;
+            font-size: 1rem;
+            background: rgba(60, 90, 127, 0.08);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            margin-left: 0.1rem;
+            white-space: nowrap;
+        }
+
+        .badge-period {
+            background: #1a3e6f;
+            color: white;
+            padding: 0.35rem 1.4rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(26, 62, 111, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .badge-period i {
+            font-size: 0.8rem;
+        }
+
+        /* Contenedor de tabla con scroll horizontal suave */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 0.5rem 0 0.2rem 0;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.15rem 0.1rem;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        /* Tabla: diseño moderno, espaciado y legible */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            min-width: 780px;
+            font-size: 0.95rem;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 0.9rem 1.2rem;
+            background: rgba(26, 62, 111, 0.03);
+            color: #1a3e6f;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 2px solid rgba(26, 62, 111, 0.1);
+            white-space: nowrap;
+        }
+
+        thead th:first-child {
+            border-radius: 20px 0 0 20px;
+            padding-left: 1.8rem;
+        }
+
+        thead th:last-child {
+            border-radius: 0 20px 20px 0;
+            padding-right: 1.8rem;
+        }
+
+        tbody tr {
+            background: white;
+            border-radius: 24px;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 12px rgba(0, 10, 30, 0.03);
+        }
+
+        tbody tr:hover {
+            transform: scale(1.002);
+            box-shadow: 0 12px 28px -10px rgba(26, 62, 111, 0.12);
+            background: #ffffff;
+        }
+
+        tbody td {
+            padding: 0.9rem 1.2rem;
+            border-top: 1px solid rgba(0,0,0,0.01);
+            border-bottom: 1px solid rgba(0,0,0,0.01);
+            vertical-align: middle;
+            color: #1d2b3f;
+            font-weight: 450;
+        }
+
+        tbody td:first-child {
+            border-radius: 20px 0 0 20px;
+            padding-left: 1.8rem;
+            border-left: 1px solid rgba(0,0,0,0.01);
+            font-weight: 500;
+        }
+
+        tbody td:last-child {
+            border-radius: 0 20px 20px 0;
+            padding-right: 1.8rem;
+            border-right: 1px solid rgba(0,0,0,0.01);
+        }
+
+        /* Etiquetas y badges */
+        .col-tipo {
+            font-weight: 500;
+        }
+
+        .tipo-fijo, .tipo-sma {
+            border-radius: 40px;
+            padding: 0.2rem 1rem 0.2rem 0.6rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .tipo-fijo {
+            background: #eaf1fb;
+            color: #0b2b4f;
+        }
+
+        .tipo-sma {
+            background: #e4eaf3;
+            color: #1f3f64;
+        }
+
+        .tipo-fijo i, .tipo-sma i {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .badge-ciclo {
+            background: #eef4fa;
+            color: #1a3e6f;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .fecha-destacada {
+            background: rgba(26, 62, 111, 0.06);
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            font-weight: 500;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .fecha-rango {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .fecha-rango i {
+            color: #5b7a9e;
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
+        .separador-fecha {
+            color: #8da1bb;
+            font-size: 0.75rem;
+            margin: 0 0.05rem;
+        }
+
+        .empty-cell {
+            color: #9aafc9;
+            font-style: italic;
+            font-size: 0.85rem;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        .empty-cell i {
+            margin-right: 4px;
+        }
+
+        /* Pie de tabla */
+        .table-footer {
+            margin-top: 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            font-size: 0.8rem;
+            color: #3f5f81;
+            border-top: 1px solid rgba(26, 62, 111, 0.07);
+            padding-top: 1rem;
+            gap: 1rem 2rem;
+        }
+
+        .table-footer i {
+            margin-right: 0.4rem;
+            color: #1a3e6f;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE: ajustes progresivos */
+        /* ============================================ */
+
+        /* Pantallas medianas (tablets) */
+        @media (max-width: 900px) {
+            .card {
+                padding: 1.5rem 1.2rem;
+            }
+            .header-left h1 {
+                font-size: 1.6rem;
+            }
+            .badge-period {
+                font-size: 0.75rem;
+                padding: 0.25rem 1rem;
+            }
+            table {
+                font-size: 0.88rem;
+                min-width: 720px;
+            }
+            thead th, tbody td {
+                padding: 0.7rem 0.9rem;
+            }
+            thead th:first-child, tbody td:first-child {
+                padding-left: 1.2rem;
+            }
+            thead th:last-child, tbody td:last-child {
+                padding-right: 1.2rem;
+            }
+        }
+
+        /* Pantallas pequeñas (móviles) */
+        @media (max-width: 700px) {
+            body {
+                padding: 0.8rem 0.6rem;
+            }
+            .card {
+                padding: 1.2rem 0.8rem;
+                border-radius: 32px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6rem;
+                margin-bottom: 1.5rem;
+            }
+            .header-left {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .header-left h1 {
+                font-size: 1.4rem;
+            }
+            .header-left span {
+                font-size: 0.85rem;
+                padding: 0.1rem 0.8rem;
+            }
+            .badge-period {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.9rem;
+                align-self: flex-start;
+            }
+            .table-responsive {
+                border-radius: 20px;
+                padding: 0.1rem 0;
+            }
+            table {
+                font-size: 0.78rem;
+                min-width: 620px;
+                border-spacing: 0 6px;
+            }
+            thead th {
+                padding: 0.5rem 0.6rem;
+                font-size: 0.65rem;
+                letter-spacing: 0.2px;
+            }
+            tbody td {
+                padding: 0.5rem 0.6rem;
+            }
+            thead th:first-child, tbody td:first-child {
+                padding-left: 0.8rem;
+            }
+            thead th:last-child, tbody td:last-child {
+                padding-right: 0.8rem;
+            }
+            .tipo-fijo, .tipo-sma {
+                font-size: 0.7rem;
+                padding: 0.1rem 0.6rem 0.1rem 0.4rem;
+                gap: 0.2rem;
+            }
+            .badge-ciclo {
+                font-size: 0.65rem;
+                padding: 0.1rem 0.6rem;
+            }
+            .fecha-destacada {
+                font-size: 0.7rem;
+                padding: 0.05rem 0.5rem;
+            }
+            .fecha-rango i {
+                font-size: 0.6rem;
+            }
+            .separador-fecha {
+                font-size: 0.65rem;
+            }
+            .empty-cell {
+                font-size: 0.7rem;
+            }
+            .table-footer {
+                font-size: 0.7rem;
+                gap: 0.6rem 1.2rem;
+                padding-top: 0.8rem;
+                margin-top: 1.2rem;
+                justify-content: flex-start;
+            }
+            .footer-item {
+                white-space: normal;
+            }
+        }
+
+        /* Móviles muy pequeños (≤ 420px) */
+        @media (max-width: 450px) {
+            .card {
+                padding: 0.8rem 0.5rem;
+                border-radius: 24px;
+            }
+            .header-left h1 {
+                font-size: 1.2rem;
+            }
+            .header-left i {
+                font-size: 1.5rem;
+                padding: 0.3rem;
+            }
+            .badge-period {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.7rem;
+            }
+            table {
+                font-size: 0.7rem;
+                min-width: 520px;
+                border-spacing: 0 4px;
+            }
+            thead th {
+                padding: 0.3rem 0.4rem;
+                font-size: 0.55rem;
+            }
+            tbody td {
+                padding: 0.35rem 0.4rem;
+            }
+            thead th:first-child, tbody td:first-child {
+                padding-left: 0.5rem;
+            }
+            thead th:last-child, tbody td:last-child {
+                padding-right: 0.5rem;
+            }
+            .tipo-fijo, .tipo-sma {
+                font-size: 0.6rem;
+                padding: 0.05rem 0.4rem 0.05rem 0.3rem;
+            }
+            .badge-ciclo {
+                font-size: 0.55rem;
+                padding: 0.05rem 0.4rem;
+            }
+            .fecha-destacada {
+                font-size: 0.6rem;
+                padding: 0.05rem 0.3rem;
+            }
+            .fecha-rango i {
+                font-size: 0.5rem;
+            }
+            .separador-fecha {
+                font-size: 0.55rem;
+            }
+            .empty-cell {
+                font-size: 0.6rem;
+            }
+            .table-footer {
+                font-size: 0.6rem;
+                gap: 0.3rem 0.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* scroll personalizado */
+        .table-responsive::-webkit-scrollbar {
+            height: 5px;
+        }
+        .table-responsive::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.02);
+            border-radius: 12px;
+        }
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #b8cee7;
+            border-radius: 12px;
+        }
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #8aa3c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- encabezado -->
+        <div class="header">
+            <div class="header-left">
+                <i class="fas fa-calendar-alt"></i>
+                <h1>Períodos | Ciclos<span></span></h1>
+            </div>
+            <div class="badge-period">
+                <i class="fas fa-clock"></i> 
+            </div>
+        </div>
+
+        <!-- tabla responsive -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-tag" style="margin-right: 6px;"></i>Línea de negocio</th>
+                        <th><i class="fas fa-hashtag"></i> Período factcturación</th>
+                        <th><i class="fas fa-arrow-right-arrow-left"></i>Periodo de consumo</th>
+                        <th><i class="fas fa-calendar-check"></i>Fecha máximo de pago</th>
+                        <th><i class="fas fa-file-invoice"></i>Fecha emisión factura</th>
+                        <th><i class="fas fa-undo-alt"></i>Periodo de recepción retiro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- FIJO · PERÍODO 28 -->
+                    <tr>
+                        <td><span class="tipo-fijo"><i class="fas fa-lock"></i> FIJO</span></td>
+                        <td><span class="badge-ciclo">PERÍODO 28</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 25 <span class="separador-fecha">al</span> 24</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 25</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 26 <span class="separador-fecha"></span> </span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 24 <span class="separador-fecha">al</span> 9</span></td>
+                    </tr>
+                    <!-- FIJO · PERÍODO 7 -->
+                    <tr>
+                        <td><span class="tipo-fijo"><i class="fas fa-lock"></i> FIJO</span></td>
+                        <td><span class="badge-ciclo">PERÍODO 7</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 3 <span class="separador-fecha">al</span> 2</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 4</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 5 <span class="separador-fecha"></span> </span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 4 <span class="separador-fecha">al</span> 18</span></td>
+                    </tr>
+                    <!-- FIJO · PERÍODO 14 -->
+                    <tr>
+                        <td><span class="tipo-fijo"><i class="fas fa-lock"></i> FIJO</span></td>
+                        <td><span class="badge-ciclo">PERÍODO 14</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 11 <span class="separador-fecha">al</span> 10</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 11</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 12 <span class="separador-fecha"></span></span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 11 <span class="separador-fecha">al</span>25</span></td>
+                    </tr>
+                    <!-- FIJO · PERÍODO 21 -->
+                    <tr>
+                        <td><span class="tipo-fijo"><i class="fas fa-lock"></i> FIJO</span></td>
+                        <td><span class="badge-ciclo">PERÍODO 21</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 18 <span class="separador-fecha">al</span> 17</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 18</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 19 <span class="separador-fecha"></span> </span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 18 <span class="separador-fecha">al</span> 2</span></td>
+                    </tr>
+                    <!-- FIJO · CICLO 5 -->
+                    <tr>
+                        <td><span class="tipo-fijo"><i class="fas fa-lock"></i> FIJO</span></td>
+                        <td><span class="badge-ciclo">CICLO 5</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 23 <span class="separador-fecha">al</span> 22</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 21</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 26 <span class="separador-fecha"></span> </span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 23<span class="separador-fecha">al</span> 7</span></td>
+                    </tr>
+                    <!-- FIJO · CICLO 3 / 9 -->
+                    <tr>
+                        <td><span class="tipo-fijo"><i class="fas fa-lock"></i> FIJO</span></td>
+                        <td><span class="badge-ciclo">CICLO 3 / 9</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 1 <span class="separador-fecha">al</span> 31</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 31</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 5<span class="separador-fecha"></span> </span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 1 <span class="separador-fecha">al</span> 15</span></td>
+                    </tr>
+                    <!-- SMA · CICLO 6 (vacíos) -->
+                    <tr>
+                        <td><span class="tipo-sma"><i class="fas fa-chart-line"></i> SMA</span></td>
+                        <td><span class="badge-ciclo">CICLO 6</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 8 <span class="separador-fecha">al</span> 7</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 6</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 11<span class="separador-fecha"></span> </span></td>
+	        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 8<span class="separador-fecha">al</span>22</span></td>
+                    </tr>
+                    <!-- SMA · CICLO 4 -->
+                    <tr>
+                        <td><span class="tipo-sma"><i class="fas fa-chart-line"></i> SMA</span></td>
+                        <td><span class="badge-ciclo">CICLO 4</span></td>
+                        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i> 16 <span class="separador-fecha">al</span> 15</span></td>
+                        <td><span class="fecha-destacada"><i class="far fa-calendar-check"></i> 14</span></td>
+	        <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i>19<span class="separador-fecha"></span> </span></td>
+	       <td><span class="fecha-rango"><i class="far fa-calendar-alt"></i>16<span class="separador-fecha">al</span>30</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+ 
+    </div>
+</body>
+</html>
