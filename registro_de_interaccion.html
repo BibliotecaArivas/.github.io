@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b66">
+  <title>Registro de Interacción | Consulta de códigos</title>
+  <style>
+    :root{
+      --primary:#155eef;--primary-dark:#123b66;--primary-soft:#eef4ff;
+      --bg:#f3f6fb;--surface:#fff;--text:#172b4d;--muted:#66758c;
+      --border:#e1e8f2;--success:#138a55;--shadow:0 12px 34px rgba(25,55,95,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:linear-gradient(180deg,#edf3fb 0,#f7f9fc 280px,var(--bg) 100%);color:var(--text);font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;line-height:1.5}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    .topbar{background:linear-gradient(120deg,#123b66,#155eef);color:#fff;padding:30px 20px 72px}
+    .topbar-inner{max-width:1180px;margin:auto;display:flex;align-items:center;gap:16px}
+    .brand-icon{width:54px;height:54px;display:grid;place-items:center;border-radius:16px;background:#ffffff1e;border:1px solid #ffffff35;flex-shrink:0}
+    .brand-icon svg{width:29px;height:29px}
+    .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;font-weight:800;color:#c9dcff;margin:0 0 5px}
+    h1{font-size:clamp(1.55rem,3vw,2.15rem);line-height:1.15;margin:0;font-weight:800;letter-spacing:-.035em}
+    .subtitle{margin:9px 0 0;color:#e0eaff;max-width:700px}
+    main{max-width:1180px;margin:-44px auto 40px;padding:0 20px}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:20px}
+    .stat,.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .stat{padding:18px 20px;display:flex;align-items:center;gap:14px}
+    .stat-icon{width:44px;height:44px;border-radius:13px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;flex-shrink:0}
+    .stat-icon svg{width:22px;height:22px}
+    .stat strong{display:block;font-size:1.55rem;line-height:1.2;letter-spacing:-.04em}
+    .stat span{color:var(--muted);font-size:.84rem}
+    .panel{overflow:hidden;margin-bottom:20px}
+    .panel-head{padding:22px 24px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+    .panel-head h2{font-size:1.12rem;margin:0 0 4px;letter-spacing:-.02em}
+    .panel-head p{margin:0;color:var(--muted);font-size:.9rem}
+    .tools{padding:0 24px 18px;display:grid;grid-template-columns:minmax(220px,1fr) minmax(170px,240px) auto;gap:12px}
+    .search-wrap{position:relative}
+    .search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#7a8ba3;pointer-events:none}
+    .control{width:100%;min-height:44px;border:1px solid #d7e0ed;background:#fff;border-radius:11px;padding:10px 13px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+    .search-wrap .control{padding-left:41px}
+    .control:focus{border-color:var(--primary);box-shadow:0 0 0 3px #155eef1b}
+    .btn{border:0;border-radius:11px;padding:11px 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;transition:transform .15s,background .2s;white-space:nowrap}
+    .btn:active{transform:scale(.98)}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:#064bd3}
+    .btn-light{background:#f0f4fa;color:#29415f;border:1px solid var(--border)}
+    .btn-light:hover{background:#e7eef8}
+    .btn svg{width:17px;height:17px}
+    .table-wrap{overflow-x:auto;border-top:1px solid var(--border)}
+    table{width:100%;border-collapse:collapse;min-width:650px}
+    thead th{background:#f7f9fd;color:#64748b;font-size:.73rem;text-transform:uppercase;letter-spacing:.075em;font-weight:800;text-align:left;padding:14px 22px;border-bottom:1px solid var(--border)}
+    tbody td{padding:16px 22px;border-bottom:1px solid #edf1f7;vertical-align:middle}
+    tbody tr:last-child td{border-bottom:0}
+    tbody tr:hover{background:#f8faff}
+    .code{display:inline-flex;align-items:center;justify-content:center;min-width:62px;padding:6px 10px;border-radius:9px;background:#edf3ff;color:#164bb4;font-weight:800;font-variant-numeric:tabular-nums}
+    .category{display:inline-block;padding:5px 10px;border-radius:999px;background:#f0f3f8;color:#425570;font-size:.78rem;font-weight:700}
+    .description{font-weight:600;color:#263b59}
+    .empty{display:none;text-align:center;padding:36px 20px;color:var(--muted)}
+    .table-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px;background:#fbfcfe;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}
+    .details-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:0 24px 24px}
+    .detail-card{padding:17px;border:1px solid var(--border);border-radius:14px;background:#fbfcff;min-width:0}
+    .detail-card .label{display:block;color:var(--muted);font-size:.78rem;font-weight:700;margin-bottom:7px}
+    .detail-card .value{font-weight:750;overflow-wrap:anywhere}
+    .detail-card .value small{display:block;color:var(--muted);font-weight:500;margin-top:3px}
+    .note{margin:0 24px 24px;padding:13px 15px;border-radius:12px;background:#fff8e8;border:1px solid #f5dfaa;color:#785b1c;font-size:.88rem}
+    .footer{max-width:1180px;margin:0 auto;padding:0 20px 28px;color:#8190a5;font-size:.8rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .toast{position:fixed;right:20px;bottom:20px;max-width:calc(100vw - 40px);background:#153d2c;color:#fff;padding:13px 18px;border-radius:12px;box-shadow:0 10px 30px #0002;opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s;z-index:10}
+    .toast.show{opacity:1;transform:translateY(0)}
+    @media(max-width:760px){
+      .topbar{padding:24px 16px 66px}.topbar-inner{align-items:flex-start}.brand-icon{width:46px;height:46px;border-radius:13px}
+      main{padding:0 14px}.stats{gap:10px}.stat{padding:14px;gap:10px}.stat-icon{width:37px;height:37px}.stat strong{font-size:1.3rem}
+      .panel-head{padding:20px 18px 14px}.tools{padding:0 18px 17px;grid-template-columns:1fr 1fr}.search-wrap{grid-column:1/-1}.tools .btn{width:100%}
+      .details-grid{padding:0 18px 18px;grid-template-columns:1fr}.note{margin:0 18px 18px}
+      thead th,tbody td{padding:13px 16px}.table-footer{padding:13px 16px}
+    }
+    @media(max-width:480px){
+      body{font-size:14px}.topbar-inner{gap:12px}.subtitle{font-size:.9rem}.stats{grid-template-columns:1fr;gap:9px}.stat{padding:12px 15px}.stat-icon{width:38px;height:38px}
+      .tools{grid-template-columns:1fr}.search-wrap{grid-column:auto}.panel-head{flex-direction:column;align-items:stretch}.panel-head .btn{width:100%}
+      .table-footer{align-items:flex-start;flex-direction:column}.footer{padding-left:14px;padding-right:14px}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v6h5M9 13h6M9 17h6"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">Herramienta de consulta</p>
+        <h1>Registro de interacción</h1>
+        <p class="subtitle">Consulta rápida de códigos, categorías y motivos de atención.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats" aria-label="Resumen de códigos">
+      <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div><div><strong id="totalCodes">17</strong><span>Códigos registrados</span></div></div>
+      <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div><div><strong id="totalCategories">7</strong><span>Categorías distintas</span></div></div>
+      <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><strong>Rápida</strong><span>Búsqueda instantánea</span></div></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div><h2>Catálogo de códigos</h2><p>Busca por código, categoría o descripción.</p></div>
+        <button class="btn btn-light" id="exportBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>Exportar CSV</button>
+      </div>
+      <div class="tools">
+        <label class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input class="control" id="searchInput" type="search" placeholder="Ej. 2450, suspensión, facturación..." aria-label="Buscar códigos"></label>
+        <select class="control" id="categoryFilter" aria-label="Filtrar por categoría"><option value="">Todas las categorías</option></select>
+        <button class="btn btn-light" id="clearBtn" type="button">Limpiar filtros</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Código</th><th scope="col">Categoría</th><th scope="col">Descripción</th></tr></thead>
+          <tbody id="codesBody"></tbody>
+        </table>
+        <div class="empty" id="emptyState">No se encontraron códigos con esos criterios.</div>
+      </div>
+      <div class="table-footer"><span id="resultCount" aria-live="polite">Mostrando 17 códigos</span><span>Tip: escribe parte de una palabra para filtrar.</span></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h2>Datos adicionales</h2><p>Información complementaria del registro.</p></div></div>
+      <div class="details-grid">
+        <div class="detail-card"><span class="label">Recepción</span><div class="value">5 / GYE</div></div>
+        <div class="detail-card"><span class="label">Clase</span><div class="value">5 <small>Observación de interacción</small></div></div>
+        <div class="detail-card"><span class="label">Tipo</span><div class="value">No especificado <small>No aparece un valor en el registro original.</small></div></div>
+      </div>
+      <p class="note"><strong>Nota:</strong> Las descripciones se conservaron de acuerdo con el registro proporcionado. Verifica los términos con tu catálogo oficial antes de utilizarlos en una gestión.</p>
+    </section>
+  </main>
+  <footer class="footer"><span>Registro de interacción · Consulta interna</span><span>Diseño adaptable para computadora, tablet y móvil</span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const codes = [
+      {code:"2469",category:"Queja",description:"Registro de queja"},
+      {code:"2450",category:"Suspensión",description:"Por robo o pérdida"},
+      {code:"2449",category:"Suspensión",description:"Suspensión por falta de pago"},
+      {code:"2431",category:"Problemas técnicos",description:"Problemas masivos"},
+      {code:"2430",category:"Otros",description:"Reconexión por robo"},
+      {code:"2423",category:"Otros",description:"Llamadas de prueba"},
+      {code:"2416",category:"Otros",description:"Cierre de llamado"},
+      {code:"2411",category:"Información",description:"Servicios adicionales"},
+      {code:"2409",category:"Información",description:"Planes - ofertas"},
+      {code:"2405",category:"Información",description:"Información de horarios de atención"},
+      {code:"2404",category:"Información",description:"Equipo comercial...."},
+      {code:"2402",category:"Desactivación",description:"Servicios suplementarios"},
+      {code:"2401",category:"Consultas",description:"Facturación - saldos"},
+      {code:"2387",category:"Activación",description:"Servicios adicionales"},
+      {code:"2385",category:"Activación",description:"Paquetes prepago"},
+      {code:"2384",category:"Activación",description:"Línea móvil / chip prepago"}
+    ];
+    // Los códigos del archivo original se muestran tal como se pudieron transcribir.
+    const $ = id => document.getElementById(id);
+    const searchInput = $("searchInput"), categoryFilter = $("categoryFilter");
+    const uniqueCategories = [...new Set(codes.map(item => item.category))].sort((a,b)=>a.localeCompare(b,"es"));
+    uniqueCategories.forEach(category => {
+      const option = document.createElement("option"); option.value = category; option.textContent = category; categoryFilter.appendChild(option);
+    });
+    $("totalCodes").textContent = codes.length;
+    $("totalCategories").textContent = uniqueCategories.length;
+
+    function render(){
+      const query = searchInput.value.trim().toLocaleLowerCase("es");
+      const category = categoryFilter.value;
+      const filtered = codes.filter(item =>
+        (!category || item.category === category) &&
+        [item.code,item.category,item.description].some(value => value.toLocaleLowerCase("es").includes(query))
+      );
+      $("codesBody").innerHTML = "";
+      filtered.forEach(item => {
+        const tr = document.createElement("tr");
+        [item.code,item.category,item.description].forEach((value,index) => {
+          const td = document.createElement("td");
+          if(index===0){const span=document.createElement("span");span.className="code";span.textContent=value;td.appendChild(span);}
+          else if(index===1){const span=document.createElement("span");span.className="category";span.textContent=value;td.appendChild(span);}
+          else {const span=document.createElement("span");span.className="description";span.textContent=value;td.appendChild(span);}
+          tr.appendChild(td);
+        });
+        $("codesBody").appendChild(tr);
+      });
+      $("emptyState").style.display = filtered.length ? "none" : "block";
+      $("resultCount").textContent = filtered.length === codes.length && !query && !category ? `Mostrando ${filtered.length} códigos` : `${filtered.length} de ${codes.length} códigos`;
+    }
+    function showToast(message){const toast=$("toast");toast.textContent=message;toast.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2600);}
+    searchInput.addEventListener("input",render);
+    categoryFilter.addEventListener("change",render);
+    $("clearBtn").addEventListener("click",()=>{searchInput.value="";categoryFilter.value="";render();searchInput.focus();});
+    $("exportBtn").addEventListener("click",()=>{
+      const query=searchInput.value.trim().toLocaleLowerCase("es"), category=categoryFilter.value;
+      const filtered=codes.filter(item=>(!category||item.category===category)&&[item.code,item.category,item.description].some(value=>value.toLocaleLowerCase("es").includes(query)));
+      const csv=[["Código","Categoría","Descripción"],...filtered.map(item=>[item.code,item.category,item.description])]
+        .map(row=>row.map(value=>`"${String(value).replace(/"/g,'""')}"`).join(";")).join("\r\n");
+      const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+      const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="registro_de_interaccion.csv";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+      showToast(`CSV exportado: ${filtered.length} códigos.`);
+    });
+    render();
+  </script>
+</body>
+</html>
