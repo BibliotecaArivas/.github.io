@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1246a0">
+<title>Manual interactivo | Configuración SatPower CNT</title>
+<style>
+:root{
+  --blue:#1456c0;--blue2:#0e3c91;--sky:#eaf2ff;--ink:#172033;--muted:#64748b;
+  --line:#dce5f1;--bg:#f3f6fb;--white:#fff;--green:#16834a;--green-bg:#e9f8ef;
+  --amber:#a85d00;--amber-bg:#fff5df;--red:#b42318;--shadow:0 14px 40px rgba(21,48,91,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{background:linear-gradient(120deg,#0c347f,#1765d1 65%,#3387e8);color:#fff;padding:30px 20px 46px}
+.topbar-inner{max-width:1120px;margin:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border:1px solid #ffffff55;background:#ffffff17;border-radius:999px;font-size:.82rem;font-weight:700;letter-spacing:.02em}
+h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.12;margin:17px 0 12px;max-width:760px}
+.topbar p{max-width:760px;margin:0;color:#e5efff;font-size:1.03rem}
+.layout{max-width:1120px;margin:-24px auto 50px;padding:0 18px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:22px;align-items:start}
+.sidebar,.panel,.step-card{background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.sidebar{position:sticky;top:16px;padding:20px}
+.side-title{font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}
+.progress-row{display:flex;align-items:center;justify-content:space-between;font-size:.88rem;font-weight:700;margin-bottom:9px}
+.progress-track{height:8px;background:#e7edf6;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#1a60cf,#45a2ff);border-radius:99px;transition:width .25s}
+.nav-list{display:grid;gap:6px;margin:20px 0}
+.nav-link{display:flex;gap:10px;align-items:center;padding:10px 11px;border-radius:10px;color:#344258;text-decoration:none;font-size:.92rem;font-weight:650}
+.nav-link:hover,.nav-link.active{background:var(--sky);color:var(--blue)}
+.nav-num{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:#edf1f7;color:#58677d;font-size:.8rem;flex-shrink:0}
+.nav-link.active .nav-num{background:var(--blue);color:#fff}
+.side-note{background:#f7faff;border:1px solid #e0eaff;border-radius:12px;padding:12px;font-size:.84rem;color:#465774}
+.content{min-width:0;display:grid;gap:18px}
+.panel{padding:clamp(18px,3vw,28px)}
+.section-kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);font-weight:800;margin-bottom:6px}
+h2{font-size:clamp(1.3rem,2.5vw,1.8rem);line-height:1.2;margin:0 0 12px}
+h3{font-size:1.05rem;margin:0 0 8px}
+.lead{color:#536178;margin:0 0 18px}
+.notice{display:flex;gap:12px;padding:14px 15px;border-radius:13px;background:var(--amber-bg);border:1px solid #f5dca6;color:#754500;font-size:.92rem;margin:18px 0 0}
+.notice .symbol{font-size:1.25rem;line-height:1.3}
+.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.quick-card{padding:15px;border:1px solid var(--line);border-radius:13px;background:#fbfdff}
+.quick-icon{font-size:1.5rem;margin-bottom:6px}
+.quick-card strong{display:block;font-size:.93rem}
+.quick-card span{font-size:.83rem;color:var(--muted)}
+.step-card{overflow:hidden;scroll-margin-top:20px}
+.step-head{display:flex;align-items:center;gap:14px;padding:20px 22px;border-bottom:1px solid var(--line)}
+.step-number{width:42px;height:42px;display:grid;place-items:center;flex-shrink:0;background:var(--sky);color:var(--blue);border-radius:13px;font-weight:850;font-size:1.05rem}
+.step-head h2{font-size:1.22rem;margin:0}
+.step-head p{margin:3px 0 0;color:var(--muted);font-size:.9rem}
+.step-body{padding:22px}
+.instruction-list{margin:0;padding-left:22px}
+.instruction-list li{padding:0 0 10px 5px}
+.path{display:inline-block;background:#f0f5fc;border:1px solid #dce7f7;color:#244a83;border-radius:7px;padding:3px 7px;font-size:.88rem;font-weight:700}
+.tip{padding:12px 14px;background:#f5f9ff;border-left:4px solid #4b91ec;border-radius:0 10px 10px 0;margin-top:12px;color:#435675;font-size:.91rem}
+.checkline{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid #edf1f6}
+.checkline:last-child{border-bottom:0}
+.checkline input{width:18px;height:18px;margin-top:3px;accent-color:var(--green);flex-shrink:0}
+.checkline label{cursor:pointer}
+.checkline small{display:block;color:var(--muted);margin-top:2px}
+.status{display:none;padding:12px 14px;border-radius:10px;margin-top:14px;font-size:.9rem}
+.status.show{display:block}
+.status.good{background:var(--green-bg);color:#12643a;border:1px solid #b7e7c9}
+.status.info{background:var(--sky);color:#194b99;border:1px solid #c7dcff}
+.action-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:750;transition:transform .15s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue2)}
+.btn-light{background:#eef3fa;color:#273b5b;border:1px solid #dbe4f0}
+.btn-light:hover{background:#e2ebf7}
+.btn-success{background:var(--green);color:#fff}
+details{border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-top:12px}
+summary{font-weight:750;cursor:pointer;color:#243a5d}
+details p,details ul{color:#56647a;font-size:.92rem;margin-bottom:0}
+.field{display:grid;gap:6px;margin-top:15px}
+.field label{font-weight:700;font-size:.9rem}
+.field input{width:100%;padding:12px;border:1px solid #ccd7e5;border-radius:10px;background:#fff;color:var(--ink)}
+.field input:focus{outline:3px solid #d8e7ff;border-color:#5b93e6}
+.result-box{margin-top:15px;padding:15px;border:1px dashed #a9bfdc;background:#f8fbff;border-radius:12px;display:none}
+.result-box.show{display:block}
+.result-box strong{display:block;margin-bottom:5px}
+.footer{text-align:center;color:#6d7a8f;font-size:.84rem;padding:0 15px 28px}
+.mobile-progress{display:none}
+@media(max-width:850px){
+ .layout{grid-template-columns:1fr;margin-top:-25px;gap:16px}
+ .sidebar{position:static}
+ .nav-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .side-note{display:none}
+}
+@media(max-width:560px){
+ .topbar{padding:25px 17px 42px}
+ .layout{padding:0 11px}
+ .sidebar,.panel{border-radius:14px;padding:17px}
+ .nav-list{grid-template-columns:1fr 1fr;gap:4px}
+ .nav-link{font-size:.82rem;padding:8px 6px;gap:6px}
+ .nav-num{width:23px;height:23px}
+ .quick-grid{grid-template-columns:1fr}
+ .quick-card{display:flex;align-items:center;gap:12px}
+ .quick-icon{margin:0}
+ .step-head{padding:16px}
+ .step-body{padding:17px}
+ .step-number{width:36px;height:36px;border-radius:10px}
+ .action-row .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="eyebrow">📡 GUÍA INTERACTIVA · CNT ECUADOR</span>
+    <h1>Configuración de SatPower</h1>
+    <p>Guía paso a paso para revisar los ajustes necesarios para SatPower, verificar la conexión y resolver problemas frecuentes.</p>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Navegación del manual">
+    <p class="side-title">Tu progreso</p>
+    <div class="progress-row"><span>Pasos completados</span><span id="progressText">0 de 5</span></div>
+    <div class="progress-track" role="progressbar" aria-label="Progreso del manual" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+    <nav class="nav-list">
+      <a class="nav-link active" href="#inicio"><span class="nav-num">⌂</span>Antes de empezar</a>
+      <a class="nav-link" href="#volte"><span class="nav-num">1</span>Activar VoLTE</a>
+      <a class="nav-link" href="#roaming"><span class="nav-num">2</span>Activar roaming</a>
+      <a class="nav-link" href="#actualizar"><span class="nav-num">3</span>Actualizar Android</a>
+      <a class="nav-link" href="#comprobar"><span class="nav-num">4</span>Comprobar conexión</a>
+      <a class="nav-link" href="#solucion"><span class="nav-num">5</span>Solucionar problemas</a>
+    </nav>
+    <div class="side-note">💡 Los nombres de los menús cambian según el modelo teléfono y la versión de Android.</div>
+    <div class="action-row">
+      <button class="btn btn-light" id="resetBtn" type="button">Reiniciar progreso</button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <section class="panel" id="inicio">
+      <div class="section-kicker">Guía de configuración</div>
+      <h2>Antes de empezar</h2>
+      <p class="lead">Sigue los pasos en orden. No todos los teléfonos muestran las mismas opciones; si una opción no aparece, consulta la sección de solución de problemas.</p>
+      <div class="notice"><span class="symbol">⚠️</span><div><strong>Importante</strong><br>Activar VoLTE y roaming no garantiza por sí solo que SatPower funcione. CNT debe admitir tu modelo y tener el servicio habilitado en tu línea. La itinerancia de datos puede generar cargos según las condiciones de tu plan; confirma con CNT antes de activarla si tienes dudas.</div></div>
+      <div class="quick-grid">
+        <div class="quick-card"><div class="quick-icon">📱</div><div><strong>Ten a mano tu teléfono</strong><span>Identifica el modelo y la versión de Android.</span></div></div>
+        <div class="quick-card"><div class="quick-icon">🪪</div><div><strong>Revisa la SIM CNT</strong><span>Selecciona la línea correcta si usas doble SIM.</span></div></div>
+        <div class="quick-card"><div class="quick-icon">🌤️</div><div><strong>Busca cielo despejado</strong><span>La conexión satelital necesita condiciones adecuadas.</span></div></div>
+      </div>
+      <div class="action-row"><button class="btn btn-primary" type="button" id="startBtn">Comenzar configuración ↓</button></div>
+    </section>
+
+    <section class="step-card" id="volte">
+      <div class="step-head"><span class="step-number">1</span><div><h2>Activar VoLTE o llamadas 4G</h2><p>Busca el ajuste dentro de la SIM de CNT.</p></div></div>
+      <div class="step-body">
+        <ol class="instruction-list">
+          <li>Abre <strong>Ajustes</strong> (icono del engranaje).</li>
+          <li>Entra en <span class="path">Redes e Internet</span> y busca <span class="path">SIMs</span>, <span class="path">Red móvil</span> o <span class="path">Redes móviles</span>.</li>
+          <li>Selecciona la SIM de <strong>CNT</strong> si el teléfono tiene dos líneas.</li>
+          <li>Busca y activa <strong>VoLTE</strong>, <strong>Llamadas 4G</strong> o <strong>Llamadas LTE</strong>, si está disponible.</li>
+        </ol>
+        <div class="tip">¿No encuentras VoLTE? Usa la búsqueda de Ajustes y escribe “VoLTE” o “llamadas 4G”. Si no aparece, puede que el modelo, el software o la configuración del operador no lo permita.</div>
+        <div class="checkline"><input type="checkbox" id="checkVolte" data-step="1"><label for="checkVolte"><strong>Revisé la opción VoLTE</strong><small>Marca esta casilla cuando hayas comprobado el ajuste.</small></label></div>
+        <details><summary>¿Y si no aparece la opción?</summary><p>Actualiza el sistema, reinicia el equipo y vuelve a revisar. Si sigue sin aparecer, consulta a CNT si VoLTE está habilitado para tu modelo y línea. No instales aplicaciones desconocidas para forzar esta función.</p></details>
+      </div>
+    </section>
+
+    <section class="step-card" id="roaming">
+      <div class="step-head"><span class="step-number">2</span><div><h2>Activar roaming de datos</h2><p>También puede llamarse itinerancia de datos.</p></div></div>
+      <div class="step-body">
+        <ol class="instruction-list">
+          <li>Abre <strong>Ajustes → Redes e Internet</strong>.</li>
+          <li>Entra en <strong>SIMs</strong> o <strong>Red móvil</strong> y selecciona la SIM CNT.</li>
+          <li>Busca <strong>Roaming de datos</strong> o <strong>Itinerancia de datos</strong>.</li>
+          <li>Actívalo solo después de revisar las condiciones de tu plan y cualquier aviso de cargos.</li>
+        </ol>
+        <div class="tip">Si no ves el interruptor, busca “roaming” o “itinerancia” en la barra de búsqueda de Ajustes.</div>
+        <div class="checkline"><input type="checkbox" id="checkRoaming" data-step="2"><label for="checkRoaming"><strong>Revisé el roaming de datos</strong><small>Confirma que conoces las condiciones de tu plan antes de usarlo.</small></label></div>
+        <details><summary>¿Es seguro dejarlo activado?</summary><p>Depende de tu plan y de cómo se gestione la conexión. Confirma con CNT si puede generar cargos adicionales. No se puede garantizar que SatPower funcione únicamente por activar roaming.</p></details>
+      </div>
+    </section>
+
+    <section class="step-card" id="actualizar">
+      <div class="step-head"><span class="step-number">3</span><div><h2>Actualizar Android y reiniciar</h2><p>Instala las actualizaciones oficiales disponibles.</p></div></div>
+      <div class="step-body">
+        <ol class="instruction-list">
+          <li>Ve a <span class="path">Ajustes → Sistema → Actualizaciones de software</span>. En algunos equipos aparece en <strong>Acerca del teléfono</strong>.</li>
+          <li>Comprueba si hay actualizaciones y sigue las instrucciones en pantalla.</li>
+          <li>Conecta el teléfono a Wi-Fi y a la corriente si la actualización lo requiere.</li>
+          <li>Reinicia el equipo cuando termine.</li>
+        </ol>
+        <div class="checkline"><input type="checkbox" id="checkUpdate" data-step="3"><label for="checkUpdate"><strong>Revisé las actualizaciones y reinicié</strong><small>Si no hay actualizaciones pendientes, puedes marcar el paso como revisado.</small></label></div>
+      </div>
+    </section>
+
+    <section class="step-card" id="comprobar">
+      <div class="step-head"><span class="step-number">4</span><div><h2>Comprobar si puede conectar</h2><p>Haz la prueba en condiciones adecuadas.</p></div></div>
+      <div class="step-body">
+        <ol class="instruction-list">
+          <li>Confirma con CNT que tu modelo y plan sean compatibles y que SatPower esté habilitado en tu línea.</li>
+          <li>Cuando pruebes la conexión satelital, sitúate al aire libre, con vista despejada del cielo y lejos de techos o estructuras que bloqueen la señal.</li>
+          <li>Espera a que el teléfono muestre el estado de conexión compatible con el servicio. La disponibilidad puede depender del lugar y las condiciones.</li>
+        </ol>
+        <div class="checkline"><input type="checkbox" id="checkCoverage" data-step="4"><label for="checkCoverage"><strong>Confirmé compatibilidad y probé al aire libre</strong><small>La lista de equipos y funciones admitidas puede cambiar; valida la información con CNT.</small></label></div>
+        <div class="notice"><span class="symbol">ℹ️</span><div><strong>Recuerda</strong><br>La conexión satelital no equivale necesariamente a cobertura móvil normal y puede no admitir todas las aplicaciones o funciones.</div></div>
+      </div>
+    </section>
+
+    <section class="step-card" id="solucion">
+      <div class="step-head"><span class="step-number">5</span><div><h2>Solucionar problemas</h2><p>Selecciona el síntoma para ver qué revisar.</p></div></div>
+      <div class="step-body">
+        <div class="field">
+          <label for="problemSelect">¿Qué ocurre con SatPower?</label>
+          <select id="problemSelect" style="width:100%;padding:12px;border:1px solid #ccd7e5;border-radius:10px;background:white;color:var(--ink)">
+            <option value="">Selecciona un problema…</option>
+            <option value="volte">No aparece VoLTE o llamadas 4G</option>
+            <option value="roaming">No encuentro roaming de datos</option>
+            <option value="sat">Tengo todo activado, pero SatPower no conecta</option>
+            <option value="sim">No sé si CNT habilitó el servicio en mi línea</option>
+          </select>
+        </div>
+        <div class="result-box" id="problemResult" aria-live="polite"></div>
+        <details><summary>Qué revisar antes de contactar a CNT</summary><p>Consulta con CNT si tu teléfono y tu línea son compatibles con SatPower. Ten a mano la información de tu equipo y la versión del sistema operativo.</p></details>
+        <details><summary>Qué información tener lista al contactar a CNT</summary><ul><li>Marca y modelo del teléfono.</li><li>Versión de Android.</li><li>Si la línea CNT es SIM física o eSIM.</li><li>Si VoLTE y roaming aparecen en Ajustes.</li><li>El lugar aproximado donde intentaste conectarte y el mensaje que aparece en pantalla.</li></ul></details>
+        <div class="action-row">
+          <button class="btn btn-primary" id="summaryBtn" type="button">Generar resumen de configuración</button>
+          <button class="btn btn-light" id="printBtn" type="button">Imprimir / Guardar PDF</button>
+        </div>
+        <div class="result-box" id="summaryResult" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="footer">Manual orientativo no oficial. Los menús y requisitos pueden variar según el teléfono. Confirma compatibilidad, activación y condiciones del servicio directamente con CNT Ecuador.</footer>
+
+<script>
+const checks=[...document.querySelectorAll('[data-step]')];
+const progressText=document.getElementById('progressText');
+const progressFill=document.getElementById('progressFill');
+const progressBar=document.getElementById('progressBar');
+function updateProgress(){
+  const done=checks.filter(c=>c.checked).length;
+  progressText.textContent=`${done} de ${checks.length}`;
+  progressFill.style.width=`${done/checks.length*100}%`;
+  progressBar.setAttribute('aria-valuenow',done);
+  checks.forEach(c=>c.closest('.checkline').classList.toggle('completed',c.checked));
+  document.querySelectorAll('.nav-link').forEach(a=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target && target.querySelector('[data-step]')){
+      const cb=target.querySelector('[data-step]');
+      a.classList.toggle('active',cb.checked);
+    }
+  });
+}
+checks.forEach(c=>c.addEventListener('change',updateProgress));
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  checks.forEach(c=>c.checked=false);updateProgress();
+  document.getElementById('problemResult').classList.remove('show');
+  document.getElementById('summaryResult').classList.remove('show');
+  document.getElementById('inicio').scrollIntoView({behavior:'smooth'});
+});
+document.getElementById('startBtn').addEventListener('click',()=>document.getElementById('volte').scrollIntoView({behavior:'smooth'}));
+const advice={
+  volte:['No aparece VoLTE o llamadas 4G','Busca “VoLTE” o “llamadas 4G” desde la búsqueda de Ajustes. Revisa que la SIM CNT esté seleccionada, instala actualizaciones y reinicia. Si no aparece, consulta a CNT si el modelo y la línea son compatibles.'],
+  roaming:['No encuentras roaming de datos','En Ajustes usa la búsqueda con “roaming” o “itinerancia”. Revisa la configuración de la SIM CNT. Antes de activarlo, consulta si tu plan puede generar cargos adicionales.'],
+  sat:['SatPower no conecta aunque todo esté activado','Verifica con CNT la compatibilidad exacta del modelo, la habilitación de SatPower en la línea y las condiciones de cobertura. Prueba al aire libre con vista despejada del cielo y reinicia el teléfono.'],
+  sim:['No sabes si CNT habilitó el servicio','Contacta a CNT y solicita confirmación de elegibilidad del modelo, plan y línea. Ten a mano el modelo exacto y la versión de Android; no se puede confirmar la activación desde este manual.']
+};
+document.getElementById('problemSelect').addEventListener('change',e=>{
+  const box=document.getElementById('problemResult');
+  if(!e.target.value){box.classList.remove('show');return}
+  const [title,desc]=advice[e.target.value];
+  box.innerHTML='<strong>'+title+'</strong><p>'+desc+'</p>';
+  box.classList.add('show');
+});
+document.getElementById('summaryBtn').addEventListener('click',()=>{
+  const labels=['VoLTE revisado','Roaming de datos revisado','Actualizaciones y reinicio revisados','Compatibilidad y prueba al aire libre revisadas'];
+  const results=checks.map((c,i)=>`${c.checked?'[X]':'[ ]'} ${labels[i]}`);
+  const box=document.getElementById('summaryResult');
+  box.innerHTML='<strong>Resumen de configuración SatPower</strong><p>'+results.join('<br>')+'<br><br>Nota: confirmar con CNT compatibilidad, habilitación y posibles cargos de roaming.</p>';
+  box.classList.add('show');
+});
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+const navLinks=[...document.querySelectorAll('.nav-link')];
+navLinks.forEach(link=>link.addEventListener('click',()=>{
+  navLinks.forEach(a=>a.classList.remove('active'));link.classList.add('active');
+}));
+const style=document.createElement('style');
+style.textContent='@media print{body{background:#fff}.topbar{padding:20px;color:#000;background:#fff;border-bottom:2px solid #222}.topbar p{color:#333}.layout{display:block;margin:0;padding:0}.sidebar,.action-row,.btn{display:none!important}.panel,.step-card{box-shadow:none;break-inside:avoid;margin:12px 0}.step-card{overflow:visible}.footer{padding:15px}.notice{color:#333;background:#fff}.result-box{display:block!important}}';
+document.head.appendChild(style);
+updateProgress();
+</script>
+</body>
+</html>
